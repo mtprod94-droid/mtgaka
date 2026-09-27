@@ -1170,3 +1170,307 @@ img {
         transition-duration: 0.01ms !important;
     }
 }
+/* =========================================
+   NEXT EVENT — MT.GAKA EXPERIENCE 001
+   ========================================= */
+
+.next-event-section {
+    position: relative;
+    padding: 8rem 1.25rem;
+    overflow: hidden;
+}
+
+.next-event-frame {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid rgba(214, 170, 78, 0.25);
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,0.035),
+            rgba(255,255,255,0.01)
+        );
+    overflow: hidden;
+}
+
+.next-event-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(214,170,78,0.07),
+            transparent
+        );
+    transform: translateX(-100%);
+    animation: eventLightSweep 9s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.next-event-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.next-event-number {
+    font-family: "Manrope", sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.45);
+}
+
+.next-event-status {
+    font-family: "Manrope", sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    color: #d6aa4e;
+}
+
+.next-event-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 620px;
+}
+
+.next-event-copy {
+    position: relative;
+    z-index: 2;
+    padding: 4rem 1.5rem;
+}
+
+.next-event-copy h2 {
+    margin: 1rem 0 1.75rem;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(3.2rem, 13vw, 7rem);
+    font-weight: 400;
+    line-height: 0.82;
+    letter-spacing: -0.045em;
+}
+
+.next-event-copy h2 em {
+    color: #d6aa4e;
+    font-style: italic;
+}
+
+.next-event-description {
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.58);
+}
+
+.event-details {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+}
+
+.event-details div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.event-details span {
+    font-family: "Manrope", sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.35);
+}
+
+.event-details strong {
+    font-family: "Manrope", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: rgba(255,255,255,0.85);
+}
+
+.next-event-visual {
+    position: relative;
+    min-height: 430px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.event-circle {
+    position: absolute;
+    border: 1px solid rgba(214,170,78,0.35);
+    border-radius: 50%;
+}
+
+.circle-large {
+    width: 330px;
+    height: 330px;
+    animation: eventRotate 24s linear infinite;
+}
+
+.circle-medium {
+    width: 230px;
+    height: 230px;
+    border-style: dashed;
+    animation: eventRotateReverse 18s linear infinite;
+}
+
+.circle-small {
+    width: 120px;
+    height: 120px;
+    box-shadow:
+        0 0 60px rgba(214,170,78,0.12),
+        inset 0 0 40px rgba(214,170,78,0.08);
+}
+
+.event-visual-text {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Cormorant Garamond", serif;
+    line-height: 0.75;
+}
+
+.event-visual-text span {
+    font-size: 2rem;
+    color: rgba(255,255,255,0.5);
+}
+
+.event-visual-text strong {
+    font-size: 5rem;
+    font-weight: 500;
+    color: #f2e8d0;
+}
+
+.event-visual-text small {
+    margin-top: 1.5rem;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.3em;
+    color: #d6aa4e;
+}
+
+.event-visual-label {
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.35);
+}
+
+@keyframes eventLightSweep {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    45%,
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes eventRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes eventRotateReverse {
+    from {
+        transform: rotate(360deg);
+    }
+
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+
+/* =========================================
+   TABLET / DESKTOP
+   ========================================= */
+
+@media (min-width: 768px) {
+
+    .next-event-section {
+        padding: 10rem 2rem;
+    }
+
+    .next-event-top {
+        padding: 1.25rem 2rem;
+    }
+
+    .next-event-content {
+        grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .next-event-copy {
+        padding: 5rem 4rem;
+    }
+
+    .event-details {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+    }
+
+    .next-event-visual {
+        min-height: 620px;
+        border-top: none;
+        border-left: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .circle-large {
+        width: 450px;
+        height: 450px;
+    }
+
+    .circle-medium {
+        width: 315px;
+        height: 315px;
+    }
+
+    .circle-small {
+        width: 160px;
+        height: 160px;
+    }
+
+    .event-visual-text strong {
+        font-size: 7rem;
+    }
+
+    .event-visual-label {
+        right: 2rem;
+        bottom: 2rem;
+    }
+}
+
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .next-event-frame::before,
+    .circle-large,
+    .circle-medium {
+        animation: none;
+    }
+}
