@@ -1474,3 +1474,284 @@ img {
         animation: none;
     }
 }
+/* =========================================
+   ATMOSPHÈRE MT.GAKA
+   ========================================= */
+
+.atmosphere-section {
+    position: relative;
+    padding: 9rem 1.25rem 5rem;
+    overflow: hidden;
+}
+
+.atmosphere-heading {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.atmosphere-heading h2 {
+    margin: 1rem 0 0;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(3.5rem, 14vw, 7.5rem);
+    font-weight: 400;
+    line-height: 0.82;
+    letter-spacing: -0.05em;
+}
+
+.atmosphere-heading h2 em {
+    color: #d6aa4e;
+    font-style: italic;
+}
+
+.atmosphere-intro {
+    max-width: 430px;
+    align-self: end;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.48);
+}
+
+.atmosphere-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.atmosphere-card {
+    position: relative;
+    min-height: 320px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            rgba(214,170,78,0.14),
+            transparent 42%
+        ),
+        linear-gradient(
+            145deg,
+            #171717,
+            #080808 65%
+        );
+}
+
+.atmosphere-card::before {
+    content: "";
+    position: absolute;
+    inset: -50%;
+    background:
+        repeating-linear-gradient(
+            120deg,
+            transparent 0,
+            transparent 45px,
+            rgba(214,170,78,0.045) 46px,
+            transparent 47px
+        );
+    transform: rotate(8deg);
+    animation: atmosphereMove 18s linear infinite;
+}
+
+.atmosphere-card::after {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(214,170,78,0.18);
+    border-radius: 50%;
+    box-shadow:
+        0 0 80px rgba(214,170,78,0.08),
+        inset 0 0 50px rgba(214,170,78,0.04);
+    transition: transform 0.8s ease, width 0.8s ease, height 0.8s ease;
+}
+
+.atmosphere-card:hover::after {
+    width: 230px;
+    height: 230px;
+}
+
+.atmosphere-placeholder {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Cormorant Garamond", serif;
+    line-height: 0.75;
+    color: rgba(255,255,255,0.88);
+}
+
+.atmosphere-placeholder span {
+    font-size: 1.4rem;
+    letter-spacing: 0.08em;
+}
+
+.atmosphere-placeholder strong {
+    margin-top: 0.2rem;
+    font-size: clamp(4rem, 16vw, 7rem);
+    font-weight: 500;
+    color: #d6aa4e;
+}
+
+.atmosphere-placeholder small {
+    margin-top: 1.5rem;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.35em;
+    color: rgba(255,255,255,0.4);
+}
+
+.atmosphere-overlay {
+    position: absolute;
+    z-index: 3;
+    left: 1.25rem;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.atmosphere-overlay span {
+    font-family: "Manrope", sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    color: #d6aa4e;
+}
+
+.atmosphere-overlay p {
+    margin: 0;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.55);
+}
+
+.atmosphere-tall {
+    min-height: 420px;
+}
+
+.atmosphere-wide {
+    min-height: 320px;
+}
+
+.atmosphere-small {
+    min-height: 280px;
+}
+
+.atmosphere-footer {
+    max-width: 1200px;
+    margin: 1.5rem auto 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: "Manrope", sans-serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.3);
+}
+
+@keyframes atmosphereMove {
+    from {
+        transform: rotate(8deg) translate3d(0, 0, 0);
+    }
+
+    to {
+        transform: rotate(8deg) translate3d(90px, 45px, 0);
+    }
+}
+
+
+/* =========================================
+   TABLET / DESKTOP
+   ========================================= */
+
+@media (min-width: 768px) {
+
+    .atmosphere-section {
+        padding: 12rem 2rem 6rem;
+    }
+
+    .atmosphere-heading {
+        grid-template-columns: 1.2fr 0.8fr;
+        align-items: end;
+        margin-bottom: 5rem;
+    }
+
+    .atmosphere-grid {
+        grid-template-columns: 1.15fr 0.85fr;
+        grid-template-rows: 390px 300px;
+        gap: 1.25rem;
+    }
+
+    .atmosphere-main {
+        grid-row: span 2;
+        min-height: 100%;
+    }
+
+    .atmosphere-tall {
+        min-height: 100%;
+    }
+
+    .atmosphere-wide {
+        min-height: 100%;
+    }
+
+    .atmosphere-small {
+        display: none;
+    }
+
+    .atmosphere-placeholder strong {
+        font-size: 7rem;
+    }
+
+    .atmosphere-card:hover .atmosphere-placeholder {
+        transform: scale(1.03);
+    }
+}
+
+
+/* =========================================
+   MOBILE REFINEMENT
+   ========================================= */
+
+@media (max-width: 767px) {
+
+    .atmosphere-footer {
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .atmosphere-card {
+        min-height: 330px;
+    }
+
+    .atmosphere-tall {
+        min-height: 360px;
+    }
+
+    .atmosphere-wide {
+        min-height: 300px;
+    }
+
+    .atmosphere-small {
+        min-height: 260px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .atmosphere-card::before {
+        animation: none;
+    }
+}
