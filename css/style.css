@@ -3905,3 +3905,471 @@ img {
     }
 
 }
+/* =========================================================
+   CONTACT — MT.GAKA
+   ========================================================= */
+
+.contact-hero {
+    position: relative;
+    min-height: 82vh;
+    padding: 150px 7vw 90px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.18);
+}
+
+.contact-hero::before {
+    content: "";
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    right: -190px;
+    top: 80px;
+    border: 1px solid rgba(212, 175, 55, 0.16);
+    border-radius: 50%;
+    animation: contactOrbit 20s linear infinite;
+}
+
+.contact-hero::after {
+    content: "";
+    position: absolute;
+    width: 310px;
+    height: 310px;
+    right: -95px;
+    top: 175px;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 50%;
+}
+
+.contact-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+}
+
+.contact-hero-content h1 {
+    margin: 20px 0 28px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(4rem, 12vw, 8.5rem);
+    line-height: 0.84;
+    font-weight: 500;
+    letter-spacing: -0.045em;
+}
+
+.contact-hero-content > p:last-child {
+    max-width: 560px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.98rem;
+    line-height: 1.8;
+}
+
+.contact-hero-number {
+    position: absolute;
+    right: 7vw;
+    bottom: 75px;
+    z-index: 2;
+    color: rgba(212, 175, 55, 0.08);
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(5rem, 17vw, 12rem);
+    line-height: 0.8;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CONTACT INTRO
+   ========================================================= */
+
+.contact-intro {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 7vw;
+    padding: 130px 7vw;
+    background:
+        radial-gradient(
+            circle at 80% 30%,
+            rgba(212, 175, 55, 0.07),
+            transparent 32%
+        );
+}
+
+.contact-section-label {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+}
+
+.contact-section-label span:first-child {
+    color: #d4af37;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.8rem;
+    letter-spacing: 0;
+}
+
+.contact-intro-content {
+    max-width: 850px;
+}
+
+.contact-big-statement {
+    margin: 0 0 40px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    line-height: 0.9;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+}
+
+.contact-intro-content > p:last-child {
+    max-width: 600px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.92rem;
+    line-height: 1.9;
+}
+
+
+/* =========================================================
+   CONTACT OPTIONS
+   ========================================================= */
+
+.contact-options {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contact-option {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 5vw;
+    padding: 75px 7vw;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition:
+        background 0.4s ease,
+        padding-left 0.4s ease;
+}
+
+.contact-option:hover {
+    background: rgba(212, 175, 55, 0.025);
+}
+
+.contact-option-number {
+    color: #d4af37;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.8rem;
+}
+
+.contact-option-content {
+    max-width: 850px;
+}
+
+.contact-option-content h2 {
+    margin: 15px 0 22px;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 0.9;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+}
+
+.contact-option-content > p:not(.section-eyebrow) {
+    max-width: 580px;
+    margin: 0 0 30px;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.88rem;
+    line-height: 1.85;
+}
+
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 15px;
+    color: #d4af37;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: gap 0.3s ease;
+}
+
+.contact-link span {
+    font-size: 1rem;
+}
+
+.contact-link:hover {
+    gap: 22px;
+}
+
+
+/* =========================================================
+   DIRECT CONTACT
+   ========================================================= */
+
+.contact-direct {
+    padding: 130px 7vw;
+    background:
+        linear-gradient(
+            120deg,
+            rgba(212, 175, 55, 0.04),
+            transparent 55%
+        );
+}
+
+.contact-direct-header {
+    margin-bottom: 65px;
+}
+
+.contact-direct-header h2 {
+    margin: 20px 0 0;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    line-height: 0.9;
+    font-weight: 500;
+}
+
+.contact-direct-list {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.direct-contact-item {
+    display: grid;
+    grid-template-columns: 180px 1fr 40px;
+    align-items: center;
+    gap: 30px;
+    padding: 30px 0;
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition:
+        padding-left 0.35s ease,
+        background 0.35s ease;
+}
+
+.direct-contact-item > span:first-child {
+    color: rgba(255, 255, 255, 0.38);
+    font-size: 0.65rem;
+    letter-spacing: 0.17em;
+}
+
+.direct-contact-item strong {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(1.7rem, 4vw, 2.7rem);
+    font-weight: 500;
+}
+
+.direct-arrow {
+    color: #d4af37;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.direct-contact-item:hover {
+    padding-left: 12px;
+}
+
+.direct-contact-item:hover .direct-arrow {
+    transform: translate(5px, -5px);
+}
+
+
+/* =========================================================
+   CONTACT CLOSING
+   ========================================================= */
+
+.contact-closing {
+    position: relative;
+    min-height: 72vh;
+    padding: 140px 7vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contact-closing::before {
+    content: "CONTACT";
+    position: absolute;
+    right: -8vw;
+    bottom: -45px;
+    color: rgba(212, 175, 55, 0.04);
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(8rem, 25vw, 19rem);
+    line-height: 0.7;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+.contact-closing h2 {
+    position: relative;
+    z-index: 2;
+    margin: 25px 0;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(4rem, 11vw, 9rem);
+    line-height: 0.82;
+    font-weight: 500;
+    letter-spacing: -0.045em;
+}
+
+.contact-closing > p:not(.section-eyebrow) {
+    position: relative;
+    z-index: 2;
+    margin: 0 0 35px;
+    color: rgba(255, 255, 255, 0.55);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.5rem;
+    font-style: italic;
+}
+
+.contact-closing .primary-button {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================================================
+   CONTACT — MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+    .contact-hero {
+        min-height: 78vh;
+        padding: 130px 6vw 70px;
+    }
+
+    .contact-hero::before {
+        width: 290px;
+        height: 290px;
+        right: -155px;
+        top: 145px;
+    }
+
+    .contact-hero::after {
+        width: 180px;
+        height: 180px;
+        right: -78px;
+        top: 200px;
+    }
+
+    .contact-hero-content h1 {
+        font-size: clamp(3.7rem, 17vw, 5.7rem);
+    }
+
+    .contact-hero-content > p:last-child {
+        max-width: 90%;
+        font-size: 0.86rem;
+    }
+
+    .contact-hero-number {
+        right: 6vw;
+        bottom: 40px;
+        font-size: 7rem;
+    }
+
+    .contact-intro {
+        grid-template-columns: 1fr;
+        gap: 35px;
+        padding: 90px 6vw;
+    }
+
+    .contact-section-label {
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .contact-section-label span:first-child {
+        font-size: 1.5rem;
+    }
+
+    .contact-big-statement {
+        font-size: clamp(2.8rem, 13vw, 4.5rem);
+    }
+
+    .contact-option {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 65px 6vw;
+    }
+
+    .contact-option-content h2 {
+        font-size: clamp(2.8rem, 13vw, 4.5rem);
+    }
+
+    .contact-direct {
+        padding: 90px 6vw;
+    }
+
+    .contact-direct-header {
+        margin-bottom: 50px;
+    }
+
+    .contact-direct-header h2 {
+        font-size: clamp(3.5rem, 15vw, 5.5rem);
+    }
+
+    .direct-contact-item {
+        grid-template-columns: 1fr 30px;
+        gap: 12px;
+        padding: 25px 0;
+    }
+
+    .direct-contact-item > span:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .direct-contact-item strong {
+        font-size: 1.8rem;
+    }
+
+    .contact-closing {
+        min-height: 68vh;
+        padding: 100px 6vw;
+    }
+
+    .contact-closing h2 {
+        font-size: clamp(3.8rem, 17vw, 6.5rem);
+    }
+
+    .contact-closing::before {
+        right: -30vw;
+        bottom: 0;
+        font-size: 9rem;
+    }
+
+}
+
+
+/* =========================================================
+   CONTACT — ANIMATION
+   ========================================================= */
+
+@keyframes contactOrbit {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .contact-hero::before {
+        animation: none;
+    }
+
+    .contact-link,
+    .direct-contact-item,
+    .direct-arrow {
+        transition: none;
+    }
+
+}
