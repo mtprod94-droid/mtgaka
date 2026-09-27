@@ -4,74 +4,91 @@ document.addEventListener("DOMContentLoaded", () => {
        MOBILE MENU
        ===================================================== */
 
-    const menuToggle = document.querySelector(".menu-toggle");
+    const menuButton = document.querySelector(".menu-open");
     const navigation = document.querySelector(".main-navigation");
 
-    if (menuToggle && navigation) {
+    if (menuButton && navigation) {
 
-        menuToggle.addEventListener("click", () => {
+        menuButton.addEventListener("click", () => {
 
-            const isOpen = navigation.classList.toggle("menu-open");
+            document.body.classList.toggle("menu-is-open");
 
-            menuToggle.setAttribute(
+            const isOpen =
+                document.body.classList.contains("menu-is-open");
+
+            menuButton.setAttribute(
                 "aria-expanded",
                 isOpen ? "true" : "false"
             );
 
-            document.body.classList.toggle(
-                "menu-is-open",
-                isOpen
-            );
         });
+
 
         navigation.querySelectorAll("a").forEach(link => {
 
             link.addEventListener("click", () => {
 
-                navigation.classList.remove("menu-open");
+                document.body.classList.remove("menu-is-open");
 
-                menuToggle.setAttribute(
+                menuButton.setAttribute(
                     "aria-expanded",
                     "false"
                 );
 
-                document.body.classList.remove(
-                    "menu-is-open"
-                );
             });
 
         });
+
+
+        document.addEventListener("keydown", (event) => {
+
+            if (event.key === "Escape") {
+
+                document.body.classList.remove("menu-is-open");
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+        });
+
     }
 
 
     /* =====================================================
-       HEADER — SCROLL EFFECT
+       HEADER SCROLL
        ===================================================== */
 
     const header = document.querySelector(".site-header");
 
-    const handleHeaderScroll = () => {
+    if (header) {
 
-        if (!header) return;
+        const updateHeader = () => {
 
-        if (window.scrollY > 40) {
-            header.classList.add("header-scrolled");
-        } else {
-            header.classList.remove("header-scrolled");
-        }
-    };
+            if (window.scrollY > 30) {
+                header.classList.add("header-scrolled");
+            } else {
+                header.classList.remove("header-scrolled");
+            }
 
-    window.addEventListener(
-        "scroll",
-        handleHeaderScroll,
-        { passive: true }
-    );
+        };
 
-    handleHeaderScroll();
+        updateHeader();
+
+        window.addEventListener(
+            "scroll",
+            updateHeader,
+            { passive: true }
+        );
+
+    }
 
 
     /* =====================================================
-       HERO — SUBTLE MOUSE MOVEMENT
+       HERO MOVEMENT
        ===================================================== */
 
     const heroVisual = document.querySelector(".hero-visual");
@@ -81,18 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
         window.matchMedia("(pointer: fine)").matches
     ) {
 
-        window.addEventListener("mousemove", (event) => {
+        document.addEventListener("mousemove", (event) => {
 
             const x =
-                (event.clientX / window.innerWidth - 0.5) * 16;
+                (event.clientX / window.innerWidth - 0.5) * 12;
 
             const y =
-                (event.clientY / window.innerHeight - 0.5) * 16;
+                (event.clientY / window.innerHeight - 0.5) * 12;
 
             heroVisual.style.transform =
-                `translateY(-50%) translate(${x}px, ${y}px)`;
+                `translate(${x}px, ${y}px)`;
 
         });
+
     }
 
 
@@ -104,107 +122,68 @@ document.addEventListener("DOMContentLoaded", () => {
         ".luxury-intro, .experience-item, .final-cta"
     );
 
-    if ("IntersectionObserver" in window) {
+    if (revealElements.length) {
 
         const observer = new IntersectionObserver(
-            (entries, observerInstance) => {
+            (entries) => {
 
-                entries.forEach(entry => {
+                entries.forEach((entry) => {
 
                     if (entry.isIntersecting) {
 
-                        entry.target.classList.add(
-                            "is-visible"
-                        );
+                        entry.target.classList.add("is-visible");
 
-                        observerInstance.unobserve(
-                            entry.target
-                        );
+                        observer.unobserve(entry.target);
+
                     }
 
                 });
 
             },
             {
-                threshold: 0.12
+                threshold: 0.15
             }
         );
 
-        revealElements.forEach(element => {
+        revealElements.forEach((element) => {
             observer.observe(element);
         });
 
-    } else {
-
-        revealElements.forEach(element => {
-            element.classList.add("is-visible");
-        });
     }
 
 
     /* =====================================================
-       EXPERIENCE ITEMS — INTERACTION
+       EXPERIENCE HOVER
        ===================================================== */
 
     const experienceItems =
         document.querySelectorAll(".experience-item");
 
-    experienceItems.forEach(item => {
+    experienceItems.forEach((item) => {
 
         item.addEventListener("mouseenter", () => {
+
+            experienceItems.forEach((other) => {
+                other.classList.remove("is-active");
+            });
+
             item.classList.add("is-active");
-        });
 
-        item.addEventListener("mouseleave", () => {
-            item.classList.remove("is-active");
         });
 
     });
 
 
     /* =====================================================
-       CURRENT YEAR
+       FOOTER YEAR
        ===================================================== */
 
-    const footerBottom =
-        document.querySelector(".footer-bottom");
+    const yearElement =
+        document.getElementById("current-year");
 
-    if (footerBottom) {
-
-        const currentYear =
+    if (yearElement) {
+        yearElement.textContent =
             new Date().getFullYear();
-
-        footerBottom.innerHTML =
-            `© ${currentYear} MT.GAKA — Tous droits réservés.`;
     }
-
-
-    /* =====================================================
-       ESC KEY — CLOSE MOBILE MENU
-       ===================================================== */
-
-    document.addEventListener("keydown", (event) => {
-
-        if (event.key !== "Escape") return;
-
-        if (
-            navigation &&
-            navigation.classList.contains("menu-open")
-        ) {
-
-            navigation.classList.remove("menu-open");
-
-            if (menuToggle) {
-                menuToggle.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-            }
-
-            document.body.classList.remove(
-                "menu-is-open"
-            );
-        }
-    });
 
 });
