@@ -1061,3 +1061,108 @@ button {
         scroll-behavior: auto !important;
     }
 }
+/* =========================================
+   MOBILE MENU — JAVASCRIPT STATE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .main-navigation.menu-open {
+        display: flex;
+
+        position: absolute;
+        top: 78px;
+        left: 0;
+        right: 0;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 0;
+
+        padding: 10px;
+
+        background: rgba(7, 7, 17, 0.96);
+        backdrop-filter: blur(20px);
+
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+
+        box-shadow:
+            0 20px 60px rgba(0, 0, 0, 0.45);
+
+        animation: menuReveal 0.35s ease forwards;
+    }
+
+    .main-navigation.menu-open a {
+        padding: 15px 14px;
+
+        border-radius: 10px;
+
+        font-size: 0.95rem;
+    }
+
+    .main-navigation.menu-open a:hover {
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+}
+
+
+@keyframes menuReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================
+   HEADER SCROLL EFFECT
+========================================= */
+
+.site-header {
+    transition:
+        padding 0.3s ease,
+        background 0.3s ease,
+        backdrop-filter 0.3s ease;
+}
+
+.site-header.header-scrolled {
+    position: sticky;
+    top: 0;
+
+    padding-top: 14px;
+    padding-bottom: 14px;
+
+    background: rgba(7, 7, 17, 0.72);
+    backdrop-filter: blur(18px);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+
+/* =========================================
+   SCROLL REVEAL
+========================================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(35px);
+
+    transition:
+        opacity 0.8s ease,
+        transform 0.8s ease;
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
