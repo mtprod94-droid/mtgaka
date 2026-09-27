@@ -2,188 +2,207 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MT.GAKA — La jeunesse en mouvement</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <meta
         name="description"
-        content="MT.GAKA — Événements, culture, sport, créativité et expériences pour une jeunesse en mouvement."
+        content="MT.GAKA — La jeunesse en mouvement. Événements, culture, sport, créativité et expériences à Lomé."
     >
+
+    <title>MT.GAKA — La jeunesse en mouvement</title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <!-- =====================================
-         LUXURY MOVING BACKGROUND
-    ====================================== -->
+    <!-- =====================================================
+         ANIMATED BACKGROUND
+         ===================================================== -->
 
-    <div class="luxury-background">
+    <div class="luxury-background" aria-hidden="true">
 
         <div class="light-beam beam-one"></div>
         <div class="light-beam beam-two"></div>
 
-        <div class="golden-glow glow-one"></div>
-        <div class="golden-glow glow-two"></div>
+        <div class="gold-glow glow-one"></div>
+        <div class="gold-glow glow-two"></div>
 
-        <div class="ambient-line line-one"></div>
-        <div class="ambient-line line-two"></div>
-        <div class="ambient-line line-three"></div>
-
-        <div class="dust dust-one"></div>
-        <div class="dust dust-two"></div>
-        <div class="dust dust-three"></div>
-        <div class="dust dust-four"></div>
-        <div class="dust dust-five"></div>
+        <div class="ambient-lines">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
 
     </div>
 
 
-    <!-- =====================================
+    <!-- =====================================================
          HEADER
-    ====================================== -->
+         ===================================================== -->
 
     <header class="site-header">
 
-        <a href="index.html" class="brand">
-            MT.<span>GAKA</span>
-        </a>
+        <div class="header-inner">
 
-        <nav class="main-navigation">
+            <a href="index.html" class="brand" aria-label="MT.GAKA Accueil">
 
-            <a href="index.html" class="active">
-                Accueil
+                <span class="brand-mark">MT.GAKA</span>
+
+                <span class="brand-name">
+                    Youth Experience
+                </span>
+
             </a>
 
-            <a href="activites.html">
-                Activités
+
+            <nav class="main-navigation">
+
+                <ul>
+
+                    <li>
+                        <a href="index.html">
+                            Accueil
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="activites.html">
+                            Activités
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="evenements.html">
+                            Événements
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="galerie.html">
+                            Galerie
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="about.html">
+                            À propos
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="contact.html">
+                            Contact
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+
+            <a
+                href="evenements.html"
+                class="header-action primary-button"
+            >
+                Participer
             </a>
 
-            <a href="evenements.html">
-                Événements
-            </a>
 
-            <a href="galerie.html">
-                Galerie
-            </a>
+            <button
+                class="menu-toggle"
+                type="button"
+                aria-label="Ouvrir le menu"
+                aria-expanded="false"
+            >
+                <span></span>
+            </button>
 
-            <a href="about.html">
-                À propos
-            </a>
-
-            <a href="contact.html">
-                Contact
-            </a>
-
-        </nav>
-
-        <a href="contact.html" class="header-button">
-            Participer
-        </a>
-
-        <button
-            class="menu-toggle"
-            aria-label="Ouvrir le menu"
-            aria-expanded="false"
-        >
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+        </div>
 
     </header>
 
 
-    <!-- =====================================
-         HERO
-    ====================================== -->
-
     <main>
 
-        <section class="hero-luxury">
 
-            <div class="hero-topline">
-                <span></span>
-                MT.GAKA — TOGO
-                <span></span>
-            </div>
+        <!-- =================================================
+             HERO
+             ================================================= -->
 
+        <section class="hero-section">
 
-            <div class="hero-main">
+            <div class="hero-content">
 
-                <div class="hero-copy">
-
-                    <p class="eyebrow">
-                        LA JEUNESSE EN MOUVEMENT
-                    </p>
-
-                    <h1>
-                        MT.<em>GAKA</em>
-                    </h1>
-
-                    <div class="hero-statement">
-
-                        <span>Créer.</span>
-                        <span>Vibrer.</span>
-                        <span>Se retrouver.</span>
-
-                    </div>
-
-                    <p class="hero-description">
-                        Une nouvelle génération d'expériences,
-                        d'événements et de rencontres qui donnent
-                        vie à l'énergie de la jeunesse.
-                    </p>
-
-
-                    <div class="hero-actions">
-
-                        <a
-                            href="evenements.html"
-                            class="luxury-button"
-                        >
-                            <span>Découvrir nos événements</span>
-                            <strong>↗</strong>
-                        </a>
-
-                        <a
-                            href="activites.html"
-                            class="minimal-link"
-                        >
-                            Explorer MT.GAKA
-                        </a>
-
-                    </div>
-
+                <div class="hero-eyebrow">
+                    Lomé · Togo · Depuis 2026
                 </div>
 
 
-                <!-- HERO ART -->
+                <h1 class="hero-title">
+                    MT.
+                    <span>GAKA</span>
+                </h1>
 
-                <div class="hero-art">
 
-                    <div class="art-circle circle-large"></div>
-                    <div class="art-circle circle-medium"></div>
-                    <div class="art-circle circle-small"></div>
+                <p class="hero-tagline">
+                    La jeunesse<br>
+                    en mouvement.
+                </p>
 
-                    <div class="art-cross cross-one"></div>
-                    <div class="art-cross cross-two"></div>
 
-                    <div class="art-word">
-                        GAKA
-                    </div>
+                <p class="hero-description">
+                    Une nouvelle génération d'expériences.
+                    Événements, sport, culture, créativité
+                    et rencontres réunis dans un même mouvement.
+                </p>
 
-                    <div class="art-number">
-                        01
-                    </div>
 
-                    <div class="art-caption">
-                        <span></span>
-                        EXPERIENCE
-                    </div>
+                <div class="hero-actions">
 
+                    <a
+                        href="evenements.html"
+                        class="primary-button"
+                    >
+                        Découvrir les événements
+                    </a>
+
+                    <a
+                        href="#univers"
+                        class="secondary-button"
+                    >
+                        Explorer MT.GAKA
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- HERO GRAPHIC -->
+
+            <div class="hero-visual" aria-hidden="true">
+
+                <div class="hero-ring ring-one"></div>
+
+                <div class="hero-ring ring-two"></div>
+
+                <div class="hero-ring ring-three"></div>
+
+                <div class="hero-cross"></div>
+
+                <div class="hero-core"></div>
+
+                <div class="hero-art-number">
+                    01
+                </div>
+
+                <div class="hero-art-label">
+                    EXPERIENCE
                 </div>
 
             </div>
@@ -196,19 +215,80 @@
                 <div class="hero-categories">
 
                     <span>EVENTS</span>
-                    <span>CULTURE</span>
                     <span>SPORT</span>
+                    <span>CULTURE</span>
                     <span>CREATIVITY</span>
 
                 </div>
 
+
                 <div class="scroll-indicator">
+
+                    <span>Scroll</span>
 
                     <span class="scroll-line"></span>
 
-                    <span>
-                        DÉFILER
-                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             INTRODUCTION
+             ================================================= -->
+
+        <section
+            class="luxury-intro"
+            id="univers"
+        >
+
+            <div class="section-container">
+
+                <div class="intro-grid">
+
+                    <div class="intro-number">
+                        01
+                    </div>
+
+
+                    <div class="intro-content">
+
+                        <div class="section-label">
+                            L'esprit MT.GAKA
+                        </div>
+
+
+                        <h2 class="section-title">
+                            Plus qu'un événement.
+                            <span>Un mouvement.</span>
+                        </h2>
+
+
+                        <p class="section-text">
+                            MT.GAKA rassemble une jeunesse
+                            ambitieuse, créative et connectée
+                            autour d'expériences qui donnent
+                            envie de sortir, de créer et de
+                            se retrouver.
+                        </p>
+
+
+                        <p class="section-text">
+                            Notre univers mélange l'énergie
+                            des événements, la culture,
+                            le sport, les talents et le
+                            divertissement pour créer des
+                            moments qui restent.
+                        </p>
+
+
+                        <div class="intro-signature">
+                            Créer. Vibrer. Se retrouver.
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -217,222 +297,219 @@
         </section>
 
 
-        <!-- =====================================
-             INTRODUCTION
-        ====================================== -->
-
-        <section class="luxury-intro">
-
-            <div class="intro-index">
-                01
-            </div>
-
-            <div class="intro-content">
-
-                <p class="section-eyebrow">
-                    L'ESPRIT MT.GAKA
-                </p>
-
-                <h2>
-                    Une plateforme.
-                    <br>
-                    <em>Une communauté.</em>
-                    <br>
-                    Une énergie.
-                </h2>
-
-                <p class="intro-text">
-                    MT.GAKA rassemble les jeunes autour
-                    d'expériences qui dépassent le simple
-                    événement. Sport, culture, créativité,
-                    divertissement et rencontres prennent
-                    une nouvelle dimension.
-                </p>
-
-            </div>
-
-        </section>
-
-
-        <!-- =====================================
+        <!-- =================================================
              EXPERIENCE
-        ====================================== -->
+             ================================================= -->
 
         <section class="experience-section">
 
-            <div class="section-heading-luxury">
+            <div class="section-container">
 
-                <div>
-                    <p class="section-eyebrow">
-                        NOS UNIVERS
-                    </p>
+                <div class="experience-heading">
 
-                    <h2>
-                        L'énergie prend
-                        <br>
-                        <em>plusieurs formes.</em>
+                    <div class="section-label">
+                        Notre univers
+                    </div>
+
+
+                    <h2 class="section-title">
+                        Quatre univers.
+                        <span>Une énergie.</span>
                     </h2>
+
                 </div>
 
-                <span class="section-index">
-                    02
-                </span>
 
-            </div>
+                <div class="experience-grid">
 
 
-            <div class="experience-grid">
+                    <article class="experience-item">
 
-                <a href="activites.html" class="experience-item">
+                        <span class="experience-number">
+                            01 — SPORT
+                        </span>
 
-                    <span class="item-number">
-                        01
-                    </span>
+                        <h3>
+                            Sport
+                        </h3>
 
-                    <div>
-                        <h3>SPORT</h3>
                         <p>
-                            Compétition · mouvement · passion
+                            Compétitions, challenges,
+                            rencontres et moments
+                            sportifs qui rassemblent.
                         </p>
-                    </div>
 
-                    <span class="item-arrow">
-                        ↗
-                    </span>
+                        <span class="experience-arrow">
+                            →
+                        </span>
 
-                </a>
+                    </article>
 
 
-                <a href="activites.html" class="experience-item">
+                    <article class="experience-item">
 
-                    <span class="item-number">
-                        02
-                    </span>
+                        <span class="experience-number">
+                            02 — CULTURE
+                        </span>
 
-                    <div>
-                        <h3>CULTURE</h3>
+                        <h3>
+                            Culture
+                        </h3>
+
                         <p>
-                            Identité · expression · héritage
+                            Musique, mode, traditions,
+                            expression et nouvelles
+                            tendances africaines.
                         </p>
-                    </div>
 
-                    <span class="item-arrow">
-                        ↗
-                    </span>
+                        <span class="experience-arrow">
+                            →
+                        </span>
 
-                </a>
+                    </article>
 
 
-                <a href="activites.html" class="experience-item">
+                    <article class="experience-item">
 
-                    <span class="item-number">
-                        03
-                    </span>
+                        <span class="experience-number">
+                            03 — TALENTS
+                        </span>
 
-                    <div>
-                        <h3>TALENTS</h3>
+                        <h3>
+                            Talents
+                        </h3>
+
                         <p>
-                            Musique · danse · art · créativité
+                            Une scène pour les jeunes
+                            créateurs, artistes, entrepreneurs
+                            et personnalités émergentes.
                         </p>
-                    </div>
 
-                    <span class="item-arrow">
-                        ↗
-                    </span>
+                        <span class="experience-arrow">
+                            →
+                        </span>
 
-                </a>
+                    </article>
 
 
-                <a href="activites.html" class="experience-item">
+                    <article class="experience-item">
 
-                    <span class="item-number">
-                        04
-                    </span>
+                        <span class="experience-number">
+                            04 — ENTERTAINMENT
+                        </span>
 
-                    <div>
-                        <h3>ENTERTAINMENT</h3>
+                        <h3>
+                            Entertainment
+                        </h3>
+
                         <p>
-                            Jeux · challenges · expériences
+                            Des expériences, des soirées
+                            et des rendez-vous pensés
+                            pour vivre pleinement le moment.
                         </p>
-                    </div>
 
-                    <span class="item-arrow">
-                        ↗
-                    </span>
+                        <span class="experience-arrow">
+                            →
+                        </span>
 
-                </a>
+                    </article>
+
+
+                </div>
 
             </div>
 
         </section>
 
 
-        <!-- =====================================
-             FINAL CTA
-        ====================================== -->
+        <!-- =================================================
+             CTA
+             ================================================= -->
 
         <section class="final-cta">
 
-            <div class="cta-line"></div>
+            <div class="final-cta-content">
 
-            <p class="section-eyebrow">
-                THE NEXT EXPERIENCE
-            </p>
+                <div class="section-label">
+                    Prochaine expérience
+                </div>
 
-            <h2>
-                <span>La prochaine</span>
-                <br>
-                expérience
-                <br>
-                <em>commence ici.</em>
-            </h2>
 
-            <a
-                href="evenements.html"
-                class="luxury-button"
-            >
-                <span>Voir les événements</span>
-                <strong>↗</strong>
-            </a>
+                <h2 class="section-title">
+                    La prochaine expérience
+                    <span>commence ici.</span>
+                </h2>
+
+
+                <p>
+                    Découvre les prochains rendez-vous
+                    MT.GAKA et rejoins le mouvement.
+                </p>
+
+
+                <a
+                    href="evenements.html"
+                    class="primary-button"
+                >
+                    Voir les événements
+                </a>
+
+            </div>
 
         </section>
 
     </main>
 
 
-    <!-- =====================================
+    <!-- =====================================================
          FOOTER
-    ====================================== -->
+         ===================================================== -->
 
-    <footer class="luxury-footer">
+    <footer class="site-footer">
 
-        <div class="footer-top">
+        <div class="footer-inner">
 
             <div class="footer-brand">
-                MT.<span>GAKA</span>
+                MT.GAKA
             </div>
 
-            <p>
-                LA JEUNESSE EN MOUVEMENT
-            </p>
+            <div class="footer-tagline">
+                La jeunesse en mouvement
+            </div>
 
-        </div>
 
-        <div class="footer-divider"></div>
+            <nav class="footer-navigation">
 
-        <div class="footer-bottom">
+                <a href="index.html">
+                    Accueil
+                </a>
 
-            <span>
-                © 2026 MT.GAKA
-            </span>
+                <a href="activites.html">
+                    Activités
+                </a>
 
-            <span>
-                LOMÉ · TOGO
-            </span>
+                <a href="evenements.html">
+                    Événements
+                </a>
 
-            <span>
-                EVENTS · CULTURE · SPORT · CREATIVITY
-            </span>
+                <a href="galerie.html">
+                    Galerie
+                </a>
+
+                <a href="about.html">
+                    À propos
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+            </nav>
+
+
+            <div class="footer-bottom">
+                © 2026 MT.GAKA — Tous droits réservés.
+            </div>
 
         </div>
 
