@@ -342,29 +342,120 @@ img {
    MOBILE MENU
    ========================================================= */
 
-.main-navigation.menu-open {
+.menu-open {
+    display: none;
+    position: relative;
+    z-index: 1001;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.menu-open span,
+.menu-open::before,
+.menu-open::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    width: 22px;
+    height: 1px;
+    background: #ffffff;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.menu-open span {
+    top: 20px;
+}
+
+.menu-open::before {
+    top: 14px;
+}
+
+.menu-open::after {
+    top: 26px;
+}
+
+
+/* MENU OPEN */
+
+body.menu-is-open .main-navigation {
     display: block;
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: 1000;
     padding: 125px 35px 40px;
-    background: rgba(7,7,7,0.97);
+    background: rgba(7, 7, 7, 0.97);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
 }
 
-.main-navigation.menu-open ul {
+body.menu-is-open .main-navigation ul {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 28px;
 }
 
-.main-navigation.menu-open a {
+body.menu-is-open .main-navigation a {
     font-size: 14px;
     letter-spacing: 0.18em;
 }
 
+
+/* X ANIMATION */
+
+body.menu-is-open .menu-open span {
+    opacity: 0;
+}
+
+body.menu-is-open .menu-open::before {
+    transform: translateY(6px) rotate(45deg);
+}
+
+body.menu-is-open .menu-open::after {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .menu-open {
+        display: block;
+    }
+
+    .main-navigation {
+        display: none;
+    }
+
+    .header-action {
+        display: none;
+    }
+
+}
+
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+@media (min-width: 901px) {
+
+    .main-navigation {
+        display: block;
+    }
+
+    .menu-open {
+        display: none;
+    }
+
+}
 
 /* =========================================================
    BUTTONS
