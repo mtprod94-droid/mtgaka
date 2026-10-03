@@ -186,34 +186,40 @@
 <script>
 const SUPABASE_URL =
     "https://hfucvtipxcenhklxasro.supabase.co";
+
 const SUPABASE_PUBLISHABLE_KEY =
     "sb_publishable_U_5Ez8S4rg9nwMMa_Uzv_A_ix5q1iKA3";
+
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
     );
-/*
- * Ticket automatisch aus der URL lesen
- *
- * Beispiel:
- * ticket-control.html?ticket=MTGAKA-STD-0001-20261224
- */
+
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
 function getTicketFromURL() {
 
-    // Variante 1: ?ticket=...
-    const params =
-        new URLSearchParams(window.location.search);
+    const url = new URL(window.location.href);
 
     let ticket =
-        params.get("ticket");
+        url.searchParams.get("ticket");
 
-
-    // Variante 2: #ticket=...
-    if (!ticket && window.location.hash) {
+    if (!ticket && url.hash) {
 
         const hash =
-            window.location.hash.substring(1);
+            url.hash.substring(1);
 
         const hashParams =
             new URLSearchParams(hash);
@@ -222,55 +228,90 @@ function getTicketFromURL() {
             hashParams.get("ticket");
     }
 
-
     if (!ticket) {
         return null;
     }
 
-
-    return ticket
+    return decodeURIComponent(ticket)
         .trim()
         .toUpperCase();
+
 }
-/*
- * Ticket prüfen
- */
+
+
 async function checkTicket(ticketFromURL = null) {
+
     const inputElement =
         document.getElementById("ticketInput");
+
     const result =
         document.getElementById("result");
-    const button =
-        document.getElementById("checkButton");
-    /*
-     * Wenn Ticket aus der URL kommt,
-     * wird es automatisch eingesetzt.
-     */
+
+
+    let input = "";
+
+
     if (ticketFromURL) {
-        inputElement.value = ticketFromURL;
+
+        input =
+            ticketFromURL
+                .trim()
+                .toUpperCase();
+
+        inputElement.value =
+            input;
+
+    } else {
+
+        input =
+            inputElement.value
+                .trim()
+                .toUpperCase();
+
     }
-    const input =
-        inputElement.value
-            .trim()
-            .toUpperCase();
-    result.className = "result";
-    result.innerHTML = "";
+
+
     if (!input) {
+
+        result.className =
+            "result invalid";
+
+        result.style.display =
+            "block";
+
         result.innerHTML = `
-            ⚠️<br>
+            ❌<br>
+
             <div class="status">
                 IDENTIFIANT MANQUANT
             </div>
-            <div class="ticket-id">
+
+            <div style="margin-top:10px;">
                 Veuillez saisir ou scanner le billet.
             </div>
         `;
-        result.classList.add("used");
+
         return;
     }
-    button.disabled = true;
-    button.textContent = "VÉRIFICATION...";
+
+
+    result.className =
+        "result";
+
+    result.style.display =
+        "block";
+
+    result.innerHTML = `
+        ⏳<br>
+
+        <div class="status">
+            VÉRIFICATION...
+        </div>
+    `;
+
+
     try {
+
         const { data, error } =
             await supabaseClient.rpc(
                 "redeem_ticket",
@@ -278,197 +319,134 @@ async function checkTicket(ticketFromURL = null) {
                     p_ticket_code: input
                 }
             );
-        /*
-         * Supabase Fehler
-         */
+
+
         if (error) {
-            console.error(error);
-            result.innerHTML = `
-                ⚠️<br>
-                <div class="status">
-                    ERREUR
-                </div>
-                <div class="ticket-id">
-                    ${escapeHtml(
-                        error.message ||
-                        "Erreur inconnue"
-                    )}
-                </div>
-                <div style="margin-top:12px; font-size:12px; opacity:0.75;">
-                    ${escapeHtml(
-                        error.details || ""
-                    )}
-                </div>
-            `;
-            result.classList.add("used");
-            return;
+            throw error;
         }
-        /*
-         * Kein Ergebnis = Ticket existiert nicht
-         */
+
+
         if (!data || data.length === 0) {
+
+            result.className =
+                "result invalid";
+
             result.innerHTML = `
                 ❌<br>
+
                 <div class="status">
-                    TICKET INVALIDE
+                    TICKET INCONNU
                 </div>
-                <div class="ticket-id">
+
+                <div style="margin-top:10px;">
                     ${escapeHtml(input)}
                 </div>
             `;
-            result.classList.add("used");
+
             return;
         }
-        const ticket = data[0];
-        /*
-         * Ticket bereits verwendet
-         */
-        if (ticket.status === "ALREADY_USED") {
-            result.innerHTML = `
-                🚫<br>
-                <div class="status">
-                    DÉJÀ UTILISÉ
-                </div>
-                <div class="ticket-id">
-                    ${escapeHtml(
-                        ticket.ticket_code
-                    )}
-                </div>
-                <div style="margin-top:12px;">
-                    BEREITS EINGELÖST
-                </div>
-            `;
-            result.classList.add("used");
-            return;
-        }
-        /*
-         * Ticket erfolgreich eingelöst
-         */
+
+
+        const ticket =
+            data[0];
+
+
         if (ticket.status === "VALID") {
+
+            result.className =
+                "result valid";
+
             result.innerHTML = `
                 ✅<br>
+
                 <div class="status">
                     TICKET VALIDE
                 </div>
-                <div class="ticket-id">
-                    ${escapeHtml(
-                        ticket.ticket_code
-                    )}
-                </div>
+
                 <div style="margin-top:12px;">
-                    EINGELÖST
+                    <strong>EINGELÖST</strong>
                 </div>
-                <div style="margin-top:8px; font-size:12px; opacity:0.75;">
-                    ${escapeHtml(
-                        ticket.ticket_type
-                    )}
+
+                <div style="margin-top:12px;">
+                    ${escapeHtml(ticket.ticket_code)}
+                </div>
+
+                <div style="margin-top:8px;">
+                    ${escapeHtml(ticket.ticket_type)}
                 </div>
             `;
-            result.classList.add("valid");
+
             return;
         }
-        /*
-         * Unerwarteter Status
-         */
+
+
+        if (ticket.status === "ALREADY_USED") {
+
+            result.className =
+                "result invalid";
+
+            result.innerHTML = `
+                ⚠️<br>
+
+                <div class="status">
+                    DÉJÀ UTILISÉ
+                </div>
+
+                <div style="margin-top:12px;">
+                    <strong>BEREITS EINGELÖST</strong>
+                </div>
+
+                <div style="margin-top:12px;">
+                    ${escapeHtml(ticket.ticket_code)}
+                </div>
+            `;
+
+            return;
+        }
+
+    } catch (error) {
+
+        result.className =
+            "result invalid";
+
         result.innerHTML = `
-            ⚠️<br>
+            ❌<br>
+
             <div class="status">
-                STATUT INCONNU
+                ERREUR DE CONNEXION
+            </div>
+
+            <div style="
+                margin-top:12px;
+                font-size:12px;
+                word-break:break-word;
+            ">
+                ${escapeHtml(
+                    error.message ||
+                    "Erreur inconnue"
+                )}
             </div>
         `;
-        result.classList.add("used");
-    }
-    catch (error) {
-
-    console.error("TICKET CONTROL ERROR:", error);
-
-    result.innerHTML = `
-        ⚠️<br>
-
-        <div class="status">
-            ERREUR
-        </div>
-
-        <div class="ticket-id">
-            ${escapeHtml(
-                error?.message ||
-                "Erreur inconnue"
-            )}
-        </div>
-
-        <div style="margin-top:12px; font-size:12px; opacity:0.75;">
-            ${escapeHtml(
-                error?.details ||
-                error?.hint ||
-                ""
-            )}
-        </div>
-    `;
-
-    result.classList.add("used");
-}
-    finally {
-        button.disabled = false;
-        button.textContent = "VÉRIFIER LE TICKET";
-    }
-}
-/*
- * Automatischer Start
- *
- * Wenn die URL ?ticket=... enthält,
- * wird das Ticket sofort geprüft.
- */
-window.addEventListener("load", function () {
-
-    const ticket = getTicketFromURL();
-
-    if (ticket) {
-        checkTicket(ticket);
     }
 
-});
-/*
- * Schutz gegen HTML-Injection
- */
-function escapeHtml(value) {
-    return String(value)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 }
-window.addEventListener("load", function () {
 
-    const result = document.getElementById("result");
 
-    result.className = "result";
-    result.style.display = "block";
+window.addEventListener(
+    "load",
+    function () {
 
-    result.innerHTML = `
-        🔎<br>
+        const ticket =
+            getTicketFromURL();
 
-        <div class="status">
-            URL TEST
-        </div>
+        if (ticket) {
 
-        <div style="margin-top:12px; font-size:12px; word-break:break-all;">
-            <strong>HREF:</strong><br>
-            ${escapeHtml(window.location.href)}
-        </div>
+            checkTicket(ticket);
 
-        <div style="margin-top:12px; font-size:12px; word-break:break-all;">
-            <strong>SEARCH:</strong><br>
-            ${escapeHtml(window.location.search || "(leer)")}
-        </div>
+        }
 
-        <div style="margin-top:12px; font-size:12px; word-break:break-all;">
-            <strong>HASH:</strong><br>
-            ${escapeHtml(window.location.hash || "(leer)")}
-        </div>
-    `;
-
-});
+    }
+);
 </script>
 
 </body>
