@@ -379,16 +379,15 @@ async function checkTicket(ticketFromURL = null) {
  * Wenn die URL ?ticket=... enthält,
  * wird das Ticket sofort geprüft.
  */
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-        const ticket =
-            getTicketFromURL();
-        if (ticket) {
-            checkTicket(ticket);
-        }
+window.addEventListener("load", function () {
+
+    const ticket = getTicketFromURL();
+
+    if (ticket) {
+        checkTicket(ticket);
     }
-);
+
+});
 /*
  * Schutz gegen HTML-Injection
  */
