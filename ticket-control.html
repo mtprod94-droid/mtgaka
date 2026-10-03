@@ -356,18 +356,34 @@ async function checkTicket(ticketFromURL = null) {
         result.classList.add("used");
     }
     catch (error) {
-        console.error(error);
-        result.innerHTML = `
-            ⚠️<br>
-            <div class="status">
-                ERREUR DE CONNEXION
-            </div>
-            <div class="ticket-id">
-                Vérifiez votre connexion Internet.
-            </div>
-        `;
-        result.classList.add("used");
-    }
+
+    console.error("TICKET CONTROL ERROR:", error);
+
+    result.innerHTML = `
+        ⚠️<br>
+
+        <div class="status">
+            ERREUR
+        </div>
+
+        <div class="ticket-id">
+            ${escapeHtml(
+                error?.message ||
+                "Erreur inconnue"
+            )}
+        </div>
+
+        <div style="margin-top:12px; font-size:12px; opacity:0.75;">
+            ${escapeHtml(
+                error?.details ||
+                error?.hint ||
+                ""
+            )}
+        </div>
+    `;
+
+    result.classList.add("used");
+}
     finally {
         button.disabled = false;
         button.textContent = "VÉRIFIER LE TICKET";
