@@ -254,25 +254,24 @@ async function checkTicket() {
 
 
         if (error) {
+    console.error(error);
 
-            console.error(error);
+    result.innerHTML = `
+        ⚠️<br>
+        <div class="status">
+            ERREUR
+        </div>
+        <div class="ticket-id">
+            ${escapeHtml(error.message || "Erreur inconnue")}
+        </div>
+        <div style="margin-top:12px; font-size:12px; opacity:0.75;">
+            ${escapeHtml(error.details || "")}
+        </div>
+    `;
 
-            result.innerHTML = `
-                ⚠️<br>
-
-                <div class="status">
-                    ERREUR
-                </div>
-
-                <div class="ticket-id">
-                    Impossible de contacter le serveur.
-                </div>
-            `;
-
-            result.classList.add("used");
-
-            return;
-        }
+    result.classList.add("used");
+    return;
+}
 
 
         /*
