@@ -200,14 +200,37 @@ const supabaseClient =
  * ticket-control.html?ticket=MTGAKA-STD-0001-20261224
  */
 function getTicketFromURL() {
+
+    // Variante 1: ?ticket=...
     const params =
         new URLSearchParams(window.location.search);
-    const ticket =
+
+    let ticket =
         params.get("ticket");
+
+
+    // Variante 2: #ticket=...
+    if (!ticket && window.location.hash) {
+
+        const hash =
+            window.location.hash.substring(1);
+
+        const hashParams =
+            new URLSearchParams(hash);
+
+        ticket =
+            hashParams.get("ticket");
+    }
+
+
     if (!ticket) {
         return null;
     }
-    return ticket.trim().toUpperCase();
+
+
+    return ticket
+        .trim()
+        .toUpperCase();
 }
 /*
  * Ticket prüfen
