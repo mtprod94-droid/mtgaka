@@ -183,67 +183,71 @@
 
 
 <!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
-
 const SUPABASE_URL =
     "https://hfucvtipxcenhklxasro.supabase.co";
-
 const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_U_5Ez8S4rg9nwMMa_Uzv_A_ixq5iKA3";
-
+    "sb_publishable_U_5Ez8S4rg9nwMMa_Uzv_A_ix5q1iKA3";
 const supabaseClient =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
     );
-
-
-async function checkTicket() {
-
+/*
+ * Ticket automatisch aus der URL lesen
+ *
+ * Beispiel:
+ * ticket-control.html?ticket=MTGAKA-STD-0001-20261224
+ */
+function getTicketFromURL() {
+    const params =
+        new URLSearchParams(window.location.search);
+    const ticket =
+        params.get("ticket");
+    if (!ticket) {
+        return null;
+    }
+    return ticket.trim().toUpperCase();
+}
+/*
+ * Ticket prüfen
+ */
+async function checkTicket(ticketFromURL = null) {
     const inputElement =
         document.getElementById("ticketInput");
-
     const result =
         document.getElementById("result");
-
     const button =
         document.getElementById("checkButton");
-
+    /*
+     * Wenn Ticket aus der URL kommt,
+     * wird es automatisch eingesetzt.
+     */
+    if (ticketFromURL) {
+        inputElement.value = ticketFromURL;
+    }
     const input =
         inputElement.value
             .trim()
             .toUpperCase();
-
     result.className = "result";
     result.innerHTML = "";
-
     if (!input) {
-
         result.innerHTML = `
             ⚠️<br>
             <div class="status">
                 IDENTIFIANT MANQUANT
             </div>
-
             <div class="ticket-id">
                 Veuillez saisir ou scanner le billet.
             </div>
         `;
-
         result.classList.add("used");
-
         return;
     }
-
-
     button.disabled = true;
     button.textContent = "VÉRIFICATION...";
-
-
     try {
-
         const { data, error } =
             await supabaseClient.rpc(
                 "redeem_ticket",
@@ -251,173 +255,151 @@ async function checkTicket() {
                     p_ticket_code: input
                 }
             );
-
-
-        if (error) {
-    console.error(error);
-
-    result.innerHTML = `
-        ⚠️<br>
-        <div class="status">
-            ERREUR
-        </div>
-        <div class="ticket-id">
-            ${escapeHtml(error.message || "Erreur inconnue")}
-        </div>
-        <div style="margin-top:12px; font-size:12px; opacity:0.75;">
-            ${escapeHtml(error.details || "")}
-        </div>
-    `;
-
-    result.classList.add("used");
-    return;
-}
-
-
         /*
-         * Aucun résultat = ticket inexistant
+         * Supabase Fehler
+         */
+        if (error) {
+            console.error(error);
+            result.innerHTML = `
+                ⚠️<br>
+                <div class="status">
+                    ERREUR
+                </div>
+                <div class="ticket-id">
+                    ${escapeHtml(
+                        error.message ||
+                        "Erreur inconnue"
+                    )}
+                </div>
+                <div style="margin-top:12px; font-size:12px; opacity:0.75;">
+                    ${escapeHtml(
+                        error.details || ""
+                    )}
+                </div>
+            `;
+            result.classList.add("used");
+            return;
+        }
+        /*
+         * Kein Ergebnis = Ticket existiert nicht
          */
         if (!data || data.length === 0) {
-
             result.innerHTML = `
                 ❌<br>
-
                 <div class="status">
                     TICKET INVALIDE
                 </div>
-
                 <div class="ticket-id">
                     ${escapeHtml(input)}
                 </div>
             `;
-
             result.classList.add("used");
-
             return;
         }
-
-
         const ticket = data[0];
-
-
         /*
-         * Ticket déjà utilisé
+         * Ticket bereits verwendet
          */
         if (ticket.status === "ALREADY_USED") {
-
             result.innerHTML = `
                 🚫<br>
-
                 <div class="status">
                     DÉJÀ UTILISÉ
                 </div>
-
                 <div class="ticket-id">
-                    ${escapeHtml(ticket.ticket_code)}
+                    ${escapeHtml(
+                        ticket.ticket_code
+                    )}
                 </div>
-
                 <div style="margin-top:12px;">
                     BEREITS EINGELÖST
                 </div>
             `;
-
             result.classList.add("used");
-
             return;
         }
-
-
         /*
          * Ticket erfolgreich eingelöst
          */
         if (ticket.status === "VALID") {
-
             result.innerHTML = `
                 ✅<br>
-
                 <div class="status">
                     TICKET VALIDE
                 </div>
-
                 <div class="ticket-id">
-                    ${escapeHtml(ticket.ticket_code)}
+                    ${escapeHtml(
+                        ticket.ticket_code
+                    )}
                 </div>
-
                 <div style="margin-top:12px;">
                     EINGELÖST
                 </div>
-
                 <div style="margin-top:8px; font-size:12px; opacity:0.75;">
-                    ${escapeHtml(ticket.ticket_type)}
+                    ${escapeHtml(
+                        ticket.ticket_type
+                    )}
                 </div>
             `;
-
             result.classList.add("valid");
-
             return;
         }
-
-
         /*
          * Unerwarteter Status
          */
         result.innerHTML = `
             ⚠️<br>
-
             <div class="status">
                 STATUT INCONNU
             </div>
         `;
-
         result.classList.add("used");
-
     }
-
     catch (error) {
-
         console.error(error);
-
         result.innerHTML = `
             ⚠️<br>
-
             <div class="status">
                 ERREUR DE CONNEXION
             </div>
-
             <div class="ticket-id">
                 Vérifiez votre connexion Internet.
             </div>
         `;
-
         result.classList.add("used");
-
     }
-
     finally {
-
         button.disabled = false;
         button.textContent = "VÉRIFIER LE TICKET";
-
     }
-
 }
-
-
+/*
+ * Automatischer Start
+ *
+ * Wenn die URL ?ticket=... enthält,
+ * wird das Ticket sofort geprüft.
+ */
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+        const ticket =
+            getTicketFromURL();
+        if (ticket) {
+            checkTicket(ticket);
+        }
+    }
+);
 /*
  * Schutz gegen HTML-Injection
  */
 function escapeHtml(value) {
-
-    return value
+    return String(value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
-
 }
-
-
 </script>
 
 </body>
