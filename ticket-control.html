@@ -438,6 +438,37 @@ function escapeHtml(value) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
+window.addEventListener("load", function () {
+
+    const result = document.getElementById("result");
+
+    result.className = "result";
+    result.style.display = "block";
+
+    result.innerHTML = `
+        🔎<br>
+
+        <div class="status">
+            URL TEST
+        </div>
+
+        <div style="margin-top:12px; font-size:12px; word-break:break-all;">
+            <strong>HREF:</strong><br>
+            ${escapeHtml(window.location.href)}
+        </div>
+
+        <div style="margin-top:12px; font-size:12px; word-break:break-all;">
+            <strong>SEARCH:</strong><br>
+            ${escapeHtml(window.location.search || "(leer)")}
+        </div>
+
+        <div style="margin-top:12px; font-size:12px; word-break:break-all;">
+            <strong>HASH:</strong><br>
+            ${escapeHtml(window.location.hash || "(leer)")}
+        </div>
+    `;
+
+});
 </script>
 
 </body>
