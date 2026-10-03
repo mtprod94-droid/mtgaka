@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MT.GAKA Ticket Control</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #080808;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 430px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            letter-spacing: 3px;
+            opacity: 0.65;
+            margin-bottom: 35px;
+        }
+
+        .scanner-box {
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 25px;
+            background: #111;
+        }
+
+        .scanner-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            margin: 0 0 10px;
+        }
+
+        p {
+            color: #aaa;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        input {
+            width: 100%;
+            padding: 17px;
+            margin-top: 20px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background: #050505;
+            color: white;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        button {
+            width: 100%;
+            padding: 17px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 10px;
+            background: white;
+            color: black;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .result {
+            display: none;
+            margin-top: 20px;
+            padding: 25px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .valid {
+            display: block;
+            background: #123d22;
+            border: 1px solid #2ecc71;
+        }
+
+        .used {
+            display: block;
+            background: #401515;
+            border: 1px solid #e74c3c;
+        }
+
+        .ticket-id {
+            margin-top: 12px;
+            font-size: 14px;
+            word-break: break-all;
+            opacity: 0.9;
+        }
+
+        .status {
+            font-size: 26px;
+            margin-top: 8px;
+        }
+
+        .test-note {
+            margin-top: 25px;
+            font-size: 11px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">MT.GAKA</div>
+
+    <div class="subtitle">
+        CHALLENGE DAY · TICKET CONTROL
+    </div>
+
+    <div class="scanner-box">
+
+        <div class="scanner-icon">▣</div>
+
+        <h2>Contrôle du billet</h2>
+
+        <p>
+            Scannez le PDF417 ou saisissez manuellement
+            l'identifiant du billet.
+        </p>
+
+        <input
+            id="ticketInput"
+            type="text"
+            placeholder="MTGAKA-STD-0001-20261224"
+            autocomplete="off"
+        >
+
+        <button onclick="checkTicket()">
+            VÉRIFIER LE TICKET
+        </button>
+
+        <div id="result" class="result"></div>
+
+    </div>
+
+    <div class="test-note">
+        TEST MODE · MT.GAKA CHALLENGE DAY
+    </div>
+
+</div>
+
+<script>
+
+const testTickets = {
+
+    "MTGAKA-STD-0001-20261224": {
+        type: "STANDARD",
+        used: false
+    },
+
+    "MTGAKA-STD-0002-20261224": {
+        type: "STANDARD",
+        used: false
+    }
+
+};
+
+
+function checkTicket() {
+
+    const input = document
+        .getElementById("ticketInput")
+        .value
+        .trim()
+        .toUpperCase();
+
+    const result = document.getElementById("result");
+
+    result.className = "result";
+
+    if (!input) {
+
+        result.innerHTML = `
+            ⚠️<br>
+            Veuillez saisir un identifiant.
+        `;
+
+        result.classList.add("used");
+
+        return;
+    }
+
+
+    const ticket = testTickets[input];
+
+
+    if (!ticket) {
+
+        result.innerHTML = `
+            ❌<br>
+            <div class="status">
+                TICKET INVALIDE
+            </div>
+
+            <div class="ticket-id">
+                ${input}
+            </div>
+        `;
+
+        result.classList.add("used");
+
+        return;
+    }
+
+
+    if (ticket.used) {
+
+        result.innerHTML = `
+            🚫<br>
+
+            <div class="status">
+                DÉJÀ UTILISÉ
+            </div>
+
+            <div class="ticket-id">
+                ${input}
+            </div>
+        `;
+
+        result.classList.add("used");
+
+        return;
+    }
+
+
+    ticket.used = true;
+
+
+    result.innerHTML = `
+        ✅<br>
+
+        <div class="status">
+            TICKET VALIDE
+        </div>
+
+        <div class="ticket-id">
+            ${input}
+        </div>
+
+        <div style="margin-top:12px;">
+            EINGELÖST
+        </div>
+    `;
+
+    result.classList.add("valid");
+
+}
+
+</script>
+
+</body>
+</html>
