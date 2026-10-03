@@ -90,6 +90,11 @@
             cursor: pointer;
         }
 
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
         button:active {
             transform: scale(0.98);
         }
@@ -162,7 +167,7 @@
             autocomplete="off"
         >
 
-        <button onclick="checkTicket()">
+        <button id="checkButton" onclick="checkTicket()">
             VÉRIFIER LE TICKET
         </button>
 
@@ -171,66 +176,59 @@
     </div>
 
     <div class="test-note">
-        TEST MODE · MT.GAKA CHALLENGE DAY
+        SUPABASE · TEST MODE · MT.GAKA CHALLENGE DAY
     </div>
 
 </div>
 
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
 
-const testTickets = {
+const SUPABASE_URL =
+    "https://hfucvtipxcenhklxasro.supabase.co";
 
-    "MTGAKA-STD-0001-20261224": {
-        type: "STANDARD",
-        used: false
-    },
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_U_5Ez8S4rg9nwMMa_Uzv_A_ix5q1iKA3";
 
-    "MTGAKA-STD-0002-20261224": {
-        type: "STANDARD",
-        used: false
-    }
-
-};
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 
 
-function checkTicket() {
+async function checkTicket() {
 
-    const input = document
-        .getElementById("ticketInput")
-        .value
-        .trim()
-        .toUpperCase();
+    const inputElement =
+        document.getElementById("ticketInput");
 
-    const result = document.getElementById("result");
+    const result =
+        document.getElementById("result");
+
+    const button =
+        document.getElementById("checkButton");
+
+    const input =
+        inputElement.value
+            .trim()
+            .toUpperCase();
 
     result.className = "result";
+    result.innerHTML = "";
 
     if (!input) {
 
         result.innerHTML = `
             ⚠️<br>
-            Veuillez saisir un identifiant.
-        `;
-
-        result.classList.add("used");
-
-        return;
-    }
-
-
-    const ticket = testTickets[input];
-
-
-    if (!ticket) {
-
-        result.innerHTML = `
-            ❌<br>
             <div class="status">
-                TICKET INVALIDE
+                IDENTIFIANT MANQUANT
             </div>
 
             <div class="ticket-id">
-                ${input}
+                Veuillez saisir ou scanner le billet.
             </div>
         `;
 
@@ -240,48 +238,186 @@ function checkTicket() {
     }
 
 
-    if (ticket.used) {
+    button.disabled = true;
+    button.textContent = "VÉRIFICATION...";
 
+
+    try {
+
+        const { data, error } =
+            await supabaseClient.rpc(
+                "redeem_ticket",
+                {
+                    p_ticket_code: input
+                }
+            );
+
+
+        if (error) {
+
+            console.error(error);
+
+            result.innerHTML = `
+                ⚠️<br>
+
+                <div class="status">
+                    ERREUR
+                </div>
+
+                <div class="ticket-id">
+                    Impossible de contacter le serveur.
+                </div>
+            `;
+
+            result.classList.add("used");
+
+            return;
+        }
+
+
+        /*
+         * Aucun résultat = ticket inexistant
+         */
+        if (!data || data.length === 0) {
+
+            result.innerHTML = `
+                ❌<br>
+
+                <div class="status">
+                    TICKET INVALIDE
+                </div>
+
+                <div class="ticket-id">
+                    ${escapeHtml(input)}
+                </div>
+            `;
+
+            result.classList.add("used");
+
+            return;
+        }
+
+
+        const ticket = data[0];
+
+
+        /*
+         * Ticket déjà utilisé
+         */
+        if (ticket.status === "ALREADY_USED") {
+
+            result.innerHTML = `
+                🚫<br>
+
+                <div class="status">
+                    DÉJÀ UTILISÉ
+                </div>
+
+                <div class="ticket-id">
+                    ${escapeHtml(ticket.ticket_code)}
+                </div>
+
+                <div style="margin-top:12px;">
+                    BEREITS EINGELÖST
+                </div>
+            `;
+
+            result.classList.add("used");
+
+            return;
+        }
+
+
+        /*
+         * Ticket erfolgreich eingelöst
+         */
+        if (ticket.status === "VALID") {
+
+            result.innerHTML = `
+                ✅<br>
+
+                <div class="status">
+                    TICKET VALIDE
+                </div>
+
+                <div class="ticket-id">
+                    ${escapeHtml(ticket.ticket_code)}
+                </div>
+
+                <div style="margin-top:12px;">
+                    EINGELÖST
+                </div>
+
+                <div style="margin-top:8px; font-size:12px; opacity:0.75;">
+                    ${escapeHtml(ticket.ticket_type)}
+                </div>
+            `;
+
+            result.classList.add("valid");
+
+            return;
+        }
+
+
+        /*
+         * Unerwarteter Status
+         */
         result.innerHTML = `
-            🚫<br>
+            ⚠️<br>
 
             <div class="status">
-                DÉJÀ UTILISÉ
+                STATUT INCONNU
+            </div>
+        `;
+
+        result.classList.add("used");
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        result.innerHTML = `
+            ⚠️<br>
+
+            <div class="status">
+                ERREUR DE CONNEXION
             </div>
 
             <div class="ticket-id">
-                ${input}
+                Vérifiez votre connexion Internet.
             </div>
         `;
 
         result.classList.add("used");
 
-        return;
     }
 
+    finally {
 
-    ticket.used = true;
+        button.disabled = false;
+        button.textContent = "VÉRIFIER LE TICKET";
 
-
-    result.innerHTML = `
-        ✅<br>
-
-        <div class="status">
-            TICKET VALIDE
-        </div>
-
-        <div class="ticket-id">
-            ${input}
-        </div>
-
-        <div style="margin-top:12px;">
-            EINGELÖST
-        </div>
-    `;
-
-    result.classList.add("valid");
+    }
 
 }
+
+
+/*
+ * Schutz gegen HTML-Injection
+ */
+function escapeHtml(value) {
+
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
 
 </script>
 
