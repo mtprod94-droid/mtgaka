@@ -5614,3 +5614,66 @@ body.menu-is-open .menu-open::after {
         scroll-behavior: auto;
     }
 }
+/* =========================================
+   CHALLENGE DAY — REGISTRATION BUTTONS
+   ========================================= */
+
+.challenge-registration-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    margin-top: 25px;
+}
+
+.challenge-registration-buttons .challenge-contact-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: 100%;
+    min-width: 0;
+    padding: 18px 20px;
+    border: 1px solid rgba(201, 169, 110, 0.55);
+    background: rgba(201, 169, 110, 0.06);
+    color: #c9a96e;
+    text-decoration: none;
+    transition:
+        background 0.25s ease,
+        border-color 0.25s ease;
+}
+
+.challenge-registration-buttons .challenge-contact-button:hover {
+    background: rgba(201, 169, 110, 0.14);
+    border-color: #c9a96e;
+}
+
+.challenge-registration-buttons .challenge-contact-button > span:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.challenge-registration-buttons .challenge-contact-button strong {
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.challenge-registration-buttons .challenge-contact-button small {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.challenge-registration-buttons .challenge-contact-button > span:last-child {
+    flex-shrink: 0;
+    font-size: 18px;
+}
+
+@media (min-width: 700px) {
+    .challenge-registration-buttons {
+        max-width: 600px;
+    }
+}
