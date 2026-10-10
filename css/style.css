@@ -5342,3 +5342,275 @@ body.menu-is-open .menu-open::after {
         font-size: 0.82rem;
     }
 }
+/* ==========================================
+   MT.GAKA — REWARDS SECTION REFINEMENT
+   Mobile-first luxury layout
+   ========================================== */
+
+.challenge-prizes {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 65px 18px;
+    overflow: hidden;
+    background: #080808;
+    color: #f5f0e7;
+}
+
+.challenge-prizes *,
+.challenge-prizes *::before,
+.challenge-prizes *::after {
+    box-sizing: border-box;
+}
+
+.challenge-prizes .prizes-heading {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto 45px;
+    text-align: left;
+}
+
+.challenge-prizes .challenge-eyebrow {
+    margin-bottom: 14px;
+    color: #c9a96e;
+    font-size: 10px;
+    letter-spacing: 2.5px;
+    line-height: 1.7;
+}
+
+.challenge-prizes .challenge-section-heading {
+    margin: 0;
+    font-size: clamp(34px, 9vw, 52px);
+    line-height: 1.08;
+    font-weight: 400;
+    letter-spacing: -1px;
+}
+
+.challenge-prizes .challenge-section-heading em {
+    color: #c9a96e;
+}
+
+.challenge-prizes .prizes-intro {
+    max-width: 440px;
+    margin: 18px 0 0;
+    color: #aaa49a;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.challenge-prizes .prize-category {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto 48px;
+}
+
+.challenge-prizes .prize-category-heading {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid rgba(201, 169, 110, 0.3);
+}
+
+.challenge-prizes .prize-category-number {
+    display: flex;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #c9a96e;
+    border-radius: 50%;
+    color: #c9a96e;
+    font-size: 14px;
+}
+
+.challenge-prizes .prize-category-heading > div {
+    min-width: 0;
+}
+
+.challenge-prizes .prize-category-heading h3 {
+    margin: 4px 0 0;
+    color: #f5f0e7;
+    font-size: clamp(19px, 5vw, 27px);
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.challenge-prizes .prize-list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+}
+
+.challenge-prizes .prize-card {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 16px;
+    width: 100%;
+    min-width: 0;
+    padding: 22px 16px;
+    border: 1px solid rgba(201, 169, 110, 0.25);
+    background: linear-gradient(
+        145deg,
+        rgba(201, 169, 110, 0.07),
+        rgba(255, 255, 255, 0.015)
+    );
+}
+
+.challenge-prizes .prize-first {
+    border-color: rgba(201, 169, 110, 0.75);
+    background: linear-gradient(
+        145deg,
+        rgba(201, 169, 110, 0.13),
+        rgba(255, 255, 255, 0.015)
+    );
+}
+
+.challenge-prizes .prize-position {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-width: 0;
+    padding-right: 12px;
+    border-right: 1px solid rgba(201, 169, 110, 0.3);
+    text-align: center;
+}
+
+.challenge-prizes .prize-position span {
+    color: #c9a96e;
+    font-family: Georgia, serif;
+    font-size: 34px;
+    line-height: 1;
+}
+
+.challenge-prizes .prize-position small {
+    color: #aaa49a;
+    font-size: 8px;
+    line-height: 1.6;
+    letter-spacing: 1px;
+}
+
+.challenge-prizes .prize-details {
+    min-width: 0;
+}
+
+.challenge-prizes .prize-details h4 {
+    margin: 0 0 14px;
+    color: #f5f0e7;
+    font-size: 17px;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.challenge-prizes .prize-details ul {
+    margin: 0;
+    padding-left: 17px;
+    color: #c5bfb4;
+    font-size: 13px;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+}
+
+.challenge-prizes .prize-details li::marker {
+    color: #c9a96e;
+}
+
+.challenge-prizes .prize-details .prize-money {
+    margin-top: 8px;
+    color: #c9a96e;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.challenge-prizes .music-prize-category {
+    margin-top: 58px;
+}
+
+.challenge-prizes .music-prize-card {
+    max-width: 680px;
+}
+
+.challenge-prizes .prize-note {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(201, 169, 110, 0.2);
+    color: #aaa49a;
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.challenge-prizes .prizes-footer {
+    max-width: 1000px;
+    margin: 55px auto 0;
+    padding-top: 25px;
+    border-top: 1px solid rgba(201, 169, 110, 0.25);
+    text-align: left;
+}
+
+.challenge-prizes .prizes-footer span {
+    color: #c9a96e;
+    font-size: 18px;
+    letter-spacing: 4px;
+}
+
+.challenge-prizes .prizes-footer p {
+    margin: 12px 0 0;
+    color: #aaa49a;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* TABLETTE UND DESKTOP */
+
+@media (min-width: 760px) {
+    .challenge-prizes {
+        padding: 100px 35px;
+    }
+
+    .challenge-prizes .prizes-heading {
+        margin-bottom: 65px;
+    }
+
+    .challenge-prizes .prize-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        align-items: stretch;
+    }
+
+    .challenge-prizes .prize-card {
+        grid-template-columns: minmax(0, 1fr);
+        align-content: start;
+        padding: 25px 20px;
+    }
+
+    .challenge-prizes .prize-position {
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 0 0 16px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(201, 169, 110, 0.3);
+        text-align: left;
+    }
+
+    .challenge-prizes .music-prize-card {
+        grid-template-columns: 100px minmax(0, 1fr);
+    }
+
+    .challenge-prizes .music-prize-card .prize-position {
+        align-items: center;
+        justify-content: center;
+        padding: 0 12px 0 0;
+        border-right: 1px solid rgba(201, 169, 110, 0.3);
+        border-bottom: 0;
+        text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .challenge-prizes * {
+        scroll-behavior: auto;
+    }
+}
