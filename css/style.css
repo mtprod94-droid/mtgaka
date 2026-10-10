@@ -5892,3 +5892,8 @@ padding: 30px 45px;
         font-size: 0.7rem;
     }
 }
+@media (max-width: 699px) {
+.site-header .header-action {
+display: none;
+}
+}
