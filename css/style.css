@@ -983,12 +983,12 @@ body.menu-is-open .menu-open::after {
 @media (min-width: 700px) {
 
     .site-header {
-        padding: 25px 35px;
-    }
+padding: 25px 35px;
+}
 
-    .site-header.header-scrolled {
-        padding: 15px 35px;
-    }
+.site-header.header-scrolled {
+    padding: 25px 35px;
+}
 
     .main-navigation {
         display: block;
@@ -1048,12 +1048,12 @@ body.menu-is-open .menu-open::after {
 @media (min-width: 1000px) {
 
     .site-header {
-        padding: 30px 45px;
-    }
+padding: 30px 45px;
+}
 
-    .site-header.header-scrolled {
-        padding: 17px 45px;
-    }
+.site-header.header-scrolled {
+    padding: 30px 45px;
+}
 
     .hero-section {
         padding-left: 45px;
