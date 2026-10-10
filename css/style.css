@@ -4903,3 +4903,148 @@ body.menu-is-open .menu-open::after {
     }
 
 }
+/* =========================================================
+   MT.GAKA — CHALLENGE DAY PRICING
+   ========================================================= */
+
+.challenge-pricing {
+    margin: 65px 0;
+    padding: 45px 0;
+    border-top: 1px solid rgba(201, 169, 110, 0.2);
+}
+
+.pricing-heading {
+    max-width: 650px;
+    margin-bottom: 40px;
+}
+
+.pricing-description {
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.9rem;
+    line-height: 1.9;
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.pricing-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    padding: 30px;
+    border: 1px solid rgba(201, 169, 110, 0.22);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(201, 169, 110, 0.07),
+            rgba(255, 255, 255, 0.01) 65%
+        );
+    transition:
+        border-color 0.3s ease,
+        transform 0.3s ease,
+        background 0.3s ease;
+}
+
+.pricing-card:hover {
+    border-color: rgba(201, 169, 110, 0.65);
+    transform: translateY(-4px);
+}
+
+.pricing-category {
+    color: #c9a96e;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+}
+
+.pricing-card h3 {
+    margin: 25px 0 12px;
+    color: #f5f1e9;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.pricing-amount {
+    color: #c9a96e;
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.1;
+    white-space: nowrap;
+}
+
+.pricing-amount span {
+    font-family: inherit;
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+}
+
+.pricing-card > p {
+    flex-grow: 1;
+    margin: 22px 0 28px;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.82rem;
+    line-height: 1.9;
+}
+
+.pricing-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    width: 100%;
+    padding: 15px 16px;
+    border: 1px solid rgba(201, 169, 110, 0.55);
+    color: #c9a96e;
+    font-size: 0.68rem;
+    letter-spacing: 0.07em;
+    text-decoration: none;
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+.pricing-button:hover {
+    background: #c9a96e;
+    color: #080808;
+}
+
+.pricing-vip {
+    border-color: rgba(201, 169, 110, 0.6);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(201, 169, 110, 0.14),
+            rgba(201, 169, 110, 0.025)
+        );
+}
+
+@media (max-width: 520px) {
+
+    .challenge-pricing {
+        margin: 45px 0;
+        padding: 35px 0;
+    }
+
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .pricing-card {
+        padding: 25px 22px;
+    }
+
+    .pricing-card h3 {
+        font-size: 1.8rem;
+    }
+
+    .pricing-amount {
+        font-size: 2.7rem;
+    }
+
+}
