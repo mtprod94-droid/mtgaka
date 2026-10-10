@@ -5933,3 +5933,103 @@ font-size: 12px;
 letter-spacing: 5px;
 text-transform: uppercase;
 }
+/* =========================================================
+MT.GAKA — TICKET SECTION
+========================================================= */
+
+.tickets-section {
+display: block;
+position: relative;
+width: 100%;
+padding: 80px 20px;
+background: #0d0d0d;
+border-top: 1px solid rgba(199, 161, 90, 0.25);
+border-bottom: 1px solid rgba(199, 161, 90, 0.25);
+}
+
+.tickets-inner {
+width: min(100%, 900px);
+margin: 0 auto;
+text-align: center;
+}
+
+.tickets-section .section-eyebrow {
+color: #c7a15a;
+font-size: 10px;
+letter-spacing: 0.25em;
+margin-bottom: 18px;
+}
+
+.tickets-section h2 {
+color: #f5f1e9;
+font-family: “Cormorant Garamond”, Georgia, serif;
+font-size: clamp(36px, 9vw, 64px);
+font-weight: 500;
+margin-bottom: 20px;
+}
+
+.tickets-description {
+max-width: 600px;
+margin: 0 auto 35px;
+color: #96928a;
+font-size: 13px;
+line-height: 1.9;
+}
+
+.tickets-options {
+display: grid;
+grid-template-columns: 1fr;
+gap: 16px;
+max-width: 650px;
+margin: 0 auto 30px;
+}
+
+.ticket-option {
+padding: 30px 20px;
+border: 1px solid rgba(199, 161, 90, 0.3);
+background: #070707;
+}
+
+.ticket-option-vip {
+border-color: #c7a15a;
+}
+
+.ticket-type {
+display: block;
+color: #c7a15a;
+font-size: 10px;
+letter-spacing: 0.2em;
+margin-bottom: 15px;
+}
+
+.ticket-option strong {
+display: block;
+color: #f5f1e9;
+font-size: 28px;
+margin-bottom: 12px;
+}
+
+.ticket-option > span:last-child {
+color: #96928a;
+font-size: 12px;
+}
+
+.tickets-note {
+color: #c7a15a;
+font-size: 11px;
+line-height: 1.8;
+margin-bottom: 25px;
+}
+
+.tickets-button-disabled {
+color: #080808;
+background: #c7a15a;
+opacity: 0.8;
+cursor: not-allowed;
+}
+
+@media (min-width: 600px) {
+.tickets-options {
+grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+}
