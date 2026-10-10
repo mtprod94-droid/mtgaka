@@ -5903,3 +5903,33 @@ display: none;
     content: none !important;
     display: none !important;
 }
+/* MT.GAKA – Platzhalter für Teamfotos */
+.team-photo-placeholder {
+position: relative;
+width: 100%;
+aspect-ratio: 4 / 5;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 24px;
+overflow: hidden;
+background: linear-gradient(145deg, #171717, #080808 70%);
+border: 1px solid rgba(201, 169, 110, 0.45);
+box-sizing: border-box;
+}
+
+.team-photo-placeholder::before {
+content: “”;
+position: absolute;
+inset: 10px;
+border: 1px solid rgba(201, 169, 110, 0.2);
+pointer-events: none;
+}
+
+.team-photo-placeholder span {
+position: relative;
+color: #c9a96e;
+font-size: 12px;
+letter-spacing: 5px;
+text-transform: uppercase;
+}
