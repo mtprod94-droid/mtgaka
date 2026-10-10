@@ -409,26 +409,31 @@ body.menu-is-open .main-navigation a {
 
 
 /* X ANIMATION */
-/* MENU BUTTON — POSITION FIXE */
+/* MENU BUTTON — STABLE POSITION */
+
+body.menu-is-open .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 22px 20px;
+}
+
+body.menu-is-open .header-inner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
 body.menu-is-open .menu-open {
     position: fixed;
     top: 22px;
     right: 20px;
+    margin: 0;
+    flex-shrink: 0;
     z-index: 1002;
-    margin-left: 0;
-}
-
-body.menu-is-open .menu-open span {
-    opacity: 0;
-}
-
-body.menu-is-open .menu-open::before {
-    transform: translateY(6px) rotate(45deg);
-}
-
-body.menu-is-open .menu-open::after {
-    transform: translateY(-6px) rotate(-45deg);
 }
 
 
