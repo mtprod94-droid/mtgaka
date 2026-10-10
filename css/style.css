@@ -5677,3 +5677,122 @@ body.menu-is-open .menu-open::after {
         max-width: 600px;
     }
 }
+/* ========================================
+   MT.GAKA – ÉQUIPE
+======================================== */
+
+.team-hero {
+    text-align: center;
+    padding: 90px 20px 45px;
+    position: relative;
+}
+
+.team-hero h1 {
+    color: #d4af37;
+    font-size: clamp(2.2rem, 8vw, 4rem);
+    letter-spacing: 2px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+
+.team-hero p {
+    color: #d6d0c3;
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+.team-section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 35px 20px 75px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 22px;
+}
+
+.team-card {
+    background: linear-gradient(
+        145deg,
+        rgba(28, 25, 19, 0.95),
+        rgba(10, 10, 10, 0.98)
+    );
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 14px;
+    padding: 28px 22px;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-5px);
+    border-color: #d4af37;
+}
+
+.team-card h2 {
+    color: #f0d27a;
+    font-size: 1.25rem;
+    margin: 12px 0;
+}
+
+.team-card p {
+    color: #c8c2b6;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.team-card .team-role {
+    color: #d4af37;
+    font-size: 0.78rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.team-values {
+    text-align: center;
+    padding: 35px 20px;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.team-values h2 {
+    color: #d4af37;
+    margin-bottom: 18px;
+}
+
+.team-values p {
+    color: #d6d0c3;
+    line-height: 1.9;
+}
+
+.team-contact {
+    text-align: center;
+    padding: 55px 20px 75px;
+}
+
+.team-contact h2 {
+    color: #d4af37;
+    margin-bottom: 15px;
+}
+
+.team-contact p {
+    color: #d6d0c3;
+    line-height: 1.8;
+    margin-bottom: 25px;
+}
+
+@media (min-width: 650px) {
+    .team-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 950px) {
+    .team-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
