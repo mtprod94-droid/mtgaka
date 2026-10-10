@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription | MT.GAKA CHALLENGE DAY 2026</title>
+    <meta name="description" content="Inscription officielle des challengers et artistes pour MT.GAKA CHALLENGE DAY 2026.">
+    <style>
+        :root {
+            --gold: #c9a96e;
+            --black: #080808;
+            --panel: #141414;
+            --text: #f5f0e7;
+            --muted: #b7b1a7;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            padding: 24px 14px 40px;
+            background:
+                radial-gradient(ellipse at top, #292014 0%, #101010 40%, var(--black) 75%);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+        }
+        .header-inner {
+            max-width: 760px;
+            margin: 0 auto 28px;
+            text-align: center;
+        }
+        .brand {
+            color: var(--gold);
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+        .subtitle {
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .form-card {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 28px 22px;
+            border: 1px solid rgba(201, 169, 110, 0.5);
+            border-radius: 16px;
+            background: rgba(20, 20, 20, 0.96);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4);
+        }
+        h1 {
+            margin: 0 0 12px;
+            color: var(--gold);
+            text-align: center;
+            font-size: clamp(25px, 6vw, 36px);
+        }
+        .intro {
+            color: var(--muted);
+            line-height: 1.7;
+            text-align: center;
+            margin: 0 0 28px;
+        }
+        .event-info {
+            padding: 15px;
+            margin-bottom: 25px;
+            border-left: 3px solid var(--gold);
+            background: #1d1a15;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+        .field {
+            margin-bottom: 19px;
+        }
+        label,
+        .field-title {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        input,
+        select,
+        textarea {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #45413a;
+            border-radius: 8px;
+            background: #0b0b0b;
+            color: #fff;
+            font: inherit;
+            font-size: 16px;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid var(--gold);
+            outline-offset: 1px;
+        }
+        select option {
+            background: #111;
+        }
+        .hint {
+            display: block;
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .fee-box {
+            padding: 18px;
+            margin: 24px 0;
+            border: 1px solid var(--gold);
+            border-radius: 10px;
+            text-align: center;
+            background: #211b10;
+        }
+        .fee-label {
+            display: block;
+            color: var(--muted);
+            margin-bottom: 8px;
+        }
+        .fee-amount {
+            color: var(--gold);
+            font-size: 28px;
+            font-weight: 900;
+        }
+        .agreement {
+            margin: 24px 0;
+            padding: 18px;
+            border: 1px solid #4a4030;
+            border-radius: 10px;
+            background: #19150f;
+        }
+        .checkbox-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+        .checkbox-row input {
+            width: 20px;
+            height: 20px;
+            flex: 0 0 20px;
+            margin-top: 3px;
+            accent-color: var(--gold);
+        }
+        .important {
+            color: var(--gold);
+            font-weight: 700;
+        }
+        button {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 8px;
+            background: var(--gold);
+            color: #080808;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        .back-link {
+            display: block;
+            margin-top: 22px;
+            color: var(--gold);
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            max-width: 760px;
+            margin: 28px auto 0;
+            color: #89847c;
+            text-align: center;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+        [hidden] {
+            display: none !important;
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 18px 10px 30px;
+            }
+            .form-card {
+                padding: 23px 16px;
+            }
+            .brand {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header-inner">
+        <div class="brand">MT.GAKA</div>
+        <div class="subtitle">Sport • Musique • Talents • Amitié</div>
+    </header>
+    <main class="form-card">
+        <h1>Inscription officielle</h1>
+        <p class="intro">
+            MT.GAKA CHALLENGE DAY 2026<br>
+            Remplissez le formulaire avec des informations exactes.
+        </p>
+        <div class="event-info">
+            <strong>📅 Date :</strong> 24 décembre 2026<br>
+            <strong>📍 Lieu :</strong> Akow Mepingan, Agoè-Amaranta<br>
+            <strong>🕓 Accueil :</strong> 16h00<br>
+            <strong>🎤 Début des activités :</strong> 18h00
+        </div>
+        <form action="https://formspree.io/f/mppqryqk" method="POST">
+            <input type="hidden" name="_subject" value="Nouvelle inscription - MT.GAKA CHALLENGE DAY 2026">
+            <div class="field">
+                <label for="category">Catégorie de participation *</label>
+                <select id="category" name="Catégorie" required>
+                    <option value="">-- Choisissez votre catégorie --</option>
+                    <option value="Challenger">Challenger</option>
+                    <option value="Artiste">Artiste</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="fullname">Nom et prénom(s) *</label>
+                <input
+                    type="text"
+                    id="fullname"
+                    name="Nom et prénom(s)"
+                    autocomplete="name"
+                    required
+                >
+            </div>
+            <div class="field" id="stage-name-field" hidden>
+                <label for="stage-name">Nom d'artiste *</label>
+                <input
+                    type="text"
+                    id="stage-name"
+                    name="Nom d'artiste"
+                    disabled
+                >
+            </div>
+            <div class="field">
+                <label for="age">Âge *</label>
+                <input
+                    type="number"
+                    id="age"
+                    name="Âge"
+                    min="1"
+                    max="100"
+                    required
+                >
+            </div>
+            <div class="field">
+                <label for="phone">Numéro de téléphone / WhatsApp *</label>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="Téléphone / WhatsApp"
+                    placeholder="+228 ..."
+                    autocomplete="tel"
+                    required
+                >
+            </div>
+            <div class="field">
+                <label for="city">Ville / Quartier *</label>
+                <input
+                    type="text"
+                    id="city"
+                    name="Ville / Quartier"
+                    required
+                >
+            </div>
+            <div class="field">
+                <label for="email">Adresse e-mail (facultatif)</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="E-mail"
+                    autocomplete="email"
+                >
+            </div>
+            <div class="field">
+                <label for="notes">Informations complémentaires (facultatif)</label>
+                <textarea
+                    id="notes"
+                    name="Informations complémentaires"
+                    rows="3"
+                    placeholder="Ajoutez ici toute information utile."
+                ></textarea>
+            </div>
+            <div class="fee-box" aria-live="polite">
+                <span class="fee-label">Frais d'inscription</span>
+                <span class="fee-amount" id="fee-amount">À déterminer</span>
+                <span class="hint" id="fee-description">
+                    Sélectionnez une catégorie pour afficher les frais.
+                </span>
+            </div>
+            <div class="agreement">
+                <div class="field-title">Engagement obligatoire *</div>
+                <label class="checkbox-row" for="payment-agreement">
+                    <input
+                        type="checkbox"
+                        id="payment-agreement"
+                        name="Engagement de paiement"
+                        value="J'accepte les frais d'inscription correspondant à ma catégorie et m'engage à les payer."
+                        required
+                    >
+                    <span id="agreement-text">
+                        Je confirme avoir lu les conditions d'inscription et je m'engage à payer les frais correspondant à ma catégorie après l'envoi du formulaire.
+                    </span>
+                </label>
+                <span class="hint">
+                    En cochant cette case et en envoyant le formulaire, vous confirmez votre engagement à régler les frais d'inscription applicables.
+                    <span class="important">L'envoi du formulaire ne réalise pas le paiement automatiquement.</span>
+                </span>
+            </div>
+            <button type="submit">ENVOYER MON INSCRIPTION</button>
+        </form>
+        <a class="back-link" href="challenge-day.html">
+            ← Retour à MT.GAKA CHALLENGE DAY
+        </a>
+    </main>
+    <footer class="footer">
+        MT.GAKA — Créer des moments, révéler des talents.<br>
+        © 2026 MT.GAKA. Tous droits réservés.
+    </footer>
+    <script>
+        const category = document.getElementById("category");
+        const feeAmount = document.getElementById("fee-amount");
+        const feeDescription = document.getElementById("fee-description");
+        const stageNameField = document.getElementById("stage-name-field");
+        const stageName = document.getElementById("stage-name");
+        const agreementText = document.getElementById("agreement-text");
+        function updateCategoryFields() {
+            if (category.value === "Challenger") {
+                feeAmount.textContent = "5 000 FCFA";
+                feeDescription.textContent =
+                    "Frais d'inscription pour les challengers.";
+                stageNameField.hidden = true;
+                stageName.disabled = true;
+                stageName.required = false;
+                agreementText.textContent =
+                    "Je confirme mon inscription en tant que Challenger et m'engage à payer les frais d'inscription de 5 000 FCFA après l'envoi du formulaire.";
+            } else if (category.value === "Artiste") {
+                feeAmount.textContent = "2 000 FCFA";
+                feeDescription.textContent =
+                    "Frais d'inscription pour les artistes.";
+                stageNameField.hidden = false;
+                stageName.disabled = false;
+                stageName.required = true;
+                agreementText.textContent =
+                    "Je confirme mon inscription en tant qu'Artiste et m'engage à payer les frais d'inscription de 2 000 FCFA après l'envoi du formulaire.";
+            } else {
+                feeAmount.textContent = "À déterminer";
+                feeDescription.textContent =
+                    "Sélectionnez une catégorie pour afficher les frais.";
+                stageNameField.hidden = true;
+                stageName.disabled = true;
+                stageName.required = false;
+                agreementText.textContent =
+                    "Je confirme avoir lu les conditions d'inscription et je m'engage à payer les frais correspondant à ma catégorie après l'envoi du formulaire.";
+            }
+        }
+        category.addEventListener("change", updateCategoryFields);
+        updateCategoryFields();
+    </script>
+</body>
+</html>
