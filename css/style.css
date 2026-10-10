@@ -5897,3 +5897,9 @@ padding: 30px 45px;
 display: none;
 }
 }
+/* MT.GAKA – kleine Pfeile neben Buttons entfernen */
+.primary-button::after,
+.header-action::after {
+    content: none !important;
+    display: none !important;
+}
