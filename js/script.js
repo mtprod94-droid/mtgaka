@@ -107,3 +107,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
+/* ========================================
+   MT.GAKA — COMPTE À REBOURS
+======================================== */
+document.addEventListener("DOMContentLoaded", function () {
+    const countdown = document.getElementById("gaka-countdown");
+    if (!countdown) return;
+    const daysElement = document.getElementById("countdown-days");
+    const hoursElement = document.getElementById("countdown-hours");
+    const minutesElement = document.getElementById("countdown-minutes");
+    const secondsElement = document.getElementById("countdown-seconds");
+    // 24 décembre 2026 à 18h00 au Togo (UTC+0)
+    const eventDate = Date.UTC(2026, 11, 24, 18, 0, 0);
+    function updateCountdown() {
+        const now = Date.now();
+        const difference = eventDate - now;
+        if (difference <= 0) {
+            countdown.innerHTML =
+                '<p class="countdown-heading">LE GRAND JOUR EST ARRIVÉ !</p>' +
+                '<p class="countdown-footer">MT.GAKA CHALLENGE DAY · 24.12.2026</p>';
+            return;
+        }
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+            (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+            (difference % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor(
+            (difference % (1000 * 60)) / 1000
+        );
+        daysElement.textContent = String(days).padStart(3, "0");
+        hoursElement.textContent = String(hours).padStart(2, "0");
+        minutesElement.textContent = String(minutes).padStart(2, "0");
+        secondsElement.textContent = String(seconds).padStart(2, "0");
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+});
