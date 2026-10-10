@@ -409,6 +409,15 @@ body.menu-is-open .main-navigation a {
 
 
 /* X ANIMATION */
+/* MENU BUTTON — POSITION FIXE */
+
+body.menu-is-open .menu-open {
+    position: fixed;
+    top: 22px;
+    right: 20px;
+    z-index: 1002;
+    margin-left: 0;
+}
 
 body.menu-is-open .menu-open span {
     opacity: 0;
