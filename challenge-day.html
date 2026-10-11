@@ -595,7 +595,49 @@
         </div>
     </div>
 </section>
+<!-- PRIX MT.GAKA CHALLENGE DAY -->
+<section class="prizes-section">
+    <h2>🏆 LES RÉCOMPENSES</h2>
 
+    <p class="prizes-intro">
+        Relève le défi, montre ton talent et repars avec ta récompense !
+    </p>
+
+    <div class="prizes-container">
+
+        <div class="prize-card first-prize">
+            <div class="prize-icon">🥇</div>
+            <h3>1er PRIX</h3>
+            <div class="prize-amount">30 000 FCFA</div>
+            <ul>
+                <li>Trophée en forme d’étoile</li>
+                <li>Médaille</li>
+                <li>Maillot MT.GAKA</li>
+            </ul>
+        </div>
+
+        <div class="prize-card second-prize">
+            <div class="prize-icon">🥈</div>
+            <h3>2e PRIX</h3>
+            <div class="prize-amount">15 000 FCFA</div>
+            <ul>
+                <li>Médaille</li>
+                <li>Maillot MT.GAKA</li>
+            </ul>
+        </div>
+
+        <div class="prize-card third-prize">
+            <div class="prize-icon">🥉</div>
+            <h3>3e PRIX</h3>
+            <div class="prize-amount">5 000 FCFA</div>
+            <ul>
+                <li>Médaille</li>
+                <li>Maillot MT.GAKA</li>
+            </ul>
+        </div>
+
+    </div>
+</section>
 <style>
 .countdown-section {
     text-align: center;
@@ -655,6 +697,101 @@
 
     .countdown-box small {
         font-size: 8px;
+    }
+}
+/* MT.GAKA PRIZES */
+.prizes-section {
+    padding: 35px 15px;
+    margin: 30px 0;
+    text-align: center;
+    background: #080808;
+    color: #ffffff;
+    border: 1px solid #c9a96e;
+    border-radius: 12px;
+}
+
+.prizes-section h2 {
+    color: #c9a96e;
+    font-size: 25px;
+    margin-bottom: 12px;
+}
+
+.prizes-intro {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.prizes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.prize-card {
+    background: #111111;
+    border: 1px solid #c9a96e;
+    border-radius: 12px;
+    padding: 25px 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prize-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(201, 169, 110, 0.18);
+}
+
+.first-prize {
+    border: 2px solid #c9a96e;
+}
+
+.prize-icon {
+    font-size: 38px;
+    margin-bottom: 10px;
+}
+
+.prize-card h3 {
+    color: #c9a96e;
+    font-size: 21px;
+    margin: 10px 0;
+}
+
+.prize-amount {
+    color: #c9a96e;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 18px 0;
+}
+
+.prize-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.prize-card li {
+    font-size: 14px;
+    line-height: 1.8;
+    padding: 4px 0;
+}
+
+@media (max-width: 480px) {
+    .prizes-section {
+        padding: 25px 10px;
+    }
+
+    .prizes-section h2 {
+        font-size: 21px;
+    }
+
+    .prizes-container {
+        grid-template-columns: 1fr;
+    }
+
+    .prize-card {
+        padding: 22px 12px;
     }
 }
 </style>
