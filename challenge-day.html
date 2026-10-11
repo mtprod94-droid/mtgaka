@@ -856,6 +856,159 @@
         grid-template-columns: 1fr 1fr;
     }
 }
+/* =================================
+   MT.GAKA – ARTISTES INVITÉS
+================================= */
+
+.artists-section {
+    padding: 35px 15px;
+    margin: 30px 0;
+    text-align: center;
+    background: #080808;
+    color: #ffffff;
+    border: 1px solid #c9a96e;
+    border-radius: 12px;
+}
+
+.artists-section h2 {
+    color: #c9a96e;
+    font-size: 26px;
+    margin-bottom: 12px;
+}
+
+.artists-intro {
+    color: #dddddd;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+/* LES DEUX ARTISTES INVITÉS */
+
+.guest-artists {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    max-width: 750px;
+    margin: 0 auto 35px;
+}
+
+.guest-artist-card {
+    background: #111111;
+    border: 2px solid #c9a96e;
+    border-radius: 12px;
+    padding: 12px;
+    overflow: hidden;
+}
+
+.artist-image-placeholder {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background: linear-gradient(145deg, #242424, #080808);
+    border: 1px dashed #c9a96e;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #c9a96e;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.guest-artist-card h3 {
+    color: #c9a96e;
+    font-size: 15px;
+    margin: 15px 0 8px;
+    overflow-wrap: anywhere;
+}
+
+.guest-artist-card p {
+    color: #ffffff;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+/* TITRE DES AUTRES ARTISTES */
+
+.artists-gallery-title {
+    color: #c9a96e;
+    font-size: 20px;
+    margin: 30px 0 20px;
+}
+
+/* LES 10 AUTRES EMPLACEMENTS */
+
+.artists-gallery {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.artist-placeholder {
+    aspect-ratio: 3 / 4;
+    min-width: 0;
+    background: linear-gradient(145deg, #222222, #080808);
+    border: 1px dashed #c9a96e;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    color: #c9a96e;
+    font-size: 10px;
+    font-weight: bold;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+
+/* EFFET AU SURVOL */
+
+.guest-artist-card,
+.artist-placeholder {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.guest-artist-card:hover,
+.artist-placeholder:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(201, 169, 110, 0.2);
+}
+
+/* ADAPTATION MOBILE */
+
+@media (max-width: 480px) {
+    .artists-section {
+        padding: 25px 8px;
+    }
+
+    .artists-section h2 {
+        font-size: 22px;
+    }
+
+    .guest-artists {
+        gap: 8px;
+    }
+
+    .guest-artist-card {
+        padding: 7px;
+    }
+
+    .guest-artist-card h3 {
+        font-size: 12px;
+    }
+
+    .artists-gallery {
+        gap: 5px;
+    }
+
+    .artist-placeholder {
+        font-size: 8px;
+        border-radius: 5px;
+    }
+}
 </style>
 
 <script>
