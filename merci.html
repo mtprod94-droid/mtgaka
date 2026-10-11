@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inscription confirmée | MT.GAKA</title>
+
+    <meta name="theme-color" content="#080808">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background:
+                radial-gradient(
+                    circle at top,
+                    rgba(201, 169, 110, 0.15),
+                    transparent 45%
+                ),
+                #080808;
+            color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .confirmation-card {
+            width: 100%;
+            max-width: 480px;
+            padding: 38px 24px;
+            border: 1px solid #c9a96e;
+            border-radius: 18px;
+            background: #111111;
+            box-shadow: 0 0 35px rgba(201, 169, 110, 0.12);
+        }
+
+        .checkmark {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 24px;
+            border: 2px solid #c9a96e;
+            border-radius: 50%;
+            color: #c9a96e;
+            font-size: 42px;
+        }
+
+        .brand {
+            margin-bottom: 12px;
+            color: #c9a96e;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 4px;
+        }
+
+        h1 {
+            margin-bottom: 18px;
+            font-size: 27px;
+            line-height: 1.3;
+        }
+
+        .description {
+            margin-bottom: 24px;
+            color: #cccccc;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .payment-notice {
+            margin-bottom: 26px;
+            padding: 18px;
+            border: 1px solid #393126;
+            border-radius: 10px;
+            background: #191713;
+            text-align: left;
+        }
+
+        .payment-notice h2 {
+            margin-bottom: 10px;
+            color: #c9a96e;
+            font-size: 16px;
+        }
+
+        .payment-notice p {
+            color: #dddddd;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .back-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            background: #c9a96e;
+            color: #080808;
+            font-size: 15px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .footer {
+            margin-top: 25px;
+            color: #777777;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="confirmation-card">
+
+        <div class="checkmark" aria-hidden="true">✓</div>
+
+        <div class="brand">MT.GAKA</div>
+
+        <h1>Merci pour votre inscription !</h1>
+
+        <p class="description">
+            Votre formulaire a été envoyé avec succès.
+            L’équipe MT.GAKA vous remercie pour votre participation
+            au CHALLENGE DAY 2026.
+        </p>
+
+        <section class="payment-notice">
+            <h2>Important — Frais d’inscription</h2>
+
+            <p>
+                Challenger : <strong>5 000 FCFA</strong><br>
+                Artiste : <strong>2 000 FCFA</strong>
+            </p>
+
+            <br>
+
+            <p>
+                Le paiement s’effectue directement auprès de l’équipe
+                MT.GAKA. L’envoi du formulaire ne signifie pas que
+                le paiement a déjà été effectué.
+            </p>
+        </section>
+
+        <a
+            class="back-button"
+            href="challenge-day.html"
+        >
+            Retour au CHALLENGE DAY
+        </a>
+
+        <div class="footer">
+            Sport • Musique • Talents • Amitié • Divertissement<br>
+            © 2026 MT.GAKA. Tous droits réservés.
+        </div>
+
+    </main>
+
+</body>
+</html>
