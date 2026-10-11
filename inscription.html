@@ -223,7 +223,7 @@
             <strong>🕓 Accueil :</strong> 16h00<br>
             <strong>🎤 Début des activités :</strong> 18h00
         </div>
-        <form action="https://formspree.io/f/mppqryqk" method="POST">
+        <form id="mtgaka-form" action="https://formspree.io/f/mppqryqk" method="POST">
             <input type="hidden" name="_subject" value="Nouvelle inscription - MT.GAKA CHALLENGE DAY 2026">
             <div class="field">
                 <label for="category">Catégorie de participation *</label>
@@ -387,5 +387,21 @@
         category.addEventListener("change", updateCategoryFields);
         updateCategoryFields();
     </script>
+        <script>
+        window.formspree =
+            window.formspree ||
+            function () {
+                (formspree.q = formspree.q || []).push(arguments);
+            };
+
+        formspree('initForm', {
+            formElement: '#mtgaka-form',
+            formId: 'mppqryqk',
+            onSuccess: function () {
+                window.location.href = 'merci.html';
+            }
+        });
+    </script>
+    <script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 </body>
 </html>
