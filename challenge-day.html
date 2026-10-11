@@ -564,7 +564,132 @@
     S’inscrire
 </a>
 </article>
+<!-- COMPTE À REBOURS MT.GAKA -->
+<section class="countdown-section">
+    <h2>LE GRAND JOUR APPROCHE</h2>
 
+    <p>
+        Le compte à rebours est lancé !
+        Rendez-vous le 24 décembre 2026 à 18h00.
+    </p>
+
+    <div class="countdown-container">
+        <div class="countdown-box">
+            <span id="cd-days">00</span>
+            <small>JOURS</small>
+        </div>
+
+        <div class="countdown-box">
+            <span id="cd-hours">00</span>
+            <small>HEURES</small>
+        </div>
+
+        <div class="countdown-box">
+            <span id="cd-minutes">00</span>
+            <small>MINUTES</small>
+        </div>
+
+        <div class="countdown-box">
+            <span id="cd-seconds">00</span>
+            <small>SECONDES</small>
+        </div>
+    </div>
+</section>
+
+<style>
+.countdown-section {
+    text-align: center;
+    padding: 35px 15px;
+    margin: 25px 0;
+    background: #080808;
+    border: 1px solid #c9a96e;
+    border-radius: 12px;
+    color: #fff;
+}
+
+.countdown-section h2 {
+    color: #c9a96e;
+    font-size: 22px;
+    margin-bottom: 12px;
+}
+
+.countdown-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+
+.countdown-container {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.countdown-box {
+    padding: 15px 3px;
+    background: #151515;
+    border: 1px solid #c9a96e;
+    border-radius: 8px;
+}
+
+.countdown-box span {
+    display: block;
+    color: #c9a96e;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.countdown-box small {
+    display: block;
+    color: #fff;
+    font-size: 9px;
+    margin-top: 8px;
+}
+
+@media (max-width: 360px) {
+    .countdown-box span {
+        font-size: 20px;
+    }
+
+    .countdown-box small {
+        font-size: 8px;
+    }
+}
+</style>
+
+<script>
+(function () {
+    const eventDate = new Date("2026-12-24T18:00:00Z").getTime();
+
+    function updateCountdown() {
+        const now = Date.now();
+        const distance = eventDate - now;
+
+        if (distance <= 0) {
+            document.querySelector(".countdown-container").innerHTML =
+                "<p style='color:#c9a96e;grid-column:1/-1'>C'EST LE GRAND JOUR !</p>";
+            return;
+        }
+
+        document.getElementById("cd-days").textContent =
+            Math.floor(distance / 86400000);
+
+        document.getElementById("cd-hours").textContent =
+            String(Math.floor((distance % 86400000) / 3600000)).padStart(2, "0");
+
+        document.getElementById("cd-minutes").textContent =
+            String(Math.floor((distance % 3600000) / 60000)).padStart(2, "0");
+
+        document.getElementById("cd-seconds").textContent =
+            String(Math.floor((distance % 60000) / 1000)).padStart(2, "0");
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+})();
+</script>
 
         <!-- ARTISTES -->
 
