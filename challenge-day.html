@@ -496,6 +496,29 @@
                         <span>02 · LIEU</span>
                         <strong>Akow Mepingan, Agoè-Amarenta</strong>
                     </div>
+                    
+                    <!-- MT.GAKA CONTACT BUTTONS -->
+<div class="challenge-contact-buttons">
+
+    <a
+        href="https://www.google.com/maps/search/?api=1&query=Akow+Mepingan+Agoe+Amarenta+Lome+Togo"
+        class="challenge-contact-button"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        📍 VOIR L’ITINÉRAIRE
+    </a>
+
+    <a
+        href="https://wa.me/22870539478?text=Bonjour%20MT.GAKA%2C%20je%20souhaite%20des%20informations%20sur%20le%20CHALLENGE%20DAY%20du%2024%20d%C3%A9cembre%202026."
+        class="challenge-contact-button whatsapp-button"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        💬 CONTACTER MT.GAKA
+    </a>
+
+</div>
 
                     <div class="challenge-info-card">
                         <span>03 · HORAIRES</span>
@@ -792,6 +815,45 @@
 
     .prize-card {
         padding: 22px 12px;
+    }
+}
+/* MT.GAKA CONTACT BUTTONS */
+.challenge-contact-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    max-width: 500px;
+    margin: 25px auto;
+    padding: 0 15px;
+}
+
+.challenge-contact-button {
+    display: block;
+    padding: 15px 12px;
+    background: #c9a96e;
+    color: #080808;
+    border: 1px solid #c9a96e;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: 0.3s ease;
+}
+
+.challenge-contact-button:hover {
+    background: #080808;
+    color: #c9a96e;
+}
+
+.whatsapp-button {
+    background: #080808;
+    color: #c9a96e;
+}
+
+@media (min-width: 600px) {
+    .challenge-contact-buttons {
+        grid-template-columns: 1fr 1fr;
     }
 }
 </style>
