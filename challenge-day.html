@@ -1424,54 +1424,86 @@ Demander un billet
     </div>
 
 </div>
-<!-- MT.GAKA Hintergrundmusik -->
-<audio id="mtgaka-music" autoplay loop preload="auto">
-<source src="MT.GAKA%20%E2%80%93%20HYMNE%20NOTRE%20E%CC%81NERGIE.mp3" type="audio/mpeg">
+<!-- MT.GAKA – MUSIQUE DE FOND -->
+<audio id="mtgaka-music" loop preload="auto">
+  <source src="MT.GAKA%20%E2%80%93%20HYMNE%20NOTRE%20E%CC%81NERGIE.mp3" type="audio/mpeg">
+  Votre navigateur ne prend pas en charge la lecture audio.
 </audio>
-
+<!-- BOUTON MUSIQUE -->
 <button
   id="music-toggle"
   type="button"
   aria-label="Activer ou mettre en pause la musique"
   title="Musique MT.GAKA"
-  style="position:fixed; right:16px; bottom:16px; z-index:9999; width:72px; height:72px; padding:5px; border:1px solid #f1d18a; border-radius:50%; background:linear-gradient(145deg,#e8c77e,#b58a3c); color:#080808; font-size:11px; line-height:1.2; font-weight:bold; box-shadow:0 0 15px rgba(201,169,110,0.4); cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; text-align:center;"
+  style="
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 99999;
+    width: 72px;
+    height: 72px;
+    padding: 5px;
+    border: 1px solid #f1d18a;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #e8c77e, #b58a3c);
+    color: #080808;
+    font-size: 11px;
+    line-height: 1.2;
+    font-weight: bold;
+    box-shadow: 0 0 15px rgba(201, 169, 110, 0.4);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-align: center;
+  "
 >
-  <span style="font-size:20px; line-height:1;">🎵</span>
+  <span id="music-icon" style="font-size: 20px; line-height: 1;">🎵</span>
   <span>MT.GAKA</span>
 </button>
+<script>
 (function () {
-const music = document.getElementById('mtgaka-music');
-const button = document.getElementById('music-toggle');
-const icon = button.querySelector('span:first-child');
-music.volume = 0.35;
-function updateButton() {
+  const music = document.getElementById('mtgaka-music');
+  const button = document.getElementById('music-toggle');
+  const icon = document.getElementById('music-icon');
+  if (!music || !button || !icon) {
+    return;
+  }
+  music.volume = 0.35;
+  function updateButton() {
     if (music.paused) {
-        icon.textContent = '🎵';
-        button.title = 'Musique MT.GAKA – démarrer';
+      icon.textContent = '🎵';
+      button.title = 'Musique MT.GAKA - démarrer';
+      button.setAttribute('aria-label', 'Activer la musique MT.GAKA');
     } else {
-        icon.textContent = '⏸';
-        button.title = 'Musique MT.GAKA – pause';
+      icon.textContent = '⏸';
+      button.title = 'Musique MT.GAKA - pause';
+      button.setAttribute('aria-label', 'Mettre en pause la musique MT.GAKA');
     }
-}
-button.addEventListener('click', async function () {
+  }
+  button.addEventListener('click', async function () {
     if (music.paused) {
-        try {
-            await music.play();
-        } catch (error) {
-            console.error('Lecture audio impossible :', error);
-        }
+      try {
+        await music.play();
+      } catch (error) {
+        console.error('Lecture audio impossible :', error);
+      }
     } else {
-        music.pause();
+      music.pause();
     }
     updateButton();
-});
-music.addEventListener('play', updateButton);
-music.addEventListener('pause', updateButton);
-music.play().catch(function () {
+  });
+  music.addEventListener('play', updateButton);
+  music.addEventListener('pause', updateButton);
+  music.addEventListener('ended', updateButton);
+  updateButton();
+  /* Tentative de lecture automatique.
+     Le navigateur peut demander un appui sur le bouton. */
+  music.play().catch(function () {
     updateButton();
-});
-updateButton();
-
+  });
 })();
 </script>
 </body>
