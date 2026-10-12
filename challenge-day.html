@@ -1441,30 +1441,39 @@ MT.GAKA
 
 <script>
 (function () {
-    const music = document.getElementById('mtgaka-music');
-    const button = document.getElementById('music-toggle');
+const music = document.getElementById(‘mtgaka-music’);
+const button = document.getElementById(‘music-toggle’);
+const icon = button.querySelector(‘span:first-child’);
 
-    music.volume = 0.35;
-
-    button.addEventListener('click', async function () {
-        if (music.paused) {
-            try {
-                await music.play();
-                button.textContent = '⏸ Musik pausieren';
-            } catch (error) {
-                button.textContent = 'Musik konnte nicht gestartet werden';
-            }
-        } else {
-            music.pause();
-            button.textContent = '🎵 Musik starten';
+music.volume = 0.35;
+function updateButton() {
+    if (music.paused) {
+        icon.textContent = '🎵';
+        button.title = 'Musique MT.GAKA – démarrer';
+    } else {
+        icon.textContent = '⏸';
+        button.title = 'Musique MT.GAKA – pause';
+    }
+}
+button.addEventListener('click', async function () {
+    if (music.paused) {
+        try {
+            await music.play();
+        } catch (error) {
+            console.error('Lecture audio impossible :', error);
         }
-    });
+    } else {
+        music.pause();
+    }
+    updateButton();
+});
+music.addEventListener('play', updateButton);
+music.addEventListener('pause', updateButton);
+music.play().catch(function () {
+    updateButton();
+});
+updateButton();
 
-    music.play().then(function () {
-        button.textContent = '⏸ Musik pausieren';
-    }).catch(function () {
-        button.textContent = '🎵 Musik starten';
-    });
 })();
 </script>
 </body>
