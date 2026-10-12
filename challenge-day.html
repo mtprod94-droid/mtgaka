@@ -1424,6 +1424,43 @@ Demander un billet
     </div>
 
 </div>
+<!-- MT.GAKA Hintergrundmusik -->
+<audio id="mtgaka-music" autoplay loop preload="auto">
+    <source src="MT.GAKA%20%E2%80%93%20HYMNE%20NOTRE%20%C3%89NERGIE.mp3" type="audio/mpeg">
+</audio>
 
+<button id="music-toggle" type="button" aria-label="Musik starten oder pausieren"
+    style="position:fixed;bottom:20px;right:20px;z-index:9999;background:#c9a96e;color:#111;border:none;border-radius:30px;padding:12px 18px;font-weight:bold;cursor:pointer;">
+    🎵 Musik an / aus
+</button>
+
+<script>
+(function () {
+    const music = document.getElementById('mtgaka-music');
+    const button = document.getElementById('music-toggle');
+
+    music.volume = 0.35;
+
+    button.addEventListener('click', async function () {
+        if (music.paused) {
+            try {
+                await music.play();
+                button.textContent = '⏸ Musik pausieren';
+            } catch (error) {
+                button.textContent = 'Musik konnte nicht gestartet werden';
+            }
+        } else {
+            music.pause();
+            button.textContent = '🎵 Musik starten';
+        }
+    });
+
+    music.play().then(function () {
+        button.textContent = '⏸ Musik pausieren';
+    }).catch(function () {
+        button.textContent = '🎵 Musik starten';
+    });
+})();
+</script>
 </body>
 </html>
