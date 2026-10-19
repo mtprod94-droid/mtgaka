@@ -144,6 +144,94 @@ footer {
     Choisissez votre événement et préparez votre réservation.
   </p>
 
+<section class="card">
+  <h2>🎟️ Demande de réservation</h2>
+  <p class="note">
+    Remplissez ce formulaire pour demander vos billets.
+    Notre équipe vous contactera pour confirmer les disponibilités
+    et le prix avant tout paiement.
+  </p>
+  <form id="ticket-form">
+    <label for="nom">Nom complet</label>
+    <input id="nom" name="nom" type="text"
+           placeholder="Votre nom complet" required>
+<label for="telephone">Numéro de téléphone</label>
+<input id="telephone" name="telephone" type="tel"
+       placeholder="+228 ..." required>
+<label for="evenement">Événement</label>
+<input id="evenement" name="evenement" type="text"
+       placeholder="Nom de l'événement" required>
+<label for="billet">Type de billet</label>
+<select id="billet" name="billet" required>
+  <option value="">Choisir un type de billet</option>
+  <option value="Standard">Standard</option>
+  <option value="VIP">VIP</option>
+  <option value="Autre">Autre / À préciser</option>
+</select>
+<label for="quantite">Nombre de billets</label>
+<input id="quantite" name="quantite" type="number"
+       min="1" max="20" value="1" required>
+<label for="paiement">Mode de paiement envisagé</label>
+<select id="paiement" name="paiement" required>
+  <option value="">Choisir un moyen de paiement</option>
+  <option value="Flooz">Flooz</option>
+  <option value="TMoney">TMoney</option>
+  <option value="À confirmer">À confirmer</option>
+</select>
+<button class="button" type="submit">
+  📲 ENVOYER LA DEMANDE PAR WHATSAPP
+</button>
+  </form>
+</section>
+<style>
+#ticket-form label {
+  display: block;
+  margin-top: 15px;
+  color: var(--gold);
+  font-weight: bold;
+}
+#ticket-form input,
+#ticket-form select {
+  display: block;
+  width: 100%;
+  margin-top: 7px;
+  padding: 13px;
+  border: 1px solid #4c4025;
+  border-radius: 8px;
+  background: #101010;
+  color: var(--white);
+  font-size: 16px;
+}
+#ticket-form input:focus,
+#ticket-form select:focus {
+  outline: 1px solid var(--gold);
+}
+</style>
+<script>
+document.getElementById("ticket-form").addEventListener("submit", function(event) {
+  event.preventDefault();
+  const nom = document.getElementById("nom").value.trim();
+  const telephone = document.getElementById("telephone").value.trim();
+  const evenement = document.getElementById("evenement").value.trim();
+  const billet = document.getElementById("billet").value;
+  const quantite = document.getElementById("quantite").value;
+  const paiement = document.getElementById("paiement").value;
+  const message =
+    "Bonjour MT.GAKA, je souhaite demander une réservation de billets.%0A%0A" +
+    "Nom : " + encodeURIComponent(nom) + "%0A" +
+    "Téléphone : " + encodeURIComponent(telephone) + "%0A" +
+    "Événement : " + encodeURIComponent(evenement) + "%0A" +
+    "Type de billet : " + encodeURIComponent(billet) + "%0A" +
+    "Quantité : " + encodeURIComponent(quantite) + "%0A" +
+    "Paiement envisagé : " + encodeURIComponent(paiement) + "%0A%0A" +
+    "Merci de confirmer la disponibilité et le prix avant tout paiement.";
+  window.open(
+    "https://wa.me/22890076584?text=" + message,
+    "_blank"
+  );
+});
+</script>
+
   <section class="card">
     <span class="status">INFORMATIONS À VENIR</span>
     <h2>Nos prochains événements</h2>
