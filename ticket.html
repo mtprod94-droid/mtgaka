@@ -181,8 +181,23 @@ footer {
 <div
   class="cf-turnstile"
   data-sitekey="0x4AAAAAAFeDLIVgrdF_UnAfzK0ZoYXHLxk"
-  data-theme="dark">
+  data-theme="dark"
+  data-callback="turnstileSuccess"
+  data-error-callback="turnstileError">
 </div>
+
+<p id="turnstile-error" style="color:#ff6b6b;"></p>
+
+<script>
+function turnstileSuccess(token) {
+  document.getElementById("turnstile-error").textContent = "";
+}
+
+function turnstileError(code) {
+  document.getElementById("turnstile-error").textContent =
+    "Cloudflare-Fehlercode: " + code;
+}
+</script>
 
 <script
   src="https://challenges.cloudflare.com/turnstile/v0/api.js"
