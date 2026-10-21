@@ -234,27 +234,126 @@ function turnstileError(code) {
 }
 </style>
 <script>
-document.getElementById("ticket-form").addEventListener("submit", function(event) {
+document.getElementById("ticket-form").addEventListener("submit", async function (event) {
   event.preventDefault();
+
+  const form = this;
   const nom = document.getElementById("nom").value.trim();
   const telephone = document.getElementById("telephone").value.trim();
   const evenement = document.getElementById("evenement").value.trim();
   const billet = document.getElementById("billet").value;
-  const quantite = document.getElementById("quantite").value;
+  const quantite = Number(document.getElementById("quantite").value);
   const paiement = document.getElementById("paiement").value;
-  const message =
-    "Bonjour MT.GAKA, je souhaite demander une réservation de billets.%0A%0A" +
-    "Nom : " + encodeURIComponent(nom) + "%0A" +
-    "Téléphone : " + encodeURIComponent(telephone) + "%0A" +
-    "Événement : " + encodeURIComponent(evenement) + "%0A" +
-    "Type de billet : " + encodeURIComponent(billet) + "%0A" +
-    "Quantité : " + encodeURIComponent(quantite) + "%0A" +
-    "Paiement envisagé : " + encodeURIComponent(paiement) + "%0A%0A" +
-    "Merci de confirmer la disponibilité et le prix avant tout paiement.";
-  window.open(
-    "https://wa.me/22890076584?text=" + message,
-    "_blank"
-  );
+
+  if (!nom || !telephone || !evenement || !paiement) {
+    alert("Veuillez remplir tous les champs.");
+    return;
+  }
+
+  if (billet !== "Standard" && billet !== "VIP") {
+    alert("Veuillez choisir Standard ou VIP.");
+    return;
+  }
+
+  if (!Number.isInteger(quantite) || quantite < 1 || quantite > 20) {
+    alert("La quantité doit être un nombre entier entre 1 et 20.");
+    return;
+  }
+
+  if (
+    !window.turnstile ||
+    typeof window.turnstile.getResponse !== "function"
+  ) {
+    alert("La vérification de sécurité est indisponible. Rechargez la page.");
+    return;
+  }
+
+  const turnstileToken = window.turnstile.getResponse();
+
+  if (!turnstileToken) {
+    alert("Veuillez compléter la vérification Cloudflare.");
+    return;
+  }
+
+  const bouton = form.querySelector('[type="submit"]');
+
+  if (bouton) bouton.disabled = true;
+
+  try {
+    const response = await fetch(
+      "https://hfucvtipxcenhklxasro.supabase.co/functions/v1/mtgaka-public-order",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmdWN2dGlweGNlbmhrbHhhc3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwMjA0NTAsImV4cCI6MjEwNjU5NjQ1MH0.c_k-Z6rC8YwnTXE9odSxAQzfBrloz7VDuU0Zo3YOMHE",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmdWN2dGlweGNlbmhrbHhhc3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwMjA0NTAsImV4cCI6MjEwNjU5NjQ1MH0.c_k-Z6rC8YwnTXE9odSxAQzfBrloz7VDuU0Zo3YOMHE"
+        },
+        body: JSON.stringify({
+          customer_name: nom,
+          customer_phone: telephone,
+          ticket_type: billet === "Standard" ? "STANDARD" : "VIP",
+          quantity: quantite,
+          turnstile_token: turnstileToken
+        })
+      }
+    );
+
+    const resultat = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        resultat.error || "La commande n'a pas pu être créée."
+      );
+    }
+
+    if (
+      !Array.isArray(resultat.ticket_numbers) ||
+      resultat.ticket_numbers.length !== quantite
+    ) {
+      alert(
+        "La réponse reçue ne permet pas de confirmer tous les billets. " +
+        "Ne recommencez pas la commande avant de vérifier son état."
+      );
+      return;
+    }
+
+    alert(
+      "Commande créée avec succès !\n\n" +
+      "Nom : " + nom + "\n" +
+      "Téléphone : " + telephone + "\n" +
+      "Événement : " + evenement + "\n" +
+      "Type : " + billet + "\n" +
+      "Quantité : " + quantite + "\n" +
+      "Numéros de billets :\n" +
+      resultat.ticket_numbers.join("\n") + "\n\n" +
+      "Paiement envisagé : " + paiement
+    );
+
+    form.reset();
+
+    if (typeof window.turnstile.reset === "function") {
+      window.turnstile.reset();
+    }
+
+  } catch (error) {
+    console.error("Erreur de commande MT.GAKA :", error);
+
+    alert(
+      "La réponse du serveur n'a pas pu être confirmée. " +
+      "Vérifiez l'état de la commande avant de réessayer."
+    );
+
+    if (
+      window.turnstile &&
+      typeof window.turnstile.reset === "function"
+    ) {
+      window.turnstile.reset();
+    }
+
+  } finally {
+    if (bouton) bouton.disabled = false;
+  }
 });
 </script>
 
