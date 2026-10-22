@@ -155,7 +155,29 @@
         CHALLENGE DAY · TICKET CONTROL
     </div>
 
-    <div class="scanner-box">
+<div class="scanner-box" id="loginBox">
+    <h2>Connexion du personnel</h2>
+    <p>Connectez-vous pour accéder au contrôle des billets.</p>
+    <form id="loginForm">
+        <input
+            id="staffEmail"
+            type="email"
+            placeholder="Adresse e-mail"
+            autocomplete="username"
+            required
+        >
+        <input
+            id="staffPassword"
+            type="password"
+            placeholder="Mot de passe"
+            autocomplete="current-password"
+            required
+        >
+        <button type="submit">SE CONNECTER</button>
+        <div id="loginMessage" role="status"></div>
+    </form>
+</div>
+<div class="scanner-box" id="ticketScanner" style="display:none;">
 
         <div class="scanner-icon">▣</div>
 
@@ -202,7 +224,45 @@ const supabaseClient =
         SUPABASE_URL,
         SUPABASE_PUBLISHABLE_KEY
     );
+    
+const loginForm = document.getElementById("loginForm");
+const loginBox = document.getElementById("loginBox");
+const loginMessage = document.getElementById("loginMessage");
+loginForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const email = document.getElementById("staffEmail").value.trim();
+    const password = document.getElementById("staffPassword").value;
+    const submitButton = loginForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    loginMessage.textContent = "Connexion en cours…";
+    try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email,
+            password
+        });
+        if (error) throw error;
+        const { data: isStaff, error: accessError } =
+    await supabaseClient.rpc("mtgaka_check_staff_access");
+if (accessError || isStaff !== true) {
+    await supabaseClient.auth.signOut();
+    throw new Error(
+        "Accès refusé : compte du personnel non autorisé."
+    );
+}
+        loginMessage.textContent = “Connexion réussie.”;
+loginBox.style.display = “none”;
+document.getElementById(“ticketScanner”).style.display = “block”;
 
+const ticket = getTicketFromURL();
+if (ticket) await checkTicket(ticket);
+
+} catch (error) {
+loginMessage.textContent =
+error.message || “Connexion impossible.”;
+} finally {
+submitButton.disabled = false;
+}
+});
 
 function escapeHtml(value) {
 
@@ -319,13 +379,10 @@ async function checkTicket(ticketFromURL = null) {
 
     try {
 
-        const { data, error } =
-            await supabaseClient.rpc(
-                "redeem_ticket",
-                {
-                    p_ticket_code: input
-                }
-            );
+        const { data, error } = await supabaseClient.rpc(
+    "mtgaka_redeem_ticket_secure",
+    { p_ticket_code: input }
+);
 
 
         if (error) {
@@ -354,37 +411,68 @@ async function checkTicket(ticketFromURL = null) {
         }
 
 
-        const ticket =
-            data[0];
-
-
-        if (ticket.status === "VALID") {
-
-            result.className =
-                "result valid";
-
-            result.innerHTML = `
-                ✅<br>
-
-                <div class="status">
-                    TICKET VALIDE
-                </div>
-
-                <div style="margin-top:12px;">
-                    <strong>EINGELÖST</strong>
-                </div>
-
-                <div style="margin-top:12px;">
-                    ${escapeHtml(ticket.ticket_code)}
-                </div>
-
-                <div style="margin-top:8px;">
-                    ${escapeHtml(ticket.ticket_type)}
-                </div>
-            `;
-
-            return;
-        }
+        const ticket = data[0];
+if (ticket.status === "VALID") {
+    result.className = "result valid";
+    result.innerHTML = `
+        ✅<br>
+        <div class="status">
+            BILLET ACCEPTÉ
+        </div>
+        <div style="margin-top:12px;">
+            Billet contrôlé et marqué comme utilisé.
+        </div>
+        <div style="margin-top:12px;">
+            ${escapeHtml(ticket.ticket_code)}
+        </div>
+        <div style="margin-top:8px;">
+            ${escapeHtml(ticket.ticket_type)}
+        </div>
+    `;
+    return;
+}
+if (ticket.status === "PAYMENT_PENDING") {
+    result.className = "result invalid";
+    result.innerHTML = `
+        ❌<br>
+        <div class="status">
+            PAIEMENT NON CONFIRMÉ
+        </div>
+        <div style="margin-top:12px;">
+            Billet refusé. Vérifiez la réception du paiement TMoney.
+        </div>
+        <div style="margin-top:12px;">
+            ${escapeHtml(ticket.ticket_code)}
+        </div>
+    `;
+    return;
+}
+if (ticket.status === "ALREADY_USED") {
+    result.className = "result invalid";
+    result.innerHTML = `
+        ⚠️<br>
+        <div class="status">
+            BILLET DÉJÀ UTILISÉ
+        </div>
+        <div style="margin-top:12px;">
+            Ce billet a déjà été contrôlé.
+        </div>
+        <div style="margin-top:12px;">
+            ${escapeHtml(ticket.ticket_code)}
+        </div>
+    `;
+    return;
+}
+result.className = "result invalid";
+result.innerHTML = `
+    ❌<br>
+    <div class="status">
+        BILLET INVALIDE OU INTROUVABLE
+    </div>
+    <div style="margin-top:12px;">
+        ${escapeHtml(ticket.ticket_code || input)}
+    </div>
+`;
 
 
         if (ticket.status === "ALREADY_USED") {
@@ -439,21 +527,10 @@ async function checkTicket(ticketFromURL = null) {
 }
 
 
-window.addEventListener(
-    "load",
-    function () {
-
-        const ticket =
-            getTicketFromURL();
-
-        if (ticket) {
-
-            checkTicket(ticket);
-
-        }
-
-    }
-);
+window.addEventListener(“load”, function () {
+// Le billet ne doit pas être contrôlé avant la connexion du personnel.
+getTicketFromURL();
+});
 </script>
 
 </body>
