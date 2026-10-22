@@ -343,16 +343,19 @@ document.getElementById("ticket-form").addEventListener("submit", async function
       return;
     }
 
-    alert(
-      "Commande créée avec succès !\n\n" +
+        alert(
+      "COMMANDE CRÉÉE AVEC SUCCÈS !\n\n" +
       "Nom : " + nom + "\n" +
       "Téléphone : " + telephone + "\n" +
       "Événement : " + evenement + "\n" +
       "Type : " + billet + "\n" +
-      "Quantité : " + quantite + "\n" +
-      "Numéros de billets :\n" +
-      resultat.ticket_numbers.join("\n") + "\n\n" +
-      "Paiement envisagé : " + paiement
+      "Quantité : " + quantite + "\n\n" +
+      "Statut du paiement : EN ATTENTE\n\n" +
+      "Votre commande a bien été enregistrée.\n\n" +
+      "Après vérification et confirmation effective de votre paiement " +
+      "par MT.GAKA, votre billet électronique avec son code QR vous sera " +
+      "envoyé par WhatsApp.\n\n" +
+      "Attention : cette confirmation ne constitue pas un billet d'entrée."
     );
 
     form.reset();
