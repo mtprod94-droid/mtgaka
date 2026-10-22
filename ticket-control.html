@@ -476,28 +476,22 @@ result.innerHTML = `
 
 
         if (ticket.status === "ALREADY_USED") {
-
-            result.className =
-                "result invalid";
-
-            result.innerHTML = `
-                ⚠️<br>
-
-                <div class="status">
-                    DÉJÀ UTILISÉ
-                </div>
-
-                <div style="margin-top:12px;">
-                    <strong>BEREITS EINGELÖST</strong>
-                </div>
-
-                <div style="margin-top:12px;">
-                    ${escapeHtml(ticket.ticket_code)}
-                </div>
-            `;
-
-            return;
-        }
+    result.className =
+        "result invalid";
+    result.innerHTML = `
+        ⚠️<br>
+        <div class="status">
+            DÉJÀ UTILISÉ
+        </div>
+        <div style="margin-top:12px;">
+            <strong>BEREITS EINGELÖST</strong>
+        </div>
+        <div style="margin-top:12px;">
+            ${escapeHtml(ticket.ticket_code)}
+        </div>
+    `;
+    return;
+}
 
     } catch (error) {
 
