@@ -186,7 +186,7 @@ footer {
   <option value="">Choisir un moyen de paiement</option>
   <option value="Flooz">Flooz</option>
   <option value="TMoney">TMoney</option>
-  <option value="À confirmer">À confirmer</option>
+  <option value="À confirmer" disabled>À confirmer (indisponible)</option>
 </select>
 <div
   class="cf-turnstile"
@@ -315,12 +315,13 @@ document.getElementById("ticket-form").addEventListener("submit", async function
           "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhmdWN2dGlweGNlbmhrbHhhc3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEwMjA0NTAsImV4cCI6MjEwNjU5NjQ1MH0.c_k-Z6rC8YwnTXE9odSxAQzfBrloz7VDuU0Zo3YOMHE"
         },
         body: JSON.stringify({
-          customer_name: nom,
-          customer_phone: telephone,
-          ticket_type: billet === "Standard" ? "STANDARD" : "VIP",
-          quantity: quantite,
-          turnstile_token: turnstileToken
-        })
+  customer_name: nom,
+  customer_phone: telephone,
+  ticket_type: billet === "Standard" ? "STANDARD" : "VIP",
+  quantity: quantite,
+  payment_method: paiement === "TMoney" ? "TMONEY" : "FLOOZ",
+  turnstile_token: turnstileToken
+})
       }
     );
 
@@ -333,32 +334,39 @@ document.getElementById("ticket-form").addEventListener("submit", async function
     }
 
     if (
-      !Array.isArray(resultat.ticket_numbers) ||
-      resultat.ticket_numbers.length !== quantite
-    ) {
-      alert(
-        "La réponse reçue ne permet pas de confirmer tous les billets. " +
-        "Ne recommencez pas la commande avant de vérifier son état."
-      );
-      return;
-    }
+  typeof resultat.order_reference !== "string" ||
+  !/^MTGAKA-ORD-[a-f0-9-]{36}$/i.test(resultat.order_reference) ||
+  resultat.status !== "PENDING" ||
+  resultat.quantity !== quantite
+) {
+  alert(
+    "La commande a peut-être été enregistrée, mais sa confirmation est incomplète. " +
+    "Ne recommencez pas la commande avant de vérifier son état."
+  );
+  return;
+}
 
         alert(
-      "COMMANDE CRÉÉE AVEC SUCCÈS !\n\n" +
-      "Nom : " + nom + "\n" +
-      "Téléphone : " + telephone + "\n" +
-      "Événement : " + evenement + "\n" +
-      "Type : " + billet + "\n" +
-      "Quantité : " + quantite + "\n\n" +
-      "Statut du paiement : EN ATTENTE\n\n" +
-      "Votre commande a bien été enregistrée.\n\n" +
-      "Après vérification et confirmation effective de votre paiement " +
-      "par MT.GAKA, votre billet électronique avec son code QR vous sera " +
-      "envoyé par WhatsApp.\n\n" +
-      "Attention : cette confirmation ne constitue pas un billet d'entrée."
-    );
-
-    form.reset();
+  "COMMANDE CRÉÉE AVEC SUCCÈS !\n\n" +
+  "Référence : " + resultat.order_reference + "\n" +
+  "Nom : " + nom + "\n" +
+  "Téléphone : " + telephone + "\n" +
+  "Événement : " + evenement + "\n" +
+  "Type : " + billet + "\n" +
+  "Quantité : " + resultat.quantity + "\n" +
+  "Montant total : " + resultat.total_amount + " FCFA\n" +
+  "Moyen de paiement : " +
+    (resultat.payment_method === "TMONEY" ? "TMoney" : "Flooz") +
+  "\n\n" +
+  "Statut du paiement : EN ATTENTE\n\n" +
+  "Votre commande a bien été enregistrée.\n" +
+  "Conservez votre référence de commande.\n\n" +
+  "Après vérification et confirmation effective de votre paiement " +
+  "par MT.GAKA, vos billets électroniques avec leurs codes QR vous seront " +
+  "envoyés par WhatsApp.\n\n" +
+  "Attention : cette confirmation ne constitue pas un billet d'entrée."
+);
+form.reset();
 
     if (typeof window.turnstile.reset === "function") {
       window.turnstile.reset();
