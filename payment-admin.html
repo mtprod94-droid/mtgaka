@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090909">
+  <title>MT.GAKA | Gestion des paiements</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --gold: #d4af37;
+      --gold-light: #f3d778;
+      --bg: #090909;
+      --panel: #151515;
+      --border: #393020;
+      --text: #f5f5f5;
+      --muted: #aaa;
+      --green: #43c783;
+      --red: #ff6969;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at top, #29200b 0, transparent 45%),
+        var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+      min-height: 100vh;
+    }
+    button, input, select { font: inherit; }
+    .container {
+      width: min(100% - 28px, 1050px);
+      margin: auto;
+      padding: 25px 0 45px;
+    }
+    header {
+      text-align: center;
+      padding: 15px 0 24px;
+    }
+    .brand {
+      color: var(--gold);
+      font-weight: 900;
+      font-size: clamp(28px, 7vw, 42px);
+      letter-spacing: 4px;
+      margin: 0;
+    }
+    .subtitle {
+      color: var(--muted);
+      margin: 9px 0 0;
+      font-size: 13px;
+      letter-spacing: 1px;
+    }
+    .panel {
+      background: rgba(21, 21, 21, .96);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 21px;
+      margin-bottom: 18px;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 0 0 18px;
+    }
+    label {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin: 13px 0 7px;
+    }
+    input, select {
+      display: block;
+      width: 100%;
+      min-height: 46px;
+      background: #0c0c0c;
+      border: 1px solid #494949;
+      border-radius: 9px;
+      color: white;
+      padding: 12px;
+    }
+    input:focus, select:focus {
+      outline: 2px solid var(--gold);
+      outline-offset: 1px;
+    }
+    button {
+      min-height: 46px;
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 9px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+    .primary {
+      width: 100%;
+      background: var(--gold);
+      color: #111;
+      margin-top: 17px;
+    }
+    .secondary {
+      background: #292929;
+      color: white;
+      border: 1px solid #555;
+    }
+    .small-button {
+      min-height: 38px;
+      padding: 9px 12px;
+      font-size: 13px;
+    }
+    .hidden { display: none !important; }
+    .message {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 8px;
+      line-height: 1.5;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+    .message.error {
+      color: #ffd0d0;
+      background: #351818;
+      border: 1px solid #743333;
+    }
+    .message.success {
+      color: #c7ffe0;
+      background: #123322;
+      border: 1px solid #276c47;
+    }
+    .message.info {
+      color: #ffeab0;
+      background: #302711;
+      border: 1px solid #6d5720;
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .stat {
+      background: #171717;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 10px;
+      text-align: center;
+      min-width: 0;
+    }
+    .stat strong {
+      display: block;
+      color: var(--gold-light);
+      font-size: clamp(20px, 5vw, 28px);
+      overflow-wrap: anywhere;
+    }
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 7px;
+    }
+    .ticket {
+      border: 1px solid #3a3324;
+      background: #101010;
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 12px;
+    }
+    .ticket-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .ticket-number {
+      font-weight: 800;
+      color: var(--gold-light);
+      overflow-wrap: anywhere;
+    }
+    .badge {
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 20px;
+      padding: 6px 9px;
+      background: #443613;
+      color: #ffe6a0;
+      white-space: nowrap;
+    }
+    .ticket-info {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 15px 0;
+    }
+    .field {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    .field span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      margin-bottom: 5px;
+    }
+    .field strong { font-size: 14px; }
+    .price {
+      font-size: 22px;
+      color: var(--gold-light);
+      font-weight: 800;
+      margin: 12px 0;
+    }
+    .divider {
+      height: 1px;
+      background: #333;
+      margin: 16px 0;
+    }
+    .empty {
+      color: var(--muted);
+      text-align: center;
+      padding: 24px 8px;
+      line-height: 1.6;
+    }
+    .loading {
+      color: var(--gold-light);
+      text-align: center;
+      padding: 20px 0;
+    }
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    footer {
+      text-align: center;
+      color: #777;
+      font-size: 12px;
+      padding: 18px 0 0;
+    }
+    @media (max-width: 430px) {
+      .panel { padding: 16px; }
+      .stats { gap: 6px; }
+      .stat { padding: 12px 5px; }
+      .ticket-info { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <p class="brand">MT.GAKA</p>
+      <p class="subtitle">CHALLENGE DAY · GESTION DES PAIEMENTS</p>
+    </header>
+    <section id="loginPanel" class="panel">
+      <h2>Connexion administrateur</h2>
+      <p class="note">
+        Accès réservé au compte autorisé de l’administration MT.GAKA.
+      </p>
+      <form id="loginForm">
+        <label for="email">Adresse e-mail</label>
+        <input id="email" type="email" autocomplete="username"
+               required placeholder="Votre adresse e-mail">
+        <label for="password">Mot de passe</label>
+        <input id="password" type="password" autocomplete="current-password"
+               required placeholder="Votre mot de passe">
+        <button class="primary" id="loginButton" type="submit">
+          Se connecter
+        </button>
+      </form>
+      <div id="loginMessage" aria-live="polite"></div>
+    </section>
+    <section id="dashboard" class="hidden">
+      <div class="topbar">
+        <div>
+          <strong>Administration des paiements</strong>
+          <div id="sessionEmail" class="note"></div>
+        </div>
+        <button id="logoutButton" class="secondary" type="button">
+          Déconnexion
+        </button>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <strong id="pendingCount">—</strong>
+          <span>PAIEMENTS EN ATTENTE</span>
+        </div>
+        <div class="stat">
+          <strong id="pendingStandard">—</strong>
+          <span>STANDARD · CFA</span>
+        </div>
+        <div class="stat">
+          <strong id="pendingVip">—</strong>
+          <span>VIP · CFA</span>
+        </div>
+      </div>
+      <section class="panel">
+        <div class="topbar">
+          <h2 style="margin:0">Billets en attente</h2>
+          <button id="refreshButton" class="secondary small-button"
+                  type="button">Actualiser</button>
+        </div>
+        <div class="message info">
+          Vérifiez toujours le paiement réellement reçu sur Flooz ou TMoney
+          avant de confirmer. Une référence saisie n’est pas une preuve
+          de paiement.
+        </div>
+        <div id="listMessage" aria-live="polite"></div>
+        <div id="ticketList"></div>
+      </section>
+    </section>
+    <footer>
+      MT.GAKA · Challenge Day · 24.12.2026
+    </footer>
+  </main>
+  <script>
+    "use strict";
+    const SUPABASE_URL = "https://hfucvtipxcenhklxasro.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_U_5Ez8S4rg9nwMMa_Uzv_A_ixq5iKA3";
+    const db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY,
+      {
+        auth: {
+          persistSession: true,
+          autoRefreshToken: true,
+          detectSessionInUrl: true
+        }
+      }
+    );
+    const $ = (id) => document.getElementById(id);
+    let currentTickets = [];
+    let isAdmin = false;
+    let busy = false;
+    function showMessage(target, text, type) {
+      target.replaceChildren();
+      const box = document.createElement("div");
+      box.className = "message " + type;
+      box.textContent = text;
+      target.appendChild(box);
+    }
+    function clearMessage(target) {
+      target.replaceChildren();
+    }
+    function formatMoney(value) {
+      return new Intl.NumberFormat("fr-FR").format(value) + " CFA";
+    }
+    function getUnitPrice(ticketType) {
+      const type = String(ticketType || "").toUpperCase();
+      if (type.includes("VIP")) return 2000;
+      if (type.includes("STANDARD") || type.includes("STD")) return 1000;
+      return null;
+    }
+    function calculateAmount(ticket) {
+      const unitPrice = getUnitPrice(ticket.ticket_type);
+      const quantity = Number(ticket.quantity);
+      if (unitPrice === null || !Number.isInteger(quantity) ||
+          quantity < 1 || quantity > 1000) {
+        return null;
+      }
+      return unitPrice * quantity;
+    }
+    function displayDate(value) {
+      if (!value) return "—";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return String(value);
+      return new Intl.DateTimeFormat("fr-FR", {
+        dateStyle: "medium",
+        timeStyle: "short"
+      }).format(date);
+    }
+    async function checkAdmin(session) {
+      isAdmin = false;
+      if (!session || !session.user) return false;
+      const { data, error } = await db.rpc("mtgaka_check_staff_access");
+      if (error) {
+        throw new Error(
+          "Vérification des droits impossible. Vérifiez la fonction d’accès Supabase."
+        );
+      }
+      if (data !== true) {
+        return false;
+      }
+      // La fonction d'accès commune autorise aussi ENTRY.
+      // La liste des paiements et leur confirmation restent protégées
+      // par des fonctions Supabase qui exigent explicitement ADMIN.
+      // Ici, seul l'appel de la liste ADMIN peut confirmer ce droit.
+      const { error: listError } = await db.rpc(
+        "mtgaka_admin_list_pending_payments"
+      );
+      if (listError) {
+        const text = String(listError.message || "").toLowerCase();
+        if (text.includes("administrateur") ||
+            text.includes("permission denied") ||
+            text.includes("42501")) {
+          return false;
+        }
+        throw new Error(
+          "Impossible de vérifier les droits ADMIN. " +
+          "Détail : " + (listError.message || "erreur inconnue")
+        );
+      }
+      isAdmin = true;
+      return true;
+    }
+    async function showSession(session) {
+      $("loginPanel").classList.remove("hidden");
+      $("dashboard").classList.add("hidden");
+      clearMessage($("loginMessage"));
+      if (!session) {
+        $("loginPanel").classList.remove("hidden");
+        return;
+      }
+      try {
+        const allowed = await checkAdmin(session);
+        if (!allowed) {
+          await db.auth.signOut();
+          showMessage(
+            $("loginMessage"),
+            "Accès refusé : cette page est réservée à un administrateur MT.GAKA.",
+            "error"
+          );
+          return;
+        }
+        $("sessionEmail").textContent = session.user.email || "";
+        $("loginPanel").classList.add("hidden");
+        $("dashboard").classList.remove("hidden");
+        await loadTickets();
+      } catch (error) {
+        showMessage(
+          $("loginMessage"),
+          error.message || "Erreur pendant la vérification de l’accès.",
+          "error"
+        );
+      }
+    }
+    $("loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (busy) return;
+      busy = true;
+      $("loginButton").disabled = true;
+      clearMessage($("loginMessage"));
+      try {
+        const email = $("email").value.trim();
+        const password = $("password").value;
+        const { data, error } = await db.auth.signInWithPassword({
+          email,
+          password
+        });
+        if (error) throw error;
+        await showSession(data.session);
+      } catch (error) {
+        showMessage(
+          $("loginMessage"),
+          "Connexion impossible : " + (error.message || "erreur inconnue"),
+          "error"
+        );
+      } finally {
+        busy = false;
+        $("loginButton").disabled = false;
+      }
+    });
+    $("logoutButton").addEventListener("click", async () => {
+      $("logoutButton").disabled = true;
+      try {
+        await db.auth.signOut();
+        currentTickets = [];
+        isAdmin = false;
+        $("dashboard").classList.add("hidden");
+        $("loginPanel").classList.remove("hidden");
+        $("password").value = "";
+        $("ticketList").replaceChildren();
+        showMessage($("loginMessage"), "Vous êtes déconnecté.", "info");
+      } catch (error) {
+        showMessage(
+          $("listMessage"),
+          "Erreur de déconnexion : " + (error.message || ""),
+          "error"
+        );
+      } finally {
+        $("logoutButton").disabled = false;
+      }
+    });
+    $("refreshButton").addEventListener("click", loadTickets);
+    async function loadTickets() {
+      if (!isAdmin || busy) return;
+      $("refreshButton").disabled = true;
+      $("ticketList").replaceChildren();
+      $("ticketList").innerHTML =
+        '<p class="loading">Chargement des paiements…</p>';
+      clearMessage($("listMessage"));
+      try {
+        const { data, error } = await db.rpc(
+          "mtgaka_admin_list_pending_payments"
+        );
+        if (error) throw error;
+        currentTickets = Array.isArray(data) ? data : [];
+        renderTickets();
+      } catch (error) {
+        $("ticketList").replaceChildren();
+        showMessage(
+          $("listMessage"),
+          "Impossible de charger les billets : " +
+          (error.message || "erreur inconnue"),
+          "error"
+        );
+      } finally {
+        $("refreshButton").disabled = false;
+      }
+    }
+    function renderTickets() {
+      const list = $("ticketList");
+      list.replaceChildren();
+      let totalStandard = 0;
+      let totalVip = 0;
+      for (const ticket of currentTickets) {
+        const amount = calculateAmount(ticket);
+        if (amount === null) continue;
+        const type = String(ticket.ticket_type || "").toUpperCase();
+        if (type.includes("VIP")) totalVip += amount;
+        else totalStandard += amount;
+      }
+      $("pendingCount").textContent = String(currentTickets.length);
+      $("pendingStandard").textContent =
+        new Intl.NumberFormat("fr-FR").format(totalStandard);
+      $("pendingVip").textContent =
+        new Intl.NumberFormat("fr-FR").format(totalVip);
+      if (currentTickets.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent =
+          "Aucun paiement en attente pour le moment.";
+        list.appendChild(empty);
+        return;
+      }
+      for (const ticket of currentTickets) {
+        const amount = calculateAmount(ticket);
+        const card = document.createElement("article");
+        card.className = "ticket";
+        const head = document.createElement("div");
+        head.className = "ticket-head";
+        const number = document.createElement("div");
+        number.className = "ticket-number";
+        number.textContent = ticket.ticket_number || "Billet sans numéro";
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent = "PAIEMENT EN ATTENTE";
+        head.append(number, badge);
+        card.appendChild(head);
+        const info = document.createElement("div");
+        info.className = "ticket-info";
+        const fields = [
+          ["Client", ticket.customer_name || "Non renseigné"],
+          ["Téléphone", ticket.customer_phone || "Non renseigné"],
+          ["Type", ticket.ticket_type || "—"],
+          ["Quantité", String(ticket.quantity ?? "—")],
+          ["Date de création", displayDate(ticket.created_at)],
+          ["Date de l’événement", ticket.event_date || "—"]
+        ];
+        for (const [label, value] of fields) {
+          const field = document.createElement("div");
+          field.className = "field";
+          const labelEl = document.createElement("span");
+          labelEl.textContent = label;
+          const valueEl = document.createElement("strong");
+          valueEl.textContent = value;
+          field.append(labelEl, valueEl);
+          info.appendChild(field);
+        }
+        card.appendChild(info);
+        const price = document.createElement("div");
+        price.className = "price";
+        price.textContent = amount === null
+          ? "Montant à vérifier"
+          : formatMoney(amount);
+        card.appendChild(price);
+        if (amount === null) {
+          const warning = document.createElement("p");
+          warning.className = "note";
+          warning.textContent =
+            "Type ou quantité non reconnus. Vérifiez ce billet manuellement ; aucune confirmation depuis cette fiche.";
+          card.appendChild(warning);
+        } else {
+          const divider = document.createElement("div");
+          divider.className = "divider";
+          card.appendChild(divider);
+          const methodLabel = document.createElement("label");
+          methodLabel.textContent = "Canal de paiement vérifié";
+          const method = document.createElement("select");
+          method.innerHTML =
+            '<option value="">Choisir Flooz ou TMoney</option>' +
+            '<option value="FLOOZ">Flooz</option>' +
+            '<option value="TMONEY">TMoney</option>';
+          const referenceLabel = document.createElement("label");
+          referenceLabel.textContent = "Référence de transaction";
+          const reference = document.createElement("input");
+          reference.type = "text";
+          reference.maxLength = 120;
+          reference.autocomplete = "off";
+          reference.placeholder = "Référence exacte du reçu";
+          const confirmButton = document.createElement("button");
+          confirmButton.className = "primary";
+          confirmButton.type = "button";
+          confirmButton.textContent = "Confirmer le paiement";
+          const formMessage = document.createElement("div");
+          formMessage.setAttribute("aria-live", "polite");
+          confirmButton.addEventListener("click", async () => {
+            if (!isAdmin || busy) return;
+            const selectedMethod = method.value;
+            const paymentReference = reference.value.trim();
+            if (!selectedMethod) {
+              showMessage(
+                formMessage,
+                "Choisissez le canal de paiement après vérification du reçu.",
+                "error"
+              );
+              return;
+            }
+            if (!paymentReference) {
+              showMessage(
+                formMessage,
+                "Saisissez la référence réelle de la transaction.",
+                "error"
+              );
+              return;
+            }
+            const confirmed = window.confirm(
+              "Confirmez-vous avoir vérifié le paiement réel de " +
+              formatMoney(amount) + " pour le billet " +
+              (ticket.ticket_number || "") + " via " + selectedMethod + " ?"
+            );
+            if (!confirmed) return;
+            busy = true;
+            confirmButton.disabled = true;
+            reference.disabled = true;
+            method.disabled = true;
+            try {
+              const fullReference =
+                selectedMethod + " | " + paymentReference;
+              const { error } = await db.rpc(
+                "mtgaka_confirm_ticket_payment",
+                {
+                  p_ticket_number: ticket.ticket_number,
+                  p_payment_reference: fullReference
+                }
+              );
+              if (error) throw error;
+              showMessage(
+                formMessage,
+                "Paiement confirmé. Le billet ne figure plus dans la liste des paiements en attente.",
+                "success"
+              );
+              await loadTickets();
+            } catch (error) {
+              showMessage(
+                formMessage,
+                "Confirmation refusée : " +
+                (error.message || "erreur inconnue"),
+                "error"
+              );
+              confirmButton.disabled = false;
+              reference.disabled = false;
+              method.disabled = false;
+            } finally {
+              busy = false;
+            }
+          });
+          card.append(methodLabel, method, referenceLabel, reference,
+                      confirmButton, formMessage);
+        }
+        list.appendChild(card);
+      }
+    }
+    db.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") {
+        isAdmin = false;
+        currentTickets = [];
+        $("dashboard").classList.add("hidden");
+        $("loginPanel").classList.remove("hidden");
+        $("ticketList").replaceChildren();
+      }
+    });
+    (async function initialize() {
+      try {
+        const { data, error } = await db.auth.getSession();
+        if (error) throw error;
+        await showSession(data.session);
+      } catch (error) {
+        showMessage(
+          $("loginMessage"),
+          "Initialisation impossible : " +
+          (error.message || "erreur inconnue"),
+          "error"
+        );
+      }
+    })();
+  </script>
+</body>
+</html>
