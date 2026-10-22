@@ -242,6 +242,21 @@ function turnstileError(code) {
 #ticket-form select:focus {
   outline: 1px solid var(--gold);
 }
+/* MT.GAKA – Kontaktbuttons sichtbar darstellen */
+.contact-box a.button {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 14px 0;
+  padding: 16px 12px;
+  text-align: center;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: relative;
+  z-index: 2;
+}
 </style>
 <script>
 document.getElementById("ticket-form").addEventListener("submit", async function (event) {
