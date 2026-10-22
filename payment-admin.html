@@ -316,6 +316,32 @@
         <div id="listMessage" aria-live="polite"></div>
         <div id="ticketList"></div>
       </section>
+      <section class="panel">
+  <div class="section-heading">
+    <div>
+      <h2>Commandes groupées</h2>
+      <p>
+        Vérifiez le paiement total de chaque commande avant de confirmer.
+      </p>
+    </div>
+
+    <button
+      id="orderRefreshButton"
+      class="secondary small-button"
+      type="button"
+    >
+      Actualiser les commandes
+    </button>
+  </div>
+
+  <div class="message info">
+    Les billets d’une commande seront confirmés ensemble uniquement
+    après vérification du paiement réellement reçu sur Flooz ou TMoney.
+  </div>
+
+  <div id="orderListMessage" aria-live="polite"></div>
+  <div id="orderList"></div>
+</section>
     </section>
     <footer>
       MT.GAKA · Challenge Day · 24.12.2026
@@ -433,7 +459,10 @@
         $("sessionEmail").textContent = session.user.email || "";
         $("loginPanel").classList.add("hidden");
         $("dashboard").classList.remove("hidden");
-        await loadTickets();
+        await Promise.all([
+  loadTickets(),
+  loadOrders()
+]);
       } catch (error) {
         showMessage(
           $("loginMessage"),
@@ -514,6 +543,227 @@
         );
       } finally {
         $("refreshButton").disabled = false;
+      }
+    }
+        let currentOrders = [];
+    $("orderRefreshButton").addEventListener("click", loadOrders);
+    async function loadOrders() {
+      if (!isAdmin || busy) return;
+      const refreshButton = $("orderRefreshButton");
+      const list = $("orderList");
+      refreshButton.disabled = true;
+      list.replaceChildren();
+      const loading = document.createElement("p");
+      loading.className = "loading";
+      loading.textContent = "Chargement des commandes…";
+      list.appendChild(loading);
+      clearMessage($("orderListMessage"));
+      try {
+        const { data, error } = await db.rpc(
+          "mtgaka_admin_list_pending_orders"
+        );
+        if (error) throw error;
+        currentOrders = Array.isArray(data) ? data : [];
+        renderOrders();
+      } catch (error) {
+        list.replaceChildren();
+        showMessage(
+          $("orderListMessage"),
+          "Impossible de charger les commandes : " +
+            (error.message || "erreur inconnue"),
+          "error"
+        );
+      } finally {
+        refreshButton.disabled = false;
+      }
+    }
+    function renderOrders() {
+      const list = $("orderList");
+      list.replaceChildren();
+      if (currentOrders.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent =
+          "Aucune commande en attente pour le moment.";
+        list.appendChild(empty);
+        return;
+      }
+      for (const order of currentOrders) {
+        const card = document.createElement("article");
+        card.className = "ticket";
+        const head = document.createElement("div");
+        head.className = "ticket-head";
+        const referenceTitle = document.createElement("div");
+        referenceTitle.className = "ticket-number";
+        referenceTitle.textContent =
+          order.order_reference || "Commande sans référence";
+        const badge = document.createElement("span");
+        badge.className = "badge";
+        badge.textContent = "PAIEMENT EN ATTENTE";
+        head.append(referenceTitle, badge);
+        card.appendChild(head);
+        const info = document.createElement("div");
+        info.className = "ticket-info";
+        const fields = [
+          ["Client", order.customer_name || "Non renseigné"],
+          ["Téléphone", order.customer_phone || "Non renseigné"],
+          ["Type", order.ticket_type || "—"],
+          ["Quantité", String(order.quantity ?? "—")],
+          ["Moyen choisi", order.payment_method || "—"],
+          ["Créée le", displayDate(order.created_at)]
+        ];
+        for (const [label, value] of fields) {
+          const field = document.createElement("div");
+          field.className = "field";
+          const labelEl = document.createElement("span");
+          labelEl.textContent = label;
+          const valueEl = document.createElement("strong");
+          valueEl.textContent = value;
+          field.append(labelEl, valueEl);
+          info.appendChild(field);
+        }
+        card.appendChild(info);
+        const amount = Number(order.total_amount);
+        const validOrder =
+          typeof order.order_reference === "string" &&
+          /^MTGAKA-ORD-[a-f0-9-]{36}$/i.test(order.order_reference) &&
+          Number.isSafeInteger(Number(order.quantity)) &&
+          Number(order.quantity) > 0 &&
+          Number.isSafeInteger(amount) &&
+          amount > 0 &&
+          ["STANDARD", "VIP"].includes(
+            String(order.ticket_type || "").toUpperCase()
+          ) &&
+          ["FLOOZ", "TMONEY"].includes(
+            String(order.payment_method || "").toUpperCase()
+          );
+        const price = document.createElement("div");
+        price.className = "price";
+        price.textContent = Number.isSafeInteger(amount) && amount > 0
+          ? formatMoney(amount)
+          : "Montant à vérifier";
+        card.appendChild(price);
+        if (!validOrder) {
+          const warning = document.createElement("p");
+          warning.className = "note";
+          warning.textContent =
+            "Données de commande invalides ou incomplètes. " +
+            "Aucune confirmation depuis cette fiche.";
+          card.appendChild(warning);
+          list.appendChild(card);
+          continue;
+        }
+        const divider = document.createElement("div");
+        divider.className = "divider";
+        card.appendChild(divider);
+        const methodLabel = document.createElement("label");
+        methodLabel.textContent = "Canal de paiement vérifié";
+        const method = document.createElement("select");
+        method.innerHTML =
+          '<option value="">Choisir Flooz ou TMoney</option>' +
+          '<option value="FLOOZ">Flooz</option>' +
+          '<option value="TMONEY">TMoney</option>';
+        const referenceLabel = document.createElement("label");
+        referenceLabel.textContent = "Référence réelle de transaction";
+        const reference = document.createElement("input");
+        reference.type = "text";
+        reference.maxLength = 120;
+        reference.autocomplete = "off";
+        reference.placeholder = "Référence exacte du reçu";
+        const confirmButton = document.createElement("button");
+        confirmButton.className = "primary";
+        confirmButton.type = "button";
+        confirmButton.textContent = "Confirmer toute la commande";
+        const formMessage = document.createElement("div");
+        formMessage.setAttribute("aria-live", "polite");
+        confirmButton.addEventListener("click", async () => {
+          if (!isAdmin || busy) return;
+          const selectedMethod = method.value;
+          const paymentReference = reference.value.trim();
+          if (!selectedMethod) {
+            showMessage(
+              formMessage,
+              "Choisissez le canal après vérification du reçu.",
+              "error"
+            );
+            return;
+          }
+          if (!paymentReference) {
+            showMessage(
+              formMessage,
+              "Saisissez la référence réelle de la transaction.",
+              "error"
+            );
+            return;
+          }
+          const confirmed = window.confirm(
+            "Avez-vous vérifié le paiement réel de " +
+              formatMoney(amount) +
+              " pour la commande " +
+              order.order_reference +
+              " via " +
+              selectedMethod +
+              " ? Tous les billets de cette commande seront confirmés ensemble."
+          );
+          if (!confirmed) return;
+          busy = true;
+          confirmButton.disabled = true;
+          reference.disabled = true;
+          method.disabled = true;
+          try {
+            const fullReference =
+              selectedMethod + " | " + paymentReference;
+            const { data, error } = await db.rpc(
+              "mtgaka_confirm_order_payment",
+              {
+                p_order_reference: order.order_reference,
+                p_payment_reference: fullReference
+              }
+            );
+            if (error) throw error;
+            const result = Array.isArray(data) ? data[0] : data;
+            if (
+              !result ||
+              result.payment_status !== "PAID" ||
+              Number(result.confirmed_ticket_count) !==
+                Number(order.quantity)
+            ) {
+              throw new Error(
+                "La réponse ne confirme pas tous les billets de la commande."
+              );
+            }
+            showMessage(
+              formMessage,
+              "Commande confirmée : " +
+                result.confirmed_ticket_count +
+                " billet(s). Préparez leur transmission au client.",
+              "success"
+            );
+            await loadOrders();
+            await loadTickets();
+          } catch (error) {
+            showMessage(
+              formMessage,
+              "Confirmation refusée : " +
+                (error.message || "erreur inconnue"),
+              "error"
+            );
+            confirmButton.disabled = false;
+            reference.disabled = false;
+            method.disabled = false;
+          } finally {
+            busy = false;
+          }
+        });
+        card.append(
+          methodLabel,
+          method,
+          referenceLabel,
+          reference,
+          confirmButton,
+          formMessage
+        );
+        list.appendChild(card);
       }
     }
     function renderTickets() {
