@@ -305,9 +305,16 @@ function getTicketFromURL() {
 
 }
 
-
 async function checkTicket(ticketFromURL = null) {
 
+    const { data: sessionData } =
+        await supabaseClient.auth.getSession();
+
+    if (!sessionData.session) {
+        document.getElementById("result").textContent =
+            "Veuillez vous connecter pour contrôler les billets.";
+        return;
+    }
     const inputElement =
         document.getElementById("ticketInput");
 
