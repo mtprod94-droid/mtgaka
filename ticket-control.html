@@ -236,32 +236,32 @@ loginForm.addEventListener("submit", async function (event) {
     submitButton.disabled = true;
     loginMessage.textContent = "Connexion en cours…";
     try {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({
+        const { error } = await supabaseClient.auth.signInWithPassword({
             email,
             password
         });
         if (error) throw error;
         const { data: isStaff, error: accessError } =
-    await supabaseClient.rpc("mtgaka_check_staff_access");
-if (accessError || isStaff !== true) {
-    await supabaseClient.auth.signOut();
-    throw new Error(
-        "Accès refusé : compte du personnel non autorisé."
-    );
-}
-        loginMessage.textContent = “Connexion réussie.”;
-loginBox.style.display = “none”;
-document.getElementById(“ticketScanner”).style.display = “block”;
-
-const ticket = getTicketFromURL();
-if (ticket) await checkTicket(ticket);
-
-} catch (error) {
-loginMessage.textContent =
-    error.message || "Connexion impossible.";
-} finally {
-submitButton.disabled = false;
-}
+            await supabaseClient.rpc("mtgaka_check_staff_access");
+        if (accessError || isStaff !== true) {
+            await supabaseClient.auth.signOut();
+            throw new Error(
+                "Accès refusé : compte du personnel non autorisé."
+            );
+        }
+        loginMessage.textContent = "Connexion réussie.";
+        loginBox.style.display = "none";
+        document.getElementById("ticketScanner").style.display = "block";
+        const ticket = getTicketFromURL();
+        if (ticket) {
+            await checkTicket(ticket);
+        }
+    } catch (error) {
+        loginMessage.textContent =
+            error.message || "Connexion impossible.";
+    } finally {
+        submitButton.disabled = false;
+    }
 });
 
 function escapeHtml(value) {
