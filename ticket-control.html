@@ -258,7 +258,7 @@ if (ticket) await checkTicket(ticket);
 
 } catch (error) {
 loginMessage.textContent =
-error.message || “Connexion impossible.”;
+    error.message || "Connexion impossible.";
 } finally {
 submitButton.disabled = false;
 }
@@ -473,25 +473,6 @@ result.innerHTML = `
         ${escapeHtml(ticket.ticket_code || input)}
     </div>
 `;
-
-
-        if (ticket.status === "ALREADY_USED") {
-    result.className =
-        "result invalid";
-    result.innerHTML = `
-        ⚠️<br>
-        <div class="status">
-            DÉJÀ UTILISÉ
-        </div>
-        <div style="margin-top:12px;">
-            <strong>BEREITS EINGELÖST</strong>
-        </div>
-        <div style="margin-top:12px;">
-            ${escapeHtml(ticket.ticket_code)}
-        </div>
-    `;
-    return;
-}
 
     } catch (error) {
 
