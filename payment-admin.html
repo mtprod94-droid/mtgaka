@@ -998,15 +998,32 @@ async function createTicketFiles(ticket) {
     throw new Error("Numéro de billet manquant.");
   }
 
-  const qrDataUrl = await QRCode.toDataURL(ticketNumber, {
-    errorCorrectionLevel: "H",
-    margin: 2,
+  const qrContainer = document.createElement("div");
+qrContainer.style.position = "absolute";
+qrContainer.style.left = "-9999px";
+document.body.appendChild(qrContainer);
+let qrDataUrl;
+try {
+  new window.QRCode(qrContainer, {
+    text: ticketNumber,
     width: 600,
-    color: {
-      dark: "#111111",
-      light: "#FFFFFF"
-    }
+    height: 600,
+    colorDark: "#111111",
+    colorLight: "#FFFFFF",
+    correctLevel: window.QRCode.CorrectLevel.H
   });
+  const qrCanvas = qrContainer.querySelector("canvas");
+  const qrImageElement = qrContainer.querySelector("img");
+  if (qrCanvas) {
+    qrDataUrl = qrCanvas.toDataURL("image/png");
+  } else if (qrImageElement && qrImageElement.src) {
+    qrDataUrl = qrImageElement.src;
+  } else {
+    throw new Error("Le QR code n’a pas pu être créé.");
+  }
+} finally {
+  qrContainer.remove();
+}
 
   const canvas = document.createElement("canvas");
   canvas.width = 1200;
