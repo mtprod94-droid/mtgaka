@@ -944,6 +944,122 @@
         list.appendChild(card);
       }
     }
+    let currentPaidTickets = [];
+async function loadPaidTickets() {
+  if (!isAdmin || busy) return;
+  const button = $("paidRefreshButton");
+  const list = $("paidTicketList");
+  const message = $("paidListMessage");
+  button.disabled = true;
+  list.replaceChildren();
+  list.innerHTML =
+    '<p class="loading">Chargement des billets payés…</p>';
+  clearMessage(message);
+  try {
+    const { data, error } = await db.rpc(
+      "mtgaka_admin_list_paid_tickets"
+    );
+    if (error) throw error;
+    currentPaidTickets = Array.isArray(data) ? data : [];
+    renderPaidTickets();
+  } catch (error) {
+    list.replaceChildren();
+    showMessage(
+      message,
+      "Impossible de charger les billets payés : " +
+        (error.message || "erreur inconnue"),
+      "error"
+    );
+  } finally {
+    button.disabled = false;
+  }
+}
+function renderPaidTickets() {
+  const list = $("paidTicketList");
+  list.replaceChildren();
+  if (currentPaidTickets.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "Aucun billet payé et valide pour le moment.";
+    list.appendChild(empty);
+    return;
+  }
+  for (const ticket of currentPaidTickets) {
+    const card = document.createElement("article");
+    card.className = "ticket";
+    const head = document.createElement("div");
+    head.className = "ticket-head";
+    const number = document.createElement("div");
+    number.className = "ticket-number";
+    number.textContent = ticket.ticket_number || "Billet sans numéro";
+    const badge = document.createElement("span");
+    badge.className = "badge";
+    badge.textContent = "PAYÉ · VALIDE";
+    head.append(number, badge);
+    card.appendChild(head);
+    const info = document.createElement("div");
+    info.className = "ticket-info";
+    const fields = [
+      ["Client", ticket.customer_name || "Non renseigné"],
+      ["Téléphone", ticket.customer_phone || "Non renseigné"],
+      ["Type", ticket.ticket_type || "—"],
+      ["Quantité", String(ticket.quantity ?? "—")],
+      ["Date de l’événement", ticket.event_date || "—"]
+    ];
+    for (const [label, value] of fields) {
+      const field = document.createElement("div");
+      field.className = "field";
+      const labelEl = document.createElement("span");
+      labelEl.textContent = label;
+      const valueEl = document.createElement("strong");
+      valueEl.textContent = value;
+      field.append(labelEl, valueEl);
+      info.appendChild(field);
+    }
+    card.appendChild(info);
+    const whatsappButton = document.createElement("button");
+    whatsappButton.type = "button";
+    whatsappButton.className = "primary";
+    whatsappButton.textContent = "Envoyer le billet par WhatsApp";
+    whatsappButton.addEventListener("click", () => {
+      const rawPhone = String(ticket.customer_phone || "").trim();
+      let phone = rawPhone.replace(/\D/g, "");
+      if (phone.startsWith("00228")) {
+        phone = phone.slice(2);
+      } else if (phone.length === 8) {
+        phone = "228" + phone;
+      }
+      if (!phone || phone.length < 8) {
+        showMessage(
+          $("paidListMessage"),
+          "Numéro de téléphone invalide pour " +
+            (ticket.ticket_number || "ce billet") + ".",
+          "error"
+        );
+        return;
+      }
+      const type = String(ticket.ticket_type || "").toUpperCase();
+      const ticketDate = ticket.event_date || "24/12/2026";
+      const customer = ticket.customer_name || "cher client";
+      const ticketNumber = ticket.ticket_number || "";
+      const text =
+        "Bonjour " + customer + " !\n\n" +
+        "Votre paiement pour MT.GAKA CHALLENGE DAY est confirmé.\n\n" +
+        "Numéro du billet : " + ticketNumber + "\n" +
+        "Type : " + type + "\n" +
+        "Date de l’événement : " + ticketDate + "\n\n" +
+        "Veuillez conserver ce numéro pour le contrôle à l’entrée.\n" +
+        "Merci pour votre confiance. MT.GAKA";
+      const url =
+        "https://wa.me/" + phone + "?text=" +
+        encodeURIComponent(text);
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+    card.appendChild(whatsappButton);
+    list.appendChild(card);
+  }
+}
+$("paidRefreshButton").addEventListener("click", loadPaidTickets);
     db.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_OUT") {
         isAdmin = false;
