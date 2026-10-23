@@ -319,12 +319,30 @@
       <section class="panel">
   <div class="section-heading">
     <div>
+      <h2>Billets payés – Envoi au client</h2>
+      <p>
+        Consultez les billets confirmés et envoyez leur numéro au client par WhatsApp.
+      </p>
+    </div>
+    <button
+      id="paidRefreshButton"
+      class="secondary small-button"
+      type="button"
+    >
+      Actualiser les billets payés
+    </button>
+  </div>
+  <div id="paidListMessage" aria-live="polite"></div>
+  <div id="paidTicketList"></div>
+</section>
+<section class="panel">
+  <div class="section-heading">
+    <div>
       <h2>Commandes groupées</h2>
       <p>
         Vérifiez le paiement total de chaque commande avant de confirmer.
       </p>
     </div>
-
     <button
       id="orderRefreshButton"
       class="secondary small-button"
@@ -333,16 +351,13 @@
       Actualiser les commandes
     </button>
   </div>
-
   <div class="message info">
     Les billets d’une commande seront confirmés ensemble uniquement
     après vérification du paiement réellement reçu sur Flooz ou TMoney.
   </div>
-
   <div id="orderListMessage" aria-live="polite"></div>
   <div id="orderList"></div>
 </section>
-    </section>
     <footer>
       MT.GAKA · Challenge Day · 24.12.2026
     </footer>
