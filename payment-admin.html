@@ -1348,7 +1348,53 @@ messageBox.appendChild(statusNote);
   }
 }
 $("paidRefreshButton").addEventListener("click", loadPaidTickets);
-    db.auth.onAuthStateChange((event, session) => {
+  $("testTicketButton").addEventListener("click", async () => {
+  const button = $("testTicketButton");
+  const messageBox = $("paidListMessage");
+  button.disabled = true;
+  button.textContent = "Création du test…";
+  messageBox.replaceChildren();
+  try {
+    const testTicket = {
+      ticket_number: "MTGAKA-TEST-000001-20261224",
+      ticket_type: "TEST - NE PAS UTILISER",
+      event_date: "2026-12-24",
+      customer_name: "TEST - NE PAS UTILISER",
+      customer_phone: "",
+      quantity: 1
+    };
+    const files = await createTicketFiles(testTicket);
+    const heading = document.createElement("h3");
+    heading.textContent = "Fichiers de test créés";
+    messageBox.appendChild(heading);
+    const warning = document.createElement("p");
+    warning.textContent =
+      "TEST UNIQUEMENT : ce billet n'est pas valide pour l'entrée et ne correspond à aucun paiement.";
+    messageBox.appendChild(warning);
+    for (const file of [files.imageFile, files.pdfFile]) {
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(file);
+      link.download = file.name;
+      link.textContent = "Télécharger " + file.name;
+      link.style.display = "block";
+      link.style.margin = "12px 0";
+      messageBox.appendChild(link);
+    }
+    const success = document.createElement("p");
+    success.textContent =
+      "Aucune commande ni aucun statut de paiement n'a été modifié.";
+    messageBox.appendChild(success);
+  } catch (error) {
+    const errorMessage = document.createElement("p");
+    errorMessage.textContent =
+      "Échec du test : " + (error.message || "erreur inconnue");
+    messageBox.appendChild(errorMessage);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Tester la création (TEST)";
+  }
+});
+      db.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_OUT") {
         isAdmin = false;
         currentTickets = [];
