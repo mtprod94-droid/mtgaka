@@ -1212,40 +1212,103 @@ function renderPaidTickets() {
     whatsappButton.type = "button";
     whatsappButton.className = "primary";
     whatsappButton.textContent = "Envoyer le billet par WhatsApp";
-    whatsappButton.addEventListener("click", () => {
-      const rawPhone = String(ticket.customer_phone || "").trim();
-      let phone = rawPhone.replace(/\D/g, "");
-      if (phone.startsWith("00228")) {
-        phone = phone.slice(2);
-      } else if (phone.length === 8) {
-        phone = "228" + phone;
-      }
-      if (!phone || phone.length < 8) {
-        showMessage(
-          $("paidListMessage"),
-          "Numéro de téléphone invalide pour " +
-            (ticket.ticket_number || "ce billet") + ".",
-          "error"
-        );
-        return;
-      }
-      const type = String(ticket.ticket_type || "").toUpperCase();
-      const ticketDate = ticket.event_date || "24/12/2026";
-      const customer = ticket.customer_name || "cher client";
-      const ticketNumber = ticket.ticket_number || "";
-      const text =
-        "Bonjour " + customer + " !\n\n" +
-        "Votre paiement pour MT.GAKA CHALLENGE DAY est confirmé.\n\n" +
-        "Numéro du billet : " + ticketNumber + "\n" +
-        "Type : " + type + "\n" +
-        "Date de l’événement : " + ticketDate + "\n\n" +
-        "Veuillez conserver ce numéro pour le contrôle à l’entrée.\n" +
-        "Merci pour votre confiance. MT.GAKA";
-      const url =
-        "https://wa.me/" + phone + "?text=" +
-        encodeURIComponent(text);
-      window.open(url, "_blank", "noopener,noreferrer");
+    whatsappButton.addEventListener("click", async () => {
+  if (!isAdmin || busy) return;
+  const rawPhone = String(ticket.customer_phone || "").trim();
+  let phone = rawPhone.replace(/\D/g, "");
+  if (phone.startsWith("00228")) {
+    phone = phone.slice(2);
+  } else if (phone.length === 8) {
+    phone = "228" + phone;
+  }
+  if (!phone || phone.length < 8) {
+    showMessage(
+      $("paidListMessage"),
+      "Numéro de téléphone invalide pour ce billet.",
+      "error"
+    );
+    return;
+  }
+  whatsappButton.disabled = true;
+  whatsappButton.textContent = "Préparation du billet…";
+  clearMessage($("paidListMessage"));
+  try {
+    const files = await createTicketFiles(ticket);
+    const customer = String(ticket.customer_name || "cher client");
+    const ticketNumber = String(ticket.ticket_number || "");
+    const message =
+      "Bonjour " + customer + " !\n\n" +
+      "Votre paiement pour MT.GAKA CHALLENGE DAY est confirmé.\n\n" +
+      "Numéro du billet : " + ticketNumber + "\n" +
+      "Type : " + String(ticket.ticket_type || "STANDARD").toUpperCase() + "\n" +
+      "Date : 24/12/2026\n\n" +
+      "Veuillez conserver votre billet et présenter son QR code à l’entrée.\n" +
+      "Merci pour votre confiance. MT.GAKA";
+    if (
+      !navigator.share ||
+      !navigator.canShare ||
+      !navigator.canShare({
+        files: [files.imageFile, files.pdfFile]
+      })
+    ) {
+      const imageUrl = URL.createObjectURL(files.imageFile);
+      const pdfUrl = URL.createObjectURL(files.pdfFile);
+      const imageLink = document.createElement("a");
+      imageLink.href = imageUrl;
+      imageLink.download = files.imageFile.name;
+      imageLink.textContent = "Télécharger le billet PNG";
+      const pdfLink = document.createElement("a");
+      pdfLink.href = pdfUrl;
+      pdfLink.download = files.pdfFile.name;
+      pdfLink.textContent = "Télécharger le billet PDF";
+      const messageBox = $("paidListMessage");
+      messageBox.replaceChildren();
+      const note = document.createElement("p");
+      note.textContent =
+        "Le partage direct des fichiers n’est pas pris en charge ici. " +
+        "Téléchargez les deux fichiers, puis joignez-les dans WhatsApp.";
+      messageBox.append(note, imageLink, document.createElement("br"), pdfLink);
+      const whatsappUrl =
+        "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+      const openButton = document.createElement("button");
+      openButton.type = "button";
+      openButton.className = "primary";
+      openButton.textContent = "Ouvrir WhatsApp";
+      openButton.addEventListener("click", () => {
+        window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+      });
+      messageBox.appendChild(openButton);
+      showMessage(
+        messageBox,
+        "Les fichiers sont prêts. Téléchargez-les avant de les joindre dans WhatsApp.",
+        "info"
+      );
+      return;
+    }
+    await navigator.share({
+      title: "Billet MT.GAKA CHALLENGE DAY",
+      text: message + "\n\nDestinataire WhatsApp : +" + phone,
+      files: [files.imageFile, files.pdfFile]
     });
+    showMessage(
+      $("paidListMessage"),
+      "Partage ouvert. Choisissez WhatsApp, vérifiez le destinataire et envoyez les fichiers.",
+      "success"
+    );
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      showMessage(
+        $("paidListMessage"),
+        "Impossible de préparer ou partager le billet : " +
+          (error.message || "erreur inconnue"),
+        "error"
+      );
+    }
+  } finally {
+    whatsappButton.disabled = false;
+    whatsappButton.textContent = "Créer et partager le ticket";
+  }
+});
     card.appendChild(whatsappButton);
     list.appendChild(card);
   }
