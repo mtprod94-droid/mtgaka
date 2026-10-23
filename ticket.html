@@ -326,6 +326,7 @@ document.getElementById("ticket-form").addEventListener("submit", async function
     );
 
     const resultat = await response.json();
+    console.log("MT.GAKA Serverantwort:", resultat);
 
     if (!response.ok) {
       throw new Error(
