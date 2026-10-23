@@ -1304,11 +1304,11 @@ whatsappButton.textContent = "Créer et partager le ticket";
         window.open(whatsappUrl, "_blank", "noopener,noreferrer");
       });
       messageBox.appendChild(openButton);
-      showMessage(
-        messageBox,
-        "Les fichiers sont prêts. Téléchargez-les avant de les joindre dans WhatsApp.",
-        "info"
-      );
+      const statusNote = document.createElement("p");
+statusNote.className = "info";
+statusNote.textContent =
+  "Les fichiers sont prêts. Téléchargez-les avant de les joindre dans WhatsApp.";
+messageBox.appendChild(statusNote);
       return;
     }
     await navigator.share({
