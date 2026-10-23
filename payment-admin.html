@@ -1211,7 +1211,7 @@ function renderPaidTickets() {
     const whatsappButton = document.createElement("button");
     whatsappButton.type = "button";
     whatsappButton.className = "primary";
-    whatsappButton.textContent = "Envoyer le billet par WhatsApp";
+whatsappButton.textContent = "Créer et partager le ticket";
     whatsappButton.addEventListener("click", async () => {
   if (!isAdmin || busy) return;
   const rawPhone = String(ticket.customer_phone || "").trim();
