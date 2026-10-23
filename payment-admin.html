@@ -977,6 +977,194 @@ async function loadPaidTickets() {
     button.disabled = false;
   }
 }
+async function createTicketFiles(ticket) {
+  if (!window.QRCode || !window.jspdf?.jsPDF) {
+    throw new Error("Les bibliothèques QR Code ou PDF ne sont pas chargées.");
+  }
+
+  const ticketNumber = String(ticket.ticket_number || "").trim();
+
+  if (!ticketNumber) {
+    throw new Error("Numéro de billet manquant.");
+  }
+
+  const qrDataUrl = await QRCode.toDataURL(ticketNumber, {
+    errorCorrectionLevel: "H",
+    margin: 2,
+    width: 600,
+    color: {
+      dark: "#111111",
+      light: "#FFFFFF"
+    }
+  });
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 1200;
+  canvas.height = 1600;
+
+  const ctx = canvas.getContext("2d");
+
+  if (!ctx) {
+    throw new Error("Impossible de créer l’image du billet.");
+  }
+
+  ctx.fillStyle = "#0b0b0b";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.strokeStyle = "#c9a96e";
+  ctx.lineWidth = 12;
+  ctx.strokeRect(30, 30, 1140, 1540);
+
+  ctx.textAlign = "center";
+
+  ctx.fillStyle = "#c9a96e";
+  ctx.font = "bold 64px Arial";
+  ctx.fillText("MT.GAKA", 600, 145);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 48px Arial";
+  ctx.fillText("CHALLENGE DAY", 600, 220);
+
+  ctx.fillStyle = "#c9a96e";
+  ctx.font = "32px Arial";
+  ctx.fillText("24 DÉCEMBRE 2026", 600, 285);
+
+  ctx.strokeStyle = "#c9a96e";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(100, 330);
+  ctx.lineTo(1100, 330);
+  ctx.stroke();
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "30px Arial";
+  ctx.fillText("TITULAIRE", 600, 400);
+
+  ctx.font = "bold 42px Arial";
+  const customerName = String(ticket.customer_name || "Client");
+  ctx.fillText(customerName.slice(0, 30), 600, 460);
+
+  ctx.fillStyle = "#c9a96e";
+  ctx.font = "bold 36px Arial";
+  ctx.fillText(
+    "TYPE : " + String(ticket.ticket_type || "STANDARD").toUpperCase(),
+    600,
+    525
+  );
+
+  const qrImage = new Image();
+
+  await new Promise((resolve, reject) => {
+    qrImage.onload = resolve;
+    qrImage.onerror = reject;
+    qrImage.src = qrDataUrl;
+  });
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(300, 580, 600, 600);
+  ctx.drawImage(qrImage, 300, 580, 600, 600);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "bold 30px Arial";
+  ctx.fillText("NUMÉRO DU BILLET", 600, 1240);
+
+  ctx.fillStyle = "#c9a96e";
+  ctx.font = "bold 28px Arial";
+  ctx.fillText(ticketNumber, 600, 1295);
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "26px Arial";
+  ctx.fillText("Présentez ce QR code à l’entrée.", 600, 1380);
+
+  ctx.fillStyle = "#c9a96e";
+  ctx.font = "24px Arial";
+  ctx.fillText("SPORT • MUSIQUE • TALENTS • AMITIÉ", 600, 1460);
+
+  const imageBlob = await new Promise((resolve, reject) => {
+    canvas.toBlob(blob => {
+      if (blob) resolve(blob);
+      else reject(new Error("Création de l’image impossible."));
+    }, "image/png");
+  });
+
+  const pdf = new window.jspdf.jsPDF({
+    orientation: "portrait",
+    unit: "mm",
+    format: "a5"
+  });
+
+  pdf.setFillColor(11, 11, 11);
+  pdf.rect(0, 0, 148, 210, "F");
+
+  pdf.setDrawColor(201, 169, 110);
+  pdf.setLineWidth(1);
+  pdf.rect(5, 5, 138, 200);
+
+  pdf.setTextColor(201, 169, 110);
+  pdf.setFont("helvetica", "bold");
+  pdf.setFontSize(24);
+  pdf.text("MT.GAKA", 74, 22, { align: "center" });
+
+  pdf.setTextColor(255, 255, 255);
+  pdf.setFontSize(17);
+  pdf.text("CHALLENGE DAY", 74, 32, { align: "center" });
+
+  pdf.setTextColor(201, 169, 110);
+  pdf.setFontSize(11);
+  pdf.text("24 DECEMBRE 2026", 74, 41, { align: "center" });
+
+  pdf.setTextColor(255, 255, 255);
+  pdf.setFontSize(10);
+  pdf.text("TITULAIRE", 74, 52, { align: "center" });
+  pdf.setFontSize(13);
+  pdf.text(customerName.slice(0, 30), 74, 60, { align: "center" });
+
+  pdf.setTextColor(201, 169, 110);
+  pdf.setFontSize(11);
+  pdf.text(
+    "TYPE : " + String(ticket.ticket_type || "STANDARD").toUpperCase(),
+    74,
+    69,
+    { align: "center" }
+  );
+
+  pdf.addImage(qrDataUrl, "PNG", 39, 76, 70, 70);
+
+  pdf.setTextColor(255, 255, 255);
+  pdf.setFontSize(9);
+  pdf.text("NUMÉRO DU BILLET", 74, 155, { align: "center" });
+
+  pdf.setTextColor(201, 169, 110);
+  pdf.setFontSize(9);
+  pdf.text(ticketNumber, 74, 162, { align: "center" });
+
+  pdf.setTextColor(255, 255, 255);
+  pdf.setFontSize(9);
+  pdf.text("Présentez ce QR code à l’entrée.", 74, 175, {
+    align: "center"
+  });
+
+  const safeNumber = ticketNumber.replace(/[^A-Z0-9_-]/gi, "_");
+
+  const imageFile = new File(
+    [imageBlob],
+    safeNumber + ".png",
+    { type: "image/png" }
+  );
+
+  const pdfBlob = pdf.output("blob");
+
+  const pdfFile = new File(
+    [pdfBlob],
+    safeNumber + ".pdf",
+    { type: "application/pdf" }
+  );
+
+  return {
+    imageFile,
+    pdfFile
+  };
+}
 function renderPaidTickets() {
   const list = $("paidTicketList");
   list.replaceChildren();
