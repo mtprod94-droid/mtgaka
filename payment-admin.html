@@ -978,9 +978,19 @@ async function loadPaidTickets() {
   }
 }
 async function createTicketFiles(ticket) {
-  if (!window.QRCode || !window.jspdf?.jsPDF) {
-    throw new Error("Les bibliothèques QR Code ou PDF ne sont pas chargées.");
-  }
+  if (
+  typeof window.QRCode === "undefined" ||
+  typeof window.QRCode.toDataURL !== "function" ||
+  typeof window.jspdf === "undefined" ||
+  typeof window.jspdf.jsPDF !== "function"
+) {
+  throw new Error(
+    "Bibliothèques indisponibles : QRCode=" +
+      typeof window.QRCode +
+      ", jsPDF=" +
+      typeof window.jspdf
+  );
+}
 
   const ticketNumber = String(ticket.ticket_number || "").trim();
 
