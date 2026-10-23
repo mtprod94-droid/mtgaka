@@ -335,7 +335,7 @@ document.getElementById("ticket-form").addEventListener("submit", async function
 
     if (
   typeof resultat.order_reference !== "string" ||
-  !/^MTGAKA-ORD-[a-f0-9-]{36}$/i.test(resultat.order_reference) ||
+  !/^MTGAKA-ORD-[A-F0-9-]{32,36}$/i.test(resultat.order_reference) ||
   resultat.status !== "PENDING" ||
   resultat.quantity !== quantite
 ) {
