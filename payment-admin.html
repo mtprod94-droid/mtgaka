@@ -626,7 +626,7 @@
         const amount = Number(order.total_amount);
         const validOrder =
           typeof order.order_reference === "string" &&
-          /^MTGAKA-ORD-[a-f0-9-]{36}$/i.test(order.order_reference) &&
+          /^MTGAKA-ORD-[a-f0-9]{32}$/i.test(order.order_reference) &&
           Number.isSafeInteger(Number(order.quantity)) &&
           Number(order.quantity) > 0 &&
           Number.isSafeInteger(amount) &&
