@@ -476,7 +476,8 @@
         $("dashboard").classList.remove("hidden");
         await Promise.all([
   loadTickets(),
-  loadOrders()
+  loadOrders(),
+  loadPaidTickets()
 ]);
       } catch (error) {
         showMessage(
