@@ -979,8 +979,7 @@ async function loadPaidTickets() {
 }
 async function createTicketFiles(ticket) {
   if (
-  typeof window.QRCode === "undefined" ||
-  typeof window.QRCode.toDataURL !== "function" ||
+  typeof window.QRCode !== "function" ||
   typeof window.jspdf === "undefined" ||
   typeof window.jspdf.jsPDF !== "function"
 ) {
