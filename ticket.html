@@ -334,18 +334,29 @@ document.getElementById("ticket-form").addEventListener("submit", async function
       );
     }
 
-    if (
-  typeof resultat.order_reference !== "string" ||
-  !/^MTGAKA-ORD-[A-F0-9-]{32,36}$/i.test(resultat.order_reference) ||
-  resultat.status !== "PENDING" ||
-resultat.quantity !== Number(quantite)
+    const diagnostic = {
+  order_reference: resultat.order_reference,
+  reference_is_valid:
+    typeof resultat.order_reference === "string" &&
+    /^MTGAKA-ORD-[A-F0-9-]{32,36}$/i.test(resultat.order_reference),
+  status: resultat.status,
+  quantity_from_server: resultat.quantity,
+  quantity_from_form: Number(quantite)
+};
+if (
+  !diagnostic.reference_is_valid ||
+  diagnostic.status !== "PENDING" ||
+  diagnostic.quantity_from_server !== diagnostic.quantity_from_form
 ) {
   alert(
-    "La commande a peut-être été enregistrée, mais sa confirmation est incomplète. " +
-    "Ne recommencez pas la commande avant de vérifier son état."
+    "DIAGNOSTIC MT.GAKA\n\n" +
+    JSON.stringify(diagnostic, null, 2) +
+    "\n\nNe recommencez pas la commande."
   );
   return;
 }
+
+::
 
         alert(
   "COMMANDE CRÉÉE AVEC SUCCÈS !\n\n" +
