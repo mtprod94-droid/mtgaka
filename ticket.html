@@ -337,7 +337,7 @@ document.getElementById("ticket-form").addEventListener("submit", async function
   typeof resultat.order_reference !== "string" ||
   !/^MTGAKA-ORD-[A-F0-9-]{32,36}$/i.test(resultat.order_reference) ||
   resultat.status !== "PENDING" ||
-  resultat.quantity !== quantite
+resultat.quantity !== Number(quantite)
 ) {
   alert(
     "La commande a peut-être été enregistrée, mais sa confirmation est incomplète. " +
