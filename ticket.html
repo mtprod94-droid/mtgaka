@@ -178,9 +178,13 @@ footer {
 <label for="telephone">Numéro de téléphone</label>
 <input id="telephone" name="telephone" type="tel"
        placeholder="+228 ..." required>
-<label for="evenement">Événement</label>
-<input id="evenement" name="evenement" type="text"
-       placeholder="Nom de l'événement" required>
+<label for="evenement">Choisir un événement</label>
+<select id="evenement" name="evenement" required>
+  <option value="">Sélectionner un événement</option>
+  <option value="MT.GAKA CHALLENGE DAY">
+    MT.GAKA CHALLENGE DAY — 24 décembre 2026
+  </option>
+</select>
 <label for="billet">Type de billet</label>
 <select id="billet" name="billet" required>
   <option value="">Choisir un type de billet</option>
