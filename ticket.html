@@ -157,11 +157,21 @@ footer {
 <section class="card">
   <h2>🎟️ Demande de réservation</h2>
   <p class="note">
-    Remplissez ce formulaire pour demander vos billets.
-    Notre équipe vous contactera pour confirmer les disponibilités
-    et le prix avant tout paiement.
+  Remplissez ce formulaire pour demander vos billets.
+  Notre équipe vous contactera pour confirmer les disponibilités
+  et le prix avant tout paiement.
+</p>
+<div class="payment-notice" role="note">
+  <strong>Important : confirmation du paiement</strong>
+  <p>
+    Votre commande sera vérifiée par l’équipe MT.GAKA.
+    Le billet et son QR code ne seront délivrés qu’après
+    confirmation effective du paiement reçu sur Flooz ou TMoney.
+    Une référence de transaction saisie ne constitue pas une preuve
+    de paiement. Merci de conserver votre référence jusqu’à la confirmation.
   </p>
-  <form id="ticket-form">
+</div>
+<form id="ticket-form">
     <label for="nom">Nom complet</label>
     <input id="nom" name="nom" type="text"
            placeholder="Votre nom complet" required>
