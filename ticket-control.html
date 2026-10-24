@@ -482,6 +482,73 @@ loginForm.addEventListener("submit", async function (event) {
     }
 });
 
+// ========================================
+// MT.GAKA ADMIN DASHBOARD
+// ========================================
+
+const adminDashboard = document.getElementById("adminDashboard");
+const dashboardMessage = document.getElementById("dashboardMessage");
+const refreshDashboardButton = document.getElementById("refreshDashboardButton");
+
+async function loadAdminDashboard() {
+    if (entryMode) {
+        adminDashboard.style.display = "none";
+        return;
+    }
+
+    refreshDashboardButton.disabled = true;
+    dashboardMessage.textContent = "Chargement des statistiques…";
+
+    try {
+        const { data: role, error: roleError } =
+            await supabaseClient.rpc("mtgaka_current_staff_role");
+
+        if (roleError || role !== "ADMIN") {
+            adminDashboard.style.display = "none";
+            throw new Error("Accès réservé à l’administrateur.");
+        }
+
+        const { data, error } =
+            await supabaseClient.rpc("mtgaka_admin_dashboard_stats");
+
+        if (error) {
+            throw error;
+        }
+
+        document.getElementById("dashTotal").textContent =
+            Number(data.total_tickets).toLocaleString("fr-FR");
+
+        document.getElementById("dashUsed").textContent =
+            Number(data.used_tickets).toLocaleString("fr-FR");
+
+        document.getElementById("dashUnused").textContent =
+            Number(data.unused_tickets).toLocaleString("fr-FR");
+
+        document.getElementById("dashClassic").textContent =
+            Number(data.classic_tickets).toLocaleString("fr-FR");
+
+        document.getElementById("dashVip").textContent =
+            Number(data.vip_tickets).toLocaleString("fr-FR");
+
+        document.getElementById("dashChallenge").textContent =
+            Number(data.challenge_tickets).toLocaleString("fr-FR");
+
+        document.getElementById("dashArtist").textContent =
+            Number(data.artist_tickets).toLocaleString("fr-FR");
+
+        adminDashboard.style.display = "block";
+        dashboardMessage.textContent = "Statistiques actualisées.";
+
+    } catch (error) {
+        dashboardMessage.textContent =
+            error.message || "Impossible de charger les statistiques.";
+    } finally {
+        refreshDashboardButton.disabled = false;
+    }
+}
+
+refreshDashboardButton.addEventListener("click", loadAdminDashboard);
+
 function escapeHtml(value) {
 
     return String(value)
