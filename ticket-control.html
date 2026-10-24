@@ -176,23 +176,27 @@
             <label for="staffUsername">Identifiant du personnel</label>
             <select
     id="staffUsername"
+    required
     style="
         display: block;
         width: 100%;
         min-height: 60px;
-        padding: 14px 40px 14px 14px;
+        padding: 14px;
         margin: 12px 0 18px;
         background-color: #000;
-        color: #fff;
+        color: #c9a96e;
         text-align: center;
         text-align-last: center;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 700;
         border: 1px solid #c9a96e;
         border-radius: 12px;
         color-scheme: dark;
     "
 >
+    <option value="" selected disabled>
+        Identifiant du personnel
+    </option>
     <option value="MT.GAKA-01">MT.GAKA-01</option>
     <option value="MT.GAKA-02">MT.GAKA-02</option>
 </select>
