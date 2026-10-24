@@ -156,16 +156,30 @@
     </div>
 
 <div class="scanner-box" id="loginBox">
-    <h2>Connexion du personnel</h2>
-    <p>Connectez-vous pour accéder au contrôle des billets.</p>
+    <h2 id="loginTitle">Connexion du personnel</h2>
+    <p id="loginDescription">
+        Connectez-vous pour accéder au contrôle des billets.
+    </p>
+
     <form id="loginForm">
-        <input
-            id="staffEmail"
-            type="email"
-            placeholder="Adresse e-mail"
-            autocomplete="username"
-            required
-        >
+        <div id="adminLoginFields">
+            <input
+                id="staffEmail"
+                type="email"
+                placeholder="Adresse e-mail"
+                autocomplete="username"
+                required
+            >
+        </div>
+
+        <div id="entryLoginFields" style="display:none;">
+            <label for="staffUsername">Identifiant du personnel</label>
+            <select id="staffUsername">
+                <option value="MT.GAKA-01">MT.GAKA-01</option>
+                <option value="MT.GAKA-02">MT.GAKA-02</option>
+            </select>
+        </div>
+
         <input
             id="staffPassword"
             type="password"
@@ -173,6 +187,7 @@
             autocomplete="current-password"
             required
         >
+
         <button type="submit">SE CONNECTER</button>
         <div id="loginMessage" role="status"></div>
     </form>
@@ -249,31 +264,103 @@ const supabaseClient =
 const loginForm = document.getElementById("loginForm");
 const loginBox = document.getElementById("loginBox");
 const loginMessage = document.getElementById("loginMessage");
+
+const loginParams = new URLSearchParams(window.location.search);
+const entryMode = loginParams.get("mode") === "entry";
+
+const adminLoginFields = document.getElementById("adminLoginFields");
+const entryLoginFields = document.getElementById("entryLoginFields");
+const loginTitle = document.getElementById("loginTitle");
+const loginDescription = document.getElementById("loginDescription");
+const staffUsername = document.getElementById("staffUsername");
+
+if (entryMode) {
+    adminLoginFields.style.display = "none";
+    entryLoginFields.style.display = "block";
+
+    document.getElementById("staffEmail").required = false;
+    staffUsername.required = true;
+
+    loginTitle.textContent = "Connexion du personnel";
+    loginDescription.textContent =
+        "Sélectionnez votre identifiant et entrez votre mot de passe.";
+} else {
+    adminLoginFields.style.display = "block";
+    entryLoginFields.style.display = "none";
+
+    document.getElementById("staffEmail").required = true;
+    staffUsername.required = false;
+
+    loginTitle.textContent = "Connexion administrateur";
+    loginDescription.textContent =
+        "Connectez-vous avec votre adresse e-mail administrateur.";
+}
+
 loginForm.addEventListener("submit", async function (event) {
     event.preventDefault();
-    const email = document.getElementById("staffEmail").value.trim();
+
+    const email = entryMode
+        ? {
+              "MT.GAKA-01": "chabanfousseni@googlemail.com",
+              "MT.GAKA-02": "chabanefousseni@gmail.com"
+          }[staffUsername.value]
+        : document.getElementById("staffEmail").value.trim();
+
     const password = document.getElementById("staffPassword").value;
     const submitButton = loginForm.querySelector('button[type="submit"]');
+
     submitButton.disabled = true;
     loginMessage.textContent = "Connexion en cours…";
+
     try {
+        if (!email) {
+            throw new Error("Identifiant du personnel invalide.");
+        }
+
         const { error } = await supabaseClient.auth.signInWithPassword({
             email,
             password
         });
-        if (error) throw error;
+
+        if (error) {
+            throw error;
+        }
+
+        const { data: role, error: roleError } =
+            await supabaseClient.rpc("mtgaka_current_staff_role");
+
+        if (roleError) {
+            await supabaseClient.auth.signOut();
+            throw new Error("Impossible de vérifier le rôle du compte.");
+        }
+
+        const expectedRole = entryMode ? "ENTRY" : "ADMIN";
+
+        if (role !== expectedRole) {
+            await supabaseClient.auth.signOut();
+            throw new Error(
+                entryMode
+                    ? "Accès refusé : compte non autorisé pour l'entrée."
+                    : "Accès refusé : compte administrateur requis."
+            );
+        }
+
         const { data: isStaff, error: accessError } =
             await supabaseClient.rpc("mtgaka_check_staff_access");
+
         if (accessError || isStaff !== true) {
             await supabaseClient.auth.signOut();
             throw new Error(
                 "Accès refusé : compte du personnel non autorisé."
             );
         }
+
         loginMessage.textContent = "Connexion réussie.";
         loginBox.style.display = "none";
         document.getElementById("ticketScanner").style.display = "block";
+
         const ticket = getTicketFromURL();
+
         if (ticket) {
             await checkTicket(ticket);
         }
