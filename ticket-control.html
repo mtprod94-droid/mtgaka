@@ -469,6 +469,8 @@ loginForm.addEventListener("submit", async function (event) {
         loginBox.style.display = "none";
         document.getElementById("ticketScanner").style.display = "block";
 
+if (!entryMode) await loadAdminDashboard();
+
         const ticket = getTicketFromURL();
 
         if (ticket) {
