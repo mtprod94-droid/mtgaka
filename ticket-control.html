@@ -227,6 +227,81 @@ button:active {
         <div id="loginMessage" role="status"></div>
     </form>
 </div>
+<!-- MT.GAKA ADMIN DASHBOARD -->
+<div class="scanner-box" id="adminDashboard"
+     style="display:none; margin-bottom:16px;">
+
+    <h2>TABLEAU DE BORD</h2>
+    <p>Statistiques des billets MT.GAKA</p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+
+        <div class="scanner-box">
+            <p>Total des billets</p>
+            <div id="dashTotal"
+                 style="font-size:28px;color:#c9a96e;font-weight:bold;">
+                —
+            </div>
+        </div>
+
+        <div class="scanner-box">
+            <p>Billets utilisés</p>
+            <div id="dashUsed"
+                 style="font-size:28px;color:#e74c3c;font-weight:bold;">
+                —
+            </div>
+        </div>
+
+        <div class="scanner-box">
+            <p>Billets disponibles</p>
+            <div id="dashUnused"
+                 style="font-size:28px;color:#2ecc71;font-weight:bold;">
+                —
+            </div>
+        </div>
+
+        <div class="scanner-box">
+            <p>CLASSIC</p>
+            <div id="dashClassic"
+                 style="font-size:24px;color:#c9a96e;font-weight:bold;">
+                —
+            </div>
+        </div>
+
+        <div class="scanner-box">
+            <p>VIP</p>
+            <div id="dashVip"
+                 style="font-size:24px;color:#c9a96e;font-weight:bold;">
+                —
+            </div>
+        </div>
+
+        <div class="scanner-box">
+            <p>CHALLENGE</p>
+            <div id="dashChallenge"
+                 style="font-size:24px;color:#c9a96e;font-weight:bold;">
+                —
+            </div>
+        </div>
+
+        <div class="scanner-box" style="grid-column:1 / -1;">
+            <p>ARTIST</p>
+            <div id="dashArtist"
+                 style="font-size:24px;color:#c9a96e;font-weight:bold;">
+                —
+            </div>
+        </div>
+
+    </div>
+
+    <button type="button" id="refreshDashboardButton">
+        ACTUALISER LES STATISTIQUES
+    </button>
+
+    <p id="dashboardMessage" role="status"></p>
+
+</div>
+<!-- FIN DU TABLEAU DE BORD -->
 <div class="scanner-box" id="ticketScanner" style="display:none;">
 
         <div class="scanner-icon">▣</div>
