@@ -188,6 +188,26 @@
             l'identifiant du billet.
         </p>
 
+<button id="startCameraButton" type="button">
+    📷 SCANNER AVEC LA CAMÉRA
+</button>
+
+<div id="cameraScanner" style="display:none; margin-top:12px;">
+    <video
+    id="cameraVideo"
+    style="width:100%; border-radius:12px;"
+    playsinline
+></video>
+
+    <button id="stopCameraButton" type="button">
+        ARRÊTER LA CAMÉRA
+    </button>
+
+    <p id="cameraMessage" role="status">
+        Préparation de la caméra…
+    </p>
+</div>
+
         <input
             id="ticketInput"
             type="text"
@@ -211,6 +231,7 @@
 
 <!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@zxing/browser@0.2.1"></script>
 
 <script>
 const SUPABASE_URL =
@@ -508,12 +529,84 @@ result.innerHTML = `
 
 }
 
+let cameraScanner = null;
+let cameraControls = null;
+let scanLocked = false;
 
-window.addEventListener("load", function () {
-// Le billet ne doit pas être contrôlé avant la connexion du personnel.
-getTicketFromURL();
-});
-</script>
+document.getElementById("startCameraButton")
+    .addEventListener("click", async function () {
+        const cameraBox = document.getElementById("cameraScanner");
+        const cameraMessage = document.getElementById("cameraMessage");
+        const video = document.getElementById("cameraVideo");
+
+        if (cameraControls) return;
+
+        if (!window.ZXingBrowser ||
+!window.ZXingBrowser.BrowserPDF417Reader) {
+            cameraMessage.textContent =
+                "Scanner PDF417 indisponible. Rechargez la page.";
+            cameraBox.style.display = "block";
+            return;
+        }
+
+        cameraBox.style.display = "block";
+        cameraMessage.textContent =
+            "Ouverture de la caméra…";
+
+        try {
+            cameraScanner =
+                new ZXingBrowser.BrowserPDF417Reader();
+
+            cameraControls =
+                await cameraScanner.decodeFromConstraints(
+                    {
+                        video: {
+                            facingMode: "environment"
+                        }
+                    },
+                    video,
+                    async function (result, error, controls) {
+                        if (!result || scanLocked) return;
+
+                        scanLocked = true;
+                        cameraMessage.textContent =
+                            "Code lu. Vérification du billet…";
+
+                        controls.stop();
+                        cameraControls = null;
+
+                        const code = result.getText().trim();
+
+                        document.getElementById("ticketInput").value = code;
+
+                        cameraBox.style.display = "none";
+
+                        await checkTicket(code);
+
+                        scanLocked = false;
+                    }
+                );
+
+            cameraMessage.textContent =
+                "Caméra active. Présentez le code PDF417.";
+        } catch (error) {
+            cameraControls = null;
+            cameraMessage.textContent =
+                "Impossible d’ouvrir la caméra. Vérifiez son autorisation.";
+        }
+    });
+
+document.getElementById("stopCameraButton")
+    .addEventListener("click", function () {
+              const cameraBox = document.getElementById("cameraScanner");
+          if (cameraControls) {
+            cameraControls.stop();
+            cameraControls = null;
+        }
+
+        cameraBox.style.display = "none";
+        scanLocked = false;
+    });
 
 </body>
 </html>
