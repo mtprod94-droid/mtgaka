@@ -543,9 +543,9 @@ body.menu-is-open .main-navigation a {
     background:
         radial-gradient(
             ellipse at 80% 25%,
-            rgba(255, 117, 24, 0.18) 0%,
-            rgba(201, 169, 110, 0.08) 30%,
-            transparent 65%
+            rgba(255, 117, 24, 0.32) 0%,
+            rgba(255, 117, 24, 0.12) 35%,
+            transparent 70%
         );
 }
 
