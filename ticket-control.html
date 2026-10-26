@@ -455,6 +455,97 @@ button:active {
         animation: none;
     }
 }
+/* MT.GAKA – CHRISTMAS TICKET RESULTS */
+
+/* Grunddesign der Ticket-Ergebnisanzeige */
+.result {
+    display: none;
+    margin-top: 18px;
+    padding: 20px 14px;
+    border-radius: 16px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff4df;
+    background: linear-gradient(
+        145deg,
+        rgba(18, 16, 12, 0.98),
+        rgba(35, 25, 18, 0.96)
+    );
+    border: 1px solid rgba(201, 169, 110, 0.65);
+    box-shadow:
+        0 0 18px rgba(201, 169, 110, 0.12),
+        inset 0 0 14px rgba(201, 169, 110, 0.04);
+    overflow-wrap: anywhere;
+}
+
+/* Gültiges Ticket – festliches Grün und Gold */
+.result.valid {
+    display: block;
+    background: linear-gradient(
+        145deg,
+        #10351f,
+        #17452b
+    );
+    border: 1px solid #c9a96e;
+    box-shadow:
+        0 0 16px rgba(46, 204, 113, 0.22),
+        inset 0 0 12px rgba(201, 169, 110, 0.08);
+}
+
+/* Bereits verwendetes Ticket – Rot und Gold */
+.result.used {
+    display: block;
+    background: linear-gradient(
+        145deg,
+        #351313,
+        #501b1b
+    );
+    border: 1px solid #e6a05b;
+    box-shadow:
+        0 0 16px rgba(231, 76, 60, 0.2),
+        inset 0 0 12px rgba(201, 169, 110, 0.06);
+}
+
+/* Ticketnummer */
+.ticket-id {
+    margin-top: 14px;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #f5dfb0;
+    border-top: 1px solid rgba(201, 169, 110, 0.35);
+    overflow-wrap: anywhere;
+}
+
+/* Große Statusanzeige */
+.status {
+    margin-top: 10px;
+    font-size: clamp(21px, 6vw, 28px);
+    line-height: 1.3;
+    color: #fff0cf;
+    overflow-wrap: anywhere;
+}
+
+/* Offizieller Hinweis */
+.test-note {
+    margin-top: 16px;
+    padding-bottom: 12px;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-align: center;
+    color: #c9a96e;
+}
+
+@media (max-width: 600px) {
+    .result {
+        padding: 17px 12px;
+        border-radius: 14px;
+    }
+
+    .ticket-id {
+        font-size: 13px;
+    }
+}
     </style>
 </head>
 
