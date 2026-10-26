@@ -6335,10 +6335,10 @@ a:hover {
 .hero-section::after {
     content: "🎃  🕸️  🎃";
     position: absolute;
-    top: 115px;
-    right: 12px;
+    top: 75px;
+    right: 8px;
     z-index: 5;
-    font-size: 48px;
+    font-size: 72px;
     line-height: 1.4;
     letter-spacing: 8px;
     opacity: 1;
@@ -6349,7 +6349,7 @@ a:hover {
 .events-section::after,
 .activities-section::after,
 .gallery-section::after {
-    font-size: 64px;
+    font-size: 96px;
     line-height: 1.2;
     opacity: 0.85;
     top: 20px;
