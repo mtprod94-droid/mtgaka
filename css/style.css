@@ -538,6 +538,17 @@ body.menu-is-open .main-navigation a {
     overflow: hidden;
 }
 
+/* 🎃 MT.GAKA – HALLOWEEN LIGHT EFFECT */
+.hero-section {
+    background:
+        radial-gradient(
+            ellipse at 80% 25%,
+            rgba(255, 117, 24, 0.18) 0%,
+            rgba(201, 169, 110, 0.08) 30%,
+            transparent 65%
+        );
+}
+
 .hero-content {
     position: relative;
     z-index: 5;
