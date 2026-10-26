@@ -6082,42 +6082,56 @@ gap: 10px;
 
 :root {
     --halloween-orange: #ff7518;
-    --halloween-glow: rgba(255, 117, 24, 0.22);
+    --halloween-glow: rgba(255, 117, 24, 0.35);
 }
 
-/* Halloween-Lichtschein – über dem bestehenden Hintergrund */
+/* Deutlich sichtbarer Halloween-Lichtschein */
 .hero-section {
+    background-color: #070707;
     background-image:
         radial-gradient(
-            ellipse at 80% 25%,
-            rgba(255, 117, 24, 0.32) 0%,
-            rgba(255, 117, 24, 0.12) 35%,
-            transparent 70%
+            ellipse at 85% 30%,
+            rgba(255, 117, 24, 0.35) 0%,
+            rgba(255, 117, 24, 0.14) 30%,
+            rgba(7, 7, 7, 0) 68%
         );
 }
 
-/* Dezenter Lichteffekt für Überschriften */
+/* Orangefarbener Glanz auf dem MT.GAKA-Schriftzug */
 .hero-title {
     text-shadow:
-        0 0 18px var(--halloween-glow),
-        0 0 40px rgba(255, 117, 24, 0.08);
+        0 0 12px rgba(255, 117, 24, 0.35),
+        0 0 32px rgba(255, 117, 24, 0.20);
 }
 
-/* Orangefarbene Akzente beim Berühren von Links */
+/* GAKA in Halloween-Orange mit Gold-Akzent */
+.hero-title span {
+    color: var(--halloween-orange);
+}
+
+/* Leuchtende Ringe im Hero-Bereich */
+.hero-ring {
+    border-color: rgba(255, 117, 24, 0.45);
+    box-shadow:
+        0 0 18px rgba(255, 117, 24, 0.12),
+        inset 0 0 18px rgba(255, 117, 24, 0.06);
+}
+
+/* Orangefarbene Akzente bei Links */
 a:hover {
     color: var(--halloween-orange);
 }
 
-/* Dezente orangefarbene Konturen */
+/* Dezente Halloween-Konturen für Karten */
 .card,
 .event-card,
 .activity-card,
 .artist-card {
-    border-color: rgba(255, 117, 24, 0.28);
+    border-color: rgba(255, 117, 24, 0.35);
 }
 
-/* Textauswahl */
+/* Farbe bei markiertem Text */
 ::selection {
     background: var(--halloween-orange);
-    color: var(--black);
+    color: #070707;
 }
