@@ -394,6 +394,67 @@ button:active {
         animation: none;
     }
 }
+/* MT.GAKA – CHRISTMAS HEADER 2026 */
+
+.christmas-header {
+    margin: 18px auto 26px;
+    padding: 16px 12px;
+    max-width: 500px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #c9a96e;
+    background: linear-gradient(
+        135deg,
+        rgba(125, 20, 35, 0.25),
+        rgba(0, 0, 0, 0.75),
+        rgba(201, 169, 110, 0.12)
+    );
+    border: 1px solid rgba(201, 169, 110, 0.65);
+    border-radius: 14px;
+    box-shadow:
+        0 0 18px rgba(201, 169, 110, 0.12),
+        inset 0 0 15px rgba(201, 169, 110, 0.04);
+    animation: mtgakaHeaderGlow 3s ease-in-out infinite alternate;
+}
+
+.christmas-date {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: #fff0cf;
+}
+
+@keyframes mtgakaHeaderGlow {
+    from {
+        box-shadow: 0 0 8px rgba(201, 169, 110, 0.12);
+    }
+
+    to {
+        box-shadow: 0 0 20px rgba(201, 169, 110, 0.32);
+    }
+}
+
+@media (max-width: 600px) {
+    .christmas-header {
+        margin: 14px 8px 22px;
+        padding: 14px 8px;
+        font-size: 13px;
+        letter-spacing: 1.5px;
+    }
+
+    .christmas-date {
+        font-size: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .christmas-header {
+        animation: none;
+    }
+}
     </style>
 </head>
 
@@ -406,6 +467,13 @@ button:active {
     <div class="subtitle">
         CHALLENGE DAY · TICKET CONTROL
     </div>
+    
+    <div class="christmas-header">
+    ✨ ÉDITION DE NOËL 2026 ✨
+    <div class="christmas-date">
+        🎄 24 DÉCEMBRE 2026 🎅
+    </div>
+</div>
 
 <div class="scanner-box" id="loginBox">
     <h2 id="loginTitle">Connexion du personnel</h2>
