@@ -6327,3 +6327,54 @@ a:hover {
     background: var(--halloween-orange);
     color: #070707;
 }
+/* ==========================================
+   MT.GAKA HALLOWEEN — BIG DECORATIONS
+   ========================================== */
+
+/* Große Kürbisse im Startbereich */
+.hero-section::after {
+    content: "🎃  🕸️  🎃";
+    position: absolute;
+    top: 115px;
+    right: 12px;
+    z-index: 5;
+    font-size: 48px;
+    line-height: 1.4;
+    letter-spacing: 8px;
+    opacity: 1;
+    pointer-events: none;
+}
+
+/* Große Spinnennetze in den weiteren Abschnitten */
+.events-section::after,
+.activities-section::after,
+.gallery-section::after {
+    font-size: 64px;
+    line-height: 1.2;
+    opacity: 0.85;
+    top: 20px;
+    right: 12px;
+    pointer-events: none;
+}
+
+/* Mehr Halloween-Glanz */
+.hero-title {
+    text-shadow:
+        0 0 18px rgba(255, 117, 24, 0.45),
+        0 0 42px rgba(255, 117, 24, 0.25);
+}
+
+/* Auf größeren Bildschirmen noch auffälliger */
+@media (min-width: 768px) {
+    .hero-section::after {
+        font-size: 64px;
+        right: 35px;
+    }
+
+    .events-section::after,
+    .activities-section::after,
+    .gallery-section::after {
+        font-size: 80px;
+        right: 28px;
+    }
+}
