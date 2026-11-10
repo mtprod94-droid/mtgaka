@@ -6378,3 +6378,34 @@ a:hover {
         right: 28px;
     }
 }
+/* MT.GAKA – ARTISTES INVITÉS */
+.guest-artists {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 15px;
+    width: 100%;
+    margin: 25px auto;
+}
+
+.guest-artist-card {
+    flex: 1;
+    min-width: 0;
+    max-width: 220px;
+    text-align: center;
+}
+
+.guest-artist-card img {
+    width: 100%;
+    height: 225px;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    border-radius: 10px;
+}
+
+.guest-artist-card h3 {
+    margin-top: 12px;
+    font-size: 16px;
+    color: #d4af37;
+}
